@@ -3,8 +3,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>document.title</title>
-<link rel="icon" type="image/png" href="data:image/png;base64,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">
-<link rel="apple-touch-icon" href="data:image/png;base64,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">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet">
 <style>
 :root {
@@ -4923,7 +4921,7 @@ function calcKegDate(bfBottlingDate, brewDate, tankDays, allKegDates) {
 // ════════════════════════════════════════════════════════
 
 // set APP_VERSION and STORAGE_KEY
-let APP_VERSION = 'v28';
+let APP_VERSION = 'v32';
 const STORAGE_KEY = 'brewery_scheduler';  // fixed — version-independent
 
 document.title =
@@ -5248,6 +5246,12 @@ const sortedHist = [...BREW_HISTORY]
   .filter(h => h.date && parseDate(h.date))
   .sort((a, b) => parseDate(a.date) - parseDate(b.date));
 
+// Sentinel used when BF's live status says a batch is still physically
+// fermenting/brewing past its calculated/estimated keg date — pushes the
+// tank's free date far enough out that the auto-scheduler won't offer it
+// until the next BF sync reports a real status change or keg date.
+const FAR_FUTURE = new Date(2099, 0, 1);
+
 sortedHist.forEach(h => {
   const beer = (h.beerId != null)
     ? (BEERS.find(b => b.id === h.beerId) || beerByName(h.name))
@@ -5258,7 +5262,15 @@ sortedHist.forEach(h => {
   const kegDate = h.kegDate ? parseDate(h.kegDate) : calcKegDate(null, brewDate, beer.t, []);
   if (!kegDate) return;
 
-
+  // BF's live status is the ultimate source of truth for whether a batch is
+  // still physically occupying a tank. Our calculated/estimated keg date is
+  // just a planning estimate — if fermentation runs long or kegging gets
+  // delayed in real life, BF still says Brewing/Fermenting even after that
+  // estimated date has passed. In that case the tank stays occupied on
+  // paper too, instead of freeing up early and letting the scheduler
+  // double-book it.
+  const stillPhysicallyInTank = kegDate <= TODAY && isInTank(h);
+  const effectiveFree = stillPhysicallyInTank ? FAR_FUTURE : kegDate;
 
   // Always update the tank that was actually recorded for this brew.
   // The old code only updated a tank if it was "free" on brew day, which
@@ -5271,8 +5283,8 @@ sortedHist.forEach(h => {
 
   // Only advance the free date — never move it backward.
   // This ensures the latest brew in a tank always wins.
-  if (kegDate > targetTank.free) {
-    targetTank.free = kegDate;
+  if (effectiveFree > targetTank.free) {
+    targetTank.free = effectiveFree;
     targetTank.beerType = beer.type;
   }
 });
@@ -5497,8 +5509,14 @@ for (const item of seasonalList) {
     const preferredTank = item.beer.lane==='ipa' ? T01 : item.beer.lane==='lager' ? T02 : T03;
     const tankAvail = t => isFree(t, sat) && (_p2TankFree[t.name] <= sat);
 
+    // Fallback cascade when the preferred lane tank isn't free: try the flex
+    // tank (T03) first, then the lager tank (T02), and only as a last resort
+    // the IPA tank (T01) — IPA gets the dedicated fast-cycling tank protected
+    // from seasonal encroachment so it can stay on tap. (Not `tanks.find`,
+    // which just checks T01/T02/T03 in that literal declaration order.)
+    const fallbackOrder = [T03, T02, T01];
     let chosenTank = tankAvail(preferredTank) ? preferredTank
-      : tanks.find(t => tankAvail(t));
+      : fallbackOrder.find(t => tankAvail(t));
     if (!chosenTank) continue; // no tank free this Saturday — try next candidate
 
     seqCounter[item.beer.name] = (seqCounter[item.beer.name] || 0) + 1;
@@ -5512,6 +5530,18 @@ for (const item of seasonalList) {
 
     // Advance this tank's Pass-2 free date so subsequent seasonals respect it
     if (_kd) _p2TankFree[chosenTank.name] = _kd;
+
+    // Also commit this reservation to the tank's REAL free-date. Pass 4
+    // (Core + Fillers) runs after all seasonals are placed and only checks
+    // isFree() against this shared tank state — without this write-back,
+    // Pass 4 has no idea a seasonal already claimed time in this tank later
+    // in the schedule, and can happily book a core-brand brew whose
+    // fermentation window overlaps it (e.g. a core IPA on an earlier
+    // Saturday whose keg date lands after this seasonal's brew day).
+    // Only ever advance forward, never move it backward.
+    if (_kd && (!chosenTank.free || _kd > chosenTank.free)) {
+      chosenTank.free = _kd;
+    }
 
     _seasonalPlaced.add(item.targetKey);
     placed = true;
@@ -5918,7 +5948,7 @@ function renderDashboard(){
 
     uh += `<div class="upcoming-week">
       <div class="upcoming-date">▶ ${fmtFull(w.sat)}${now ? '<span class="today-marker">THIS WEEK</span>' : ''}${w.overridden ? '<span class="override-marker">OVERRIDE</span>' : ''}</div>
-      ${w.brews.map(b => `<div class="brew-row"><span class="brew-dot" style="background:${clr(b.beer)}"></span><span class="brew-name">${b.beer.name}</span><span class="brew-tank">${b.tank}</span></div>
+      ${w.brews.map(b => `<div class="brew-row"><span class="brew-dot" style="background:${clr(b.beer)}"></span><span class="brew-name">${b.beer.name}</span><span class="brew-tank"${b.tank?'':' style="color:var(--amber,#c07800);"'}>${b.tank||'⚠ needs tank'}</span></div>
         <div class="brew-nums">Batch #${b.batch} · Seq #${b.seq}</div>
         <div class="brew-dates">Keg: ${fmtD(b.kegDate)} · Ready: ${fmtD(b.readyDate)}</div>`).join('')}
     </div>`;
@@ -7347,6 +7377,14 @@ uniqueBatches.forEach(b => {
     const tankMap = {};
     BREW_HISTORY.forEach(h => { if(h.tank) tankMap[h.batch] = h.tank; });
 
+    // Running projected occupancy per tank, built up as we walk batches in
+    // ascending batch-number (i.e. chronological) order below. Used only to
+    // sanity-check the *lane default* fallback — a batch with a real BF Tank
+    // Number or an existing local assignment is trusted outright regardless
+    // of what this map says, since those are actual source-of-truth data.
+    const tankBusyUntil = {};
+    let tankConflicts = 0;
+
     const newHistory = [];
     let skipped = 0;
 
@@ -7376,9 +7414,44 @@ uniqueBatches.forEach(b => {
 		const seq = seqByBatch[batchNo] || 1;
 		// Tank Number — prefer BF's field measurement (source of truth for where
 		// the batch actually physically is), fall back to whatever was already
-		// recorded locally, then default to Tank 01.
+		// recorded locally — UNLESS this batch hasn't been brewed yet (BF
+		// status "Planning"). A Planning batch can never have a real BF Tank
+		// Number, so any tank value already stored for it locally can only
+		// ever have been our own earlier guess — safe (and necessary) to
+		// recompute it fresh every import rather than lock in a stale guess.
+		// The fresh computation checks whether the beer's lane tank is
+		// actually projected to be free by this batch's planned brew date;
+		// if another already-processed batch still occupies it, leave the
+		// tank blank so the Schedule page flags it for manual assignment
+		// instead of silently double-booking.
 		const bfTank = extractBFTankNumber(b);
-		const tank = bfTank || tankMap[batchNo] || 'Tank 01';
+		const laneTankName = matched
+		  ? (matched.lane === 'ipa' ? 'Tank 01' : matched.lane === 'lager' ? 'Tank 02' : 'Tank 03')
+		  : 'Tank 01';
+		const isPlanning = (b.status || '') === 'Planning';
+		let tank;
+		if (bfTank) {
+		  tank = bfTank;
+		} else if (!isPlanning && tankMap[batchNo]) {
+		  tank = tankMap[batchNo];
+		} else {
+		  const busyUntil = tankBusyUntil[laneTankName];
+		  const brewDateObj = brewDateISO ? parseDate(brewDateISO) : null;
+		  if (busyUntil && brewDateObj && brewDateObj < busyUntil) {
+		    tank = '';
+		    tankConflicts++;
+		  } else {
+		    tank = laneTankName;
+		  }
+		}
+		// Track this batch's projected occupancy so later (chronologically
+		// later) batches get checked against it too.
+		if (tank && kegDateISO) {
+		  const kd = parseDate(kegDateISO);
+		  if (kd && (!tankBusyUntil[tank] || kd > tankBusyUntil[tank])) {
+		    tankBusyUntil[tank] = kd;
+		  }
+		}
 		// Date Tapped / Date Kicked — BF field measurements; fall back to
 		// whatever was already recorded locally if BF has nothing logged.
 		const dtTapped = extractBFCompactDate(b, 'Date Tapped');
@@ -7449,7 +7522,7 @@ uniqueBatches.forEach(b => {
     const statusCounts = {};
     uniqueBatches.forEach(b=>{ statusCounts[b.status]=(statusCounts[b.status]||0)+1; });
     const statusSummary = Object.entries(statusCounts).sort((a,b)=>a[0].localeCompare(b[0])).map(([s,n])=>`    ${s}: ${n}`).join('\n');
-    alert(`Brewfather import complete!\n\n  Unique batches from BF: ${uniqueBatches.length}\n  Added to history: ${added}\n  Updated: ${updated}\n  Skipped (no batch#): ${skipped}\n\nBy status:\n${statusSummary}\n\nSequence numbers recalculated.`);
+    alert(`Brewfather import complete!\n\n  Unique batches from BF: ${uniqueBatches.length}\n  Added to history: ${added}\n  Updated: ${updated}\n  Skipped (no batch#): ${skipped}\n  Tank conflicts (left blank for manual assignment): ${tankConflicts}\n\nBy status:\n${statusSummary}\n\nSequence numbers recalculated.`);
 
   } catch(e) {
     alert('Import failed: ' + e.message + '\n\nCheck your API credentials and try again.');
