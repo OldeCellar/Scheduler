@@ -1952,6 +1952,10 @@
     }
   ],
   "overrides": {
+    "2026-01-17": {
+      "skip": true,
+      "reason": "No brew"
+    },
     "2026-02-14": {
       "skip": true,
       "reason": "No brew"
