@@ -1,1 +1,172 @@
+name: Sync Brewfather Data
 
+on:
+  schedule:
+    - cron: '0 * * * *'   # runs every hour on the hour
+  workflow_dispatch:        # also lets you trigger it manually from the Actions tab
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install requests
+        run: pip install requests
+
+      - name: Sync Brewfather and update brewery_data.json
+        env:
+          BF_USER_ID: ${{ secrets.BF_USER_ID }}
+          BF_API_KEY: ${{ secrets.BF_API_KEY }}
+        run: |
+          python3 << 'PYEOF'
+          import os, json, requests
+          from datetime import datetime, timezone
+          from base64 import b64encode
+
+          BF_USER  = os.environ['BF_USER_ID']
+          BF_KEY   = os.environ['BF_API_KEY']
+          DATA_FILE = 'brewery_data.json'
+
+          # ── Load current brewery_data.json ────────────────────────────────
+          if os.path.exists(DATA_FILE):
+              with open(DATA_FILE) as f:
+                  data = json.load(f)
+          else:
+              print("brewery_data.json not found — creating empty skeleton")
+              data = { "beers": [], "history": [], "overrides": {},
+                       "kegSettings": {}, "packaging": {}, "bfBatchCache": {} }
+
+          # ── Call Brewfather API ───────────────────────────────────────────
+          auth = (BF_USER, BF_KEY)
+          headers = { 'Content-Type': 'application/json' }
+
+          STATUSES = ['Fermenting', 'Conditioning', 'Completed', 'Archived']
+          bf_batches = []
+          for status in STATUSES:
+              url = f'https://api.brewfather.app/v2/batches?status={status}&limit=50&include=recipe.name,measuredOg,measuredFg,estimatedColor'
+              try:
+                  r = requests.get(url, auth=auth, headers=headers, timeout=15)
+                  r.raise_for_status()
+                  bf_batches.extend(r.json())
+                  print(f"  {status}: {len(r.json())} batches")
+              except Exception as e:
+                  print(f"  WARNING: failed to fetch {status} batches: {e}")
+
+          print(f"Total BF batches fetched: {len(bf_batches)}")
+
+          # ── Helper: parse BF timestamp (ms) to YYYY-MM-DD ────────────────
+          def ts_to_iso(ms):
+              if not ms: return ''
+              try:
+                  return datetime.fromtimestamp(int(ms)/1000, tz=timezone.utc).strftime('%Y-%m-%d')
+              except:
+                  return ''
+
+          # ── Helper: next Wednesday on or after a brew date + tank_days ───
+          def calc_keg_date(brew_iso, tank_days):
+              if not brew_iso or not tank_days: return ''
+              try:
+                  from datetime import date, timedelta
+                  bd = date.fromisoformat(brew_iso)
+                  raw = bd + timedelta(days=int(tank_days))
+                  # Roll forward to Wednesday (weekday 2)
+                  days_ahead = (2 - raw.weekday()) % 7
+                  return (raw + timedelta(days=days_ahead)).isoformat()
+              except:
+                  return ''
+
+          # ── Build a lookup of existing history by BF batch number ─────────
+          # BF batch number is stored in history as h['batch']
+          # We also try to match by bfId if present
+          hist_by_batch = { h['batch']: h for h in data.get('history', []) }
+
+          # ── Update bfBatchCache and history from BF data ──────────────────
+          bf_cache = data.get('bfBatchCache', {})
+          updated  = 0
+          added    = 0
+
+          for b in bf_batches:
+              bf_id     = b.get('_id', '')
+              bf_num    = b.get('batchNo')          # BF batch number (int)
+              status    = b.get('status', '')
+              recipe    = b.get('recipe', {}) or {}
+              name      = recipe.get('name', b.get('name', ''))
+
+              # Timestamps from BF (milliseconds)
+              brew_ts   = b.get('brewDate') or b.get('_created', {}).get('_seconds', 0) * 1000
+              keg_ts    = b.get('bottlingDate')
+
+              brew_date = ts_to_iso(brew_ts)
+              keg_date  = ts_to_iso(keg_ts) if keg_ts else ''
+
+              abv  = b.get('estimatedAbv') or b.get('measuredAbv', '')
+              og   = b.get('measuredOg')   or b.get('estimatedOg', '')
+              fg   = b.get('measuredFg')   or b.get('estimatedFg', '')
+
+              # Update bfBatchCache (keyed by BF batch number as string)
+              if bf_num:
+                  cache_key = str(bf_num)
+                  existing  = bf_cache.get(cache_key, {})
+                  bf_cache[cache_key] = {
+                      **existing,
+                      'status':     status,
+                      'bfBrewDate': brew_date,
+                      'kegDate':    keg_date or existing.get('kegDate', ''),
+                      'abv':        abv,
+                      'og':         og,
+                      'fg':         fg,
+                      'recipeName': name,
+                      'bfId':       bf_id,
+                  }
+
+              # Update matching history entry if we have one
+              if bf_num and bf_num in hist_by_batch:
+                  h = hist_by_batch[bf_num]
+                  changed = False
+                  if status and h.get('bfStatus') != status:
+                      h['bfStatus'] = status; changed = True
+                  if keg_date and h.get('kegDate') != keg_date:
+                      h['kegDate'] = keg_date; changed = True
+                  if brew_date and h.get('date') != brew_date:
+                      h['date'] = brew_date; changed = True
+                  if changed:
+                      updated += 1
+                      print(f"  Updated batch #{bf_num} {name}: status={status} kegDate={keg_date}")
+
+          print(f"History entries updated: {updated} | BF cache entries: {len(bf_cache)}")
+
+          # ── Write updated data back to file ───────────────────────────────
+          data['bfBatchCache'] = bf_cache
+          data['bfSyncTime']   = datetime.now(timezone.utc).isoformat()
+
+          # Never write BF credentials to the file
+          data.pop('bfCreds', None)
+
+          with open(DATA_FILE, 'w') as f:
+              json.dump(data, f, indent=2)
+
+          print(f"brewery_data.json updated at {data['bfSyncTime']}")
+          PYEOF
+
+      - name: Commit updated brewery_data.json
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add brewery_data.json
+          # Only commit if there are actual changes
+          if git diff --staged --quiet; then
+            echo "No changes to brewery_data.json — skipping commit"
+          else
+            git commit -m "BF sync $(date -u '+%Y-%m-%d %H:%M UTC')"
+            git push
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
