@@ -5252,9 +5252,9 @@ const T03 = { name: 'Tank 03', free: new Date(0), beerType: null, lane: 'flex' }
 const tanks = [T01, T02, T03];
 
 function isFree(tank, sat) {
-  // Tank must be free (kegged) BEFORE the brew Saturday
-  // Using < so a keg date on Saturday doesn't allow brewing that same day
-  return !tank.free || tank.free < sat;
+  // Tank kegged on Wednesday is free by Saturday — use <=
+  // A tank with no free date (never used) is always free
+  return !tank.free || tank.free <= sat;
 }
 
 function getRotationIdx(list) {
@@ -5286,8 +5286,17 @@ function assignTank(tank, beer, sat, allKegDates) {
 }
 
 // Replay history to set tank free-dates from actual recorded brews
+// Only include past brews (date <= today) and valid tanks — exclude future
+// planned entries and Tank 00 which would push free-dates years forward
+const VALID_TANKS = new Set(['Tank 01', 'Tank 02', 'Tank 03']);
 const sortedHist = [...BREW_HISTORY]
-  .filter(h => h.date && parseDate(h.date))
+  .filter(h => {
+    if (!h.date) return false;
+    const d = parseDate(h.date);
+    if (!d || d > TODAY) return false;
+    if (h.tank && !VALID_TANKS.has(h.tank)) return false;
+    return true;
+  })
   .sort((a, b) => parseDate(a.date) - parseDate(b.date));
 
 // Sentinel used when BF's live status says a batch is still physically
@@ -5604,88 +5613,95 @@ for (const item of seasonalList) {
 
 // PASS 4 - CORE + FILLERS
 // ───────────────────────────────────────────────────────
+// Rules:
+//   Each Saturday: ONE brew total (one brewhouse).
+//   Priority: T01 (IPA) > T02 (Lager) > T03 (Filler).
+//   T03 filler only schedules if BOTH T01 and T02 are currently occupied
+//   (i.e. core IPA and core Lager are already fermenting or conditioning).
+//   Beers are selected by lane + cat, sorted by rotationOrder.
+//   Seasonals placed in Pass 2 already occupy their Saturday slots —
+//   this pass skips those Saturdays entirely (slot.brews.length > 0).
 
-const ipaCore =
-  BEERS
-    .filter(
-      b =>
-        b.enabled !== false &&
-        b.cat === 'core brand' &&
-        b.lane === 'ipa'
-    )
-    .sort(
-      (a,b) =>
-        (a.rotationOrder || 99)
-        -
-        (b.rotationOrder || 99)
-    );
+// Build rotation lists by lane and category
+const ipaCore = BEERS
+  .filter(b => b.enabled !== false && b.lane === 'ipa' && b.cat === 'core brand')
+  .sort((a,b) => (a.rotationOrder || 99) - (b.rotationOrder || 99));
 
-const lagers =
-  BEERS
-    .filter(
-      b =>
-        b.enabled !== false &&
-        b.cat === 'core brand' &&
-        b.lane === 'lager'
-    )
-    .sort(
-      (a,b) =>
-        (a.rotationOrder || 99)
-        -
-        (b.rotationOrder || 99)
-    );
+const lagers = BEERS
+  .filter(b => b.enabled !== false && b.lane === 'lager' && b.cat === 'core brand')
+  .sort((a,b) => (a.rotationOrder || 99) - (b.rotationOrder || 99));
 
-const fillers =
-  BEERS
-    .filter(
-      b =>
-        b.enabled !== false &&
-        b.cat === 'filler'
-    )
-    .sort(
-      (a,b) =>
-        (a.rotationOrder || 99)
-        -
-        (b.rotationOrder || 99)
-    );
+const fillers = BEERS
+  .filter(b => b.enabled !== false && b.cat === 'filler')
+  .sort((a,b) => (a.rotationOrder || 99) - (b.rotationOrder || 99));
 
-let ipaIdx =
-  getRotationIdx(
-    ipaCore
-  );
+// Seed rotation indices from last actual brew of each type in history
+function getRotIdx(list) {
+  if (!list.length) return 0;
+  const last = [...BREW_HISTORY]
+    .filter(h => h.date && parseDate(h.date) <= TODAY)
+    .reverse()
+    .find(h => list.some(b => b.name === h.name));
+  if (!last) return 0;
+  const idx = list.findIndex(b => b.name === last.name);
+  return idx < 0 ? 0 : (idx + 1) % list.length;
+}
 
-let lagerIdx =
-  getRotationIdx(
-    lagers
-  );
+let ipaIdx    = getRotIdx(ipaCore);
+let lagerIdx  = getRotIdx(lagers);
+let fillerIdx = getRotIdx(fillers);
 
-let fillerIdx =
-  getRotationIdx(
-    fillers
-  );
+console.log('[Pass4] ipaCore:', ipaCore.map(b=>b.name),
+            '| lagers:', lagers.map(b=>b.name),
+            '| fillers:', fillers.map(b=>b.name));
+console.log('[Pass4] ipaIdx:', ipaIdx, 'lagerIdx:', lagerIdx, 'fillerIdx:', fillerIdx);
+console.log('[Pass4] T01.free:', fmtISO(T01.free), 'T02.free:', fmtISO(T02.free), 'T03.free:', fmtISO(T03.free));
 
 for (const slot of slots) {
+  if (slot.flags && slot.flags.skipped) continue;
 
-  if (slot.flags.skipped) continue;
-
-  // ONE BREW PER SATURDAY — skip if a history brew already occupies this Saturday
+  // Skip weeks where a real brew already happened (history)
   if (historyOccupiedSaturdays.has(slot.key)) continue;
 
-  const weekKegDates = slot.brews.map(b => b.kegDate).filter(Boolean);
-
-  const _res = slot.reserved || {};
-
-  // ONE BREW PER SATURDAY — skip if seasonal already brewed this slot
+  // Skip weeks where a seasonal (Pass 2) already filled this slot
   if (slot.brews.length > 0) continue;
 
-  if (ipaCore.length && isFree(T01, slot.sat)) {
-    slot.brews.push(assignTank(T01, ipaCore[ipaIdx++ % ipaCore.length], slot.sat, weekKegDates));
-  } else if (lagers.length && isFree(T02, slot.sat)) {
-    slot.brews.push(assignTank(T02, lagers[lagerIdx++ % lagers.length], slot.sat, weekKegDates));
-  } else if (fillers.length && isFree(T03, slot.sat)) {
-    slot.brews.push(assignTank(T03, fillers[fillerIdx++ % fillers.length], slot.sat, weekKegDates));
+  const sat = slot.sat;
+  const weekKegDates = [];
+
+  // Advance T01/T02/T03 free dates for any seasonal brews placed
+  // in earlier slots of this loop that affect occupancy going forward
+  // (assignTank already advances tank.free, so isFree() is always current)
+
+  // Check what's currently occupied on this Saturday
+  const t01Free = isFree(T01, sat);
+  const t02Free = isFree(T02, sat);
+  const t03Free = isFree(T03, sat);
+
+  // PRIORITY WATERFALL — one brew per Saturday, highest priority first
+  if (ipaCore.length && t01Free) {
+    // T01 is free → brew next core IPA
+    slot.brews.push(assignTank(T01, ipaCore[ipaIdx++ % ipaCore.length], sat, weekKegDates));
+
+  } else if (lagers.length && t02Free) {
+    // T02 is free → brew next core Lager
+    slot.brews.push(assignTank(T02, lagers[lagerIdx++ % lagers.length], sat, weekKegDates));
+
+  } else if (fillers.length && t03Free && !t01Free && !t02Free) {
+    // T03 free AND both core lanes occupied → brew filler
+    slot.brews.push(assignTank(T03, fillers[fillerIdx++ % fillers.length], sat, weekKegDates));
   }
+  // All occupied or no eligible beer → no brew this Saturday
 }
+
+console.log('[Pass4] First 8 scheduled:',
+  slots.filter(s=>s.brews.length>0).slice(0,8)
+       .map(s=>fmtISO(s.sat)+' '+s.brews[0].tank+' → '+s.brews[0].beer.name)
+);
+console.log('[Pass4] Empty Saturdays (first 6):',
+  slots.filter(s=>s.brews.length===0&&!(s.flags&&s.flags.skipped)&&!historyOccupiedSaturdays.has(s.key))
+       .slice(0,6).map(s=>fmtISO(s.sat))
+);
 
 
 
