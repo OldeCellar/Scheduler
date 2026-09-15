@@ -10559,83 +10559,6 @@ function renderAll(){
   renderDashboard();
 }
 
-// ── STARTUP: GitHub first, localStorage fallback ──────────────────────────
-loadGHConfig();
-loadDataWithGitHub().then(() => {
-  rebuildSchedule();
-  renderAll();
-  if(BF_CREDS.userId){document.getElementById('modal-bf-userid').value=BF_CREDS.userId;document.getElementById('bf-userid').value=BF_CREDS.userId;}
-  if(BF_CREDS.apiKey){document.getElementById('modal-bf-apikey').value=BF_CREDS.apiKey;document.getElementById('bf-apikey').value=BF_CREDS.apiKey;}
-  if(hasBFCreds()){
-    syncBFBatches().then(()=>{
-      const hasStoredBFInventory=(PACKAGING.inventory||[]).some(x=>x._fromBF);
-      if(!hasStoredBFInventory) pullBFInventory();
-    }).catch(()=>{});
-  }
-}).catch(e => {
-  console.warn('GitHub startup load failed, using localStorage:', e.message);
-  loadData(); rebuildSchedule(); renderAll();
-});
-
-window.addEventListener('beforeunload',e=>{if(_dirty){e.preventDefault();e.returnValue='Unsaved changes.';}});
-
-function isTankAvailable(tn, brewDate) {
-  const historyConflict = BREW_HISTORY.find(h => {
-    if (h.tank !== tn || !h.date) return false;
-    const bDate = parseDate(h.date);
-    const beer = beerByName(h.name);
-    const kDate = h.kegDate ? parseDate(h.kegDate) : (beer ? calcKegDate(null,bDate,beer.t,[]) : null);
-    if (!kDate) return false;
-    return brewDate < kDate;
-  });
-
-  if (historyConflict) return false;
-
-  const scheduleConflict = SCHEDULE.find(s => {
-    return s.brews.some(b => {
-      if (b.tank !== tn || !b.brewDate || !b.beer) return false;
-      const kDate = calcKegDate(null, parseDate(b.brewDate), b.beer.t, []);
-      return brewDate < kDate;
-    });
-  });
-
-  return !scheduleConflict;
-}
-
-/*Script to set the Theme*/
-function setTheme(theme){
-
-  document.body.classList.remove(
-    'theme-industrial',
-    'theme-contrast',
-    'theme-dark',
-    'theme-brewery'
-  );
-
-  if(theme){
-    document.body.classList.add(theme);
-  }
-
-  localStorage.setItem('brewTheme', theme);
-}
-
-window.addEventListener('load', ()=>{
-
-  const saved = localStorage.getItem('brewTheme');
-
-  if(saved){
-    document.body.classList.add(saved);
-
-    const sel = document.getElementById('theme-selector');
-
-    if(sel){
-      sel.value = saved;
-    }
-  }
-});
-
-
-
 
 // ════════════════════════════════════════════════════════════════════════════
 // GITHUB SYNC ENGINE
@@ -10859,6 +10782,85 @@ async function loadDataWithGitHub() {
   }
   loadData();
 }
+
+// ── STARTUP: GitHub first, localStorage fallback ──────────────────────────
+loadGHConfig();
+loadDataWithGitHub().then(() => {
+  rebuildSchedule();
+  renderAll();
+  if(BF_CREDS.userId){document.getElementById('modal-bf-userid').value=BF_CREDS.userId;document.getElementById('bf-userid').value=BF_CREDS.userId;}
+  if(BF_CREDS.apiKey){document.getElementById('modal-bf-apikey').value=BF_CREDS.apiKey;document.getElementById('bf-apikey').value=BF_CREDS.apiKey;}
+  if(hasBFCreds()){
+    syncBFBatches().then(()=>{
+      const hasStoredBFInventory=(PACKAGING.inventory||[]).some(x=>x._fromBF);
+      if(!hasStoredBFInventory) pullBFInventory();
+    }).catch(()=>{});
+  }
+}).catch(e => {
+  console.warn('GitHub startup load failed, using localStorage:', e.message);
+  loadData(); rebuildSchedule(); renderAll();
+});
+
+window.addEventListener('beforeunload',e=>{if(_dirty){e.preventDefault();e.returnValue='Unsaved changes.';}});
+
+function isTankAvailable(tn, brewDate) {
+  const historyConflict = BREW_HISTORY.find(h => {
+    if (h.tank !== tn || !h.date) return false;
+    const bDate = parseDate(h.date);
+    const beer = beerByName(h.name);
+    const kDate = h.kegDate ? parseDate(h.kegDate) : (beer ? calcKegDate(null,bDate,beer.t,[]) : null);
+    if (!kDate) return false;
+    return brewDate < kDate;
+  });
+
+  if (historyConflict) return false;
+
+  const scheduleConflict = SCHEDULE.find(s => {
+    return s.brews.some(b => {
+      if (b.tank !== tn || !b.brewDate || !b.beer) return false;
+      const kDate = calcKegDate(null, parseDate(b.brewDate), b.beer.t, []);
+      return brewDate < kDate;
+    });
+  });
+
+  return !scheduleConflict;
+}
+
+/*Script to set the Theme*/
+function setTheme(theme){
+
+  document.body.classList.remove(
+    'theme-industrial',
+    'theme-contrast',
+    'theme-dark',
+    'theme-brewery'
+  );
+
+  if(theme){
+    document.body.classList.add(theme);
+  }
+
+  localStorage.setItem('brewTheme', theme);
+}
+
+window.addEventListener('load', ()=>{
+
+  const saved = localStorage.getItem('brewTheme');
+
+  if(saved){
+    document.body.classList.add(saved);
+
+    const sel = document.getElementById('theme-selector');
+
+    if(sel){
+      sel.value = saved;
+    }
+  }
+});
+
+
+
+
 
 </script>
 </body></html>
