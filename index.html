@@ -1264,6 +1264,7 @@ hr.divider{border:none;border-top:1px solid var(--border);margin:16px 0;}
     <button class="tab-btn" onclick="showTab('tab-export',this)">Export</button>
     <button class="tab-btn" onclick="showTab('tab-import',this)">Import / Restore</button>
     <button class="tab-btn active" onclick="showTab('tab-brewfather',this)">Brewfather</button>
+    <button class="tab-btn" onclick="showTab('tab-github',this)">&#x2601; GitHub Sync</button>
   </div>
 
   <div class="tab-panel" id="tab-export">
@@ -1419,6 +1420,45 @@ hr.divider{border:none;border-top:1px solid var(--border);margin:16px 0;}
       <pre id="bf-inv-raw-output" style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:12px;font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--hops2);overflow-x:auto;max-height:400px;white-space:pre-wrap;"></pre>
     </div>
   </div>
+
+  <div class="tab-panel" id="tab-github">
+    <div class="data-section">
+      <div class="data-title">GITHUB SYNC — all data stored in your repo, same across every browser and computer</div>
+      <p style="font-size:12px;color:var(--text2);margin-bottom:14px;line-height:1.8;">
+        On every Save the app pushes <strong style="color:var(--gold2);">brewery_data.json</strong> to your GitHub repo via a workflow.<br>
+        On startup the app fetches that file so every browser always has the same data.<br>
+        <strong style="color:var(--red2);">Your Brewfather credentials and GitHub token are never stored in GitHub</strong> — they stay in this browser only.
+      </p>
+      <div style="display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:12px;">
+        <div>
+          <label class="form-label">GitHub Repo (owner/name)</label>
+          <input type="text" class="form-input" id="gh-repo" placeholder="OldeCellar/Scheduler" style="width:100%;" oninput="ghDirty()">
+        </div>
+        <div>
+          <label class="form-label">Branch</label>
+          <input type="text" class="form-input" id="gh-branch" placeholder="main" style="width:100%;" oninput="ghDirty()">
+        </div>
+      </div>
+      <div class="form-row" style="margin-bottom:12px;">
+        <label class="form-label">Personal Access Token — stored in this browser only, never pushed to GitHub</label>
+        <input type="password" class="form-input" id="gh-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" style="width:100%;" oninput="ghDirty()">
+        <div style="font-size:11px;color:var(--muted);margin-top:4px;">
+          Generate at: GitHub → Settings → Developer Settings → Personal Access Tokens → Tokens (classic) → New token → check <strong>repo</strong> scope.
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:4px;">
+        <button class="btn btn-primary" onclick="saveGHConfig()">Save &amp; Test Connection</button>
+        <button class="btn btn-secondary" onclick="pushToGitHub(true)">&#x2B06; Push to GitHub now</button>
+        <button class="btn btn-secondary" onclick="pullFromGitHub(true)">&#x2B07; Pull from GitHub now</button>
+        <span id="gh-status" style="font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--muted);"></span>
+      </div>
+    </div>
+    <div class="data-section">
+      <div class="data-title">SYNC LOG</div>
+      <pre id="gh-log" style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:12px;font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--text2);max-height:200px;overflow-y:auto;white-space:pre-wrap;min-height:50px;">No sync activity yet.</pre>
+    </div>
+  </div>
+
 </div>
 
 
@@ -5032,6 +5072,10 @@ function saveData() {
   document.getElementById('save-status').textContent = 'Saved ' + fmtTime(new Date());
   rebuildSchedule();
   renderAll();
+  // Auto-push to GitHub whenever data is saved
+  if (hasGHConfig()) {
+    pushToGitHub(false).catch(e => console.warn('GH push:', e.message));
+  }
 }
 
 function saveToBrowser() {
@@ -10515,18 +10559,23 @@ function renderAll(){
   renderDashboard();
 }
 
-loadData();
-rebuildSchedule();
-renderAll();
-
-if(BF_CREDS.userId){document.getElementById('modal-bf-userid').value=BF_CREDS.userId;document.getElementById('bf-userid').value=BF_CREDS.userId;}
-if(BF_CREDS.apiKey){document.getElementById('modal-bf-apikey').value=BF_CREDS.apiKey;document.getElementById('bf-apikey').value=BF_CREDS.apiKey;}
-if(hasBFCreds()){
-  syncBFBatches().then(()=>{
-    const hasStoredBFInventory=(PACKAGING.inventory||[]).some(x=>x._fromBF);
-    if(!hasStoredBFInventory) pullBFInventory();
-  }).catch(()=>{});
-}
+// ── STARTUP: GitHub first, localStorage fallback ──────────────────────────
+loadGHConfig();
+loadDataWithGitHub().then(() => {
+  rebuildSchedule();
+  renderAll();
+  if(BF_CREDS.userId){document.getElementById('modal-bf-userid').value=BF_CREDS.userId;document.getElementById('bf-userid').value=BF_CREDS.userId;}
+  if(BF_CREDS.apiKey){document.getElementById('modal-bf-apikey').value=BF_CREDS.apiKey;document.getElementById('bf-apikey').value=BF_CREDS.apiKey;}
+  if(hasBFCreds()){
+    syncBFBatches().then(()=>{
+      const hasStoredBFInventory=(PACKAGING.inventory||[]).some(x=>x._fromBF);
+      if(!hasStoredBFInventory) pullBFInventory();
+    }).catch(()=>{});
+  }
+}).catch(e => {
+  console.warn('GitHub startup load failed, using localStorage:', e.message);
+  loadData(); rebuildSchedule(); renderAll();
+});
 
 window.addEventListener('beforeunload',e=>{if(_dirty){e.preventDefault();e.returnValue='Unsaved changes.';}});
 
@@ -10586,6 +10635,230 @@ window.addEventListener('load', ()=>{
 });
 
 
+
+
+// ════════════════════════════════════════════════════════════════════════════
+// GITHUB SYNC ENGINE
+// ════════════════════════════════════════════════════════════════════════════
+
+const GH_CONFIG_KEY  = 'brewery_gh_config';
+const GH_REPO        = 'OldeCellar/Scheduler';   // default — overridden by config
+const GH_BRANCH      = 'main';
+const GH_DATA_FILE   = 'brewery_data.json';
+
+let _ghConfig = { repo: GH_REPO, branch: GH_BRANCH, token: '' };
+let _ghSyncing = false;
+let _ghDirty   = false;
+
+function ghLog(msg, isErr) {
+  const el = document.getElementById('gh-log');
+  if (!el) return;
+  const ts = new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  if (el.textContent === 'No sync activity yet.') el.textContent = '';
+  el.textContent += '[' + ts + '] ' + msg + '\n';
+  el.scrollTop = el.scrollHeight;
+  if (isErr) console.error('GH:', msg); else console.log('GH:', msg);
+}
+
+function ghStatus(msg, color) {
+  const el = document.getElementById('gh-status');
+  if (el) { el.textContent = msg; el.style.color = color || 'var(--muted)'; }
+}
+
+function ghDirty() { _ghDirty = true; }
+
+function loadGHConfig() {
+  try {
+    const raw = localStorage.getItem(GH_CONFIG_KEY);
+    if (raw) _ghConfig = { repo: GH_REPO, branch: GH_BRANCH, ...JSON.parse(raw) };
+  } catch(e) {}
+  const repoEl   = document.getElementById('gh-repo');
+  const branchEl = document.getElementById('gh-branch');
+  const tokenEl  = document.getElementById('gh-token');
+  if (repoEl)   repoEl.value   = _ghConfig.repo   || GH_REPO;
+  if (branchEl) branchEl.value = _ghConfig.branch || GH_BRANCH;
+  if (tokenEl)  tokenEl.value  = _ghConfig.token  || '';
+}
+
+function saveGHConfig() {
+  const repo   = (document.getElementById('gh-repo')   ?.value || '').trim() || GH_REPO;
+  const branch = (document.getElementById('gh-branch') ?.value || '').trim() || GH_BRANCH;
+  const token  = (document.getElementById('gh-token')  ?.value || '').trim();
+  if (!token) { alert('Please enter your Personal Access Token.'); return; }
+  _ghConfig = { repo, branch, token };
+  localStorage.setItem(GH_CONFIG_KEY, JSON.stringify(_ghConfig));
+  _ghDirty = false;
+  ghLog('Config saved: ' + repo + ' [' + branch + ']');
+  ghStatus('Testing connection…', 'var(--amber)');
+  testGHConnection().then(ok => {
+    if (ok) { ghStatus('✓ Connected', 'var(--hops)'); ghLog('Connection test passed.'); }
+    else    { ghStatus('✗ Failed — check token & repo name', 'var(--red2)'); ghLog('Connection test FAILED — check token and repo name.', true); }
+  });
+}
+
+function hasGHConfig() {
+  return !!(_ghConfig.token && _ghConfig.token.trim());
+}
+
+function ghHeaders() {
+  return {
+    'Authorization': 'token ' + _ghConfig.token,
+    'Accept': 'application/vnd.github.v3+json',
+    'Content-Type': 'application/json'
+  };
+}
+
+async function testGHConnection() {
+  if (!hasGHConfig()) return false;
+  try {
+    const r = await fetch('https://api.github.com/repos/' + _ghConfig.repo, { headers: ghHeaders() });
+    return r.ok;
+  } catch(e) { return false; }
+}
+
+// Build safe data object — BF credentials never go to GitHub
+function getGHDataObject() {
+  const d = getDataObject();
+  return { ...d, bfCreds: { userId: '', apiKey: '' } };
+}
+
+// ── PUSH: encode data and trigger save_data.yml workflow ─────────────────────
+async function pushToGitHub(manual) {
+  if (!hasGHConfig()) {
+    if (manual) alert('GitHub Sync not configured — go to Data → GitHub Sync tab.');
+    return false;
+  }
+  if (_ghSyncing) { if (manual) ghLog('Sync already in progress.'); return false; }
+  _ghSyncing = true;
+  if (manual) ghLog('Pushing to GitHub…');
+  ghStatus('Pushing…', 'var(--amber)');
+
+  try {
+    const payload  = getGHDataObject();
+    const b64      = btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2))));
+    const ts       = new Date().toISOString().slice(0,16).replace('T',' ');
+    const apiUrl   = 'https://api.github.com/repos/' + _ghConfig.repo +
+                     '/actions/workflows/save_data.yml/dispatches';
+
+    const r = await fetch(apiUrl, {
+      method:  'POST',
+      headers: ghHeaders(),
+      body: JSON.stringify({
+        ref: _ghConfig.branch || GH_BRANCH,
+        inputs: {
+          payload:        b64,
+          commit_message: 'Brewery scheduler save'
+        }
+      })
+    });
+
+    if (r.status === 204 || r.ok) {
+      ghLog('✓ Save workflow triggered (' + ts + ') — GitHub will commit in ~30s');
+      ghStatus('✓ Saved ' + ts, 'var(--hops)');
+      _ghSyncing = false;
+      return true;
+    } else {
+      const err = await r.json().catch(() => ({}));
+      ghLog('✗ Push failed: ' + (err.message || 'HTTP ' + r.status), true);
+      ghStatus('✗ Push failed', 'var(--red2)');
+      _ghSyncing = false;
+      return false;
+    }
+  } catch(e) {
+    ghLog('✗ Push error: ' + e.message, true);
+    ghStatus('✗ Error', 'var(--red2)');
+    _ghSyncing = false;
+    return false;
+  }
+}
+
+// ── PULL: fetch brewery_data.json directly from the repo ─────────────────────
+async function pullFromGitHub(manual) {
+  if (!hasGHConfig()) {
+    if (manual) alert('GitHub Sync not configured — go to Data → GitHub Sync tab.');
+    return false;
+  }
+  if (manual) ghLog('Pulling from GitHub…');
+  ghStatus('Pulling…', 'var(--amber)');
+
+  try {
+    const branch = _ghConfig.branch || GH_BRANCH;
+    const repo   = _ghConfig.repo   || GH_REPO;
+    // Cache-bust with timestamp so we always get the latest file
+    const url = 'https://raw.githubusercontent.com/' + repo + '/' + branch +
+                '/' + GH_DATA_FILE + '?t=' + Date.now();
+    const r = await fetch(url);
+
+    if (r.status === 404) {
+      ghLog('brewery_data.json not found in repo — push first to create it.');
+      ghStatus('Not found — push first', 'var(--amber)');
+      return false;
+    }
+    if (!r.ok) {
+      ghLog('✗ Pull failed: HTTP ' + r.status, true);
+      ghStatus('✗ Pull failed', 'var(--red2)');
+      return false;
+    }
+
+    const d = await r.json();
+    if (!d.beers || !d.history) {
+      ghLog('✗ brewery_data.json is missing beers or history — ignoring.', true);
+      ghStatus('✗ Bad data format', 'var(--red2)');
+      return false;
+    }
+
+    // Preserve local credentials — never overwrite from GitHub
+    const savedBFCreds = { ...BF_CREDS };
+
+    // Load pulled data into app
+    BEERS          = d.beers;
+    BEERS.forEach(b => {
+      if (!b.lane) {
+        if (b.type === 'IPA')        b.lane = 'ipa';
+        else if (b.type === 'Lager') b.lane = 'lager';
+        else                         b.lane = 'flex';
+      }
+    });
+    BREW_HISTORY   = d.history      || [];
+    OVERRIDES      = d.overrides    || {};
+    KEG_SETTINGS   = d.kegSettings  || { ...DEFAULT_KEG };
+    USAGE_LOG      = d.usageLog     || [];
+    PACKAGING      = d.packaging    || JSON.parse(JSON.stringify(DEFAULT_PACKAGING));
+    if (!PACKAGING.inventory)         PACKAGING.inventory = [];
+    if (!PACKAGING.ingredientAliases) PACKAGING.ingredientAliases = [];
+    KEG_OVERRIDES  = d.kegOverrides  || {};
+    BF_BATCH_CACHE = d.bfBatchCache  || {};
+    if (d.appVersion) setAppVersion(d.appVersion);
+
+    // Restore local credentials
+    BF_CREDS = savedBFCreds;
+
+    // Write to localStorage as offline cache
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(getDataObject()));
+
+    const ts = new Date().toLocaleTimeString();
+    ghLog('✓ Pulled from GitHub — ' + d.history.length + ' history entries, ' +
+          d.beers.length + ' beers (' + ts + ')');
+    ghStatus('✓ Pulled ' + new Date().toISOString().slice(0,16).replace('T',' '), 'var(--hops)');
+    return true;
+
+  } catch(e) {
+    ghLog('✗ Pull error: ' + e.message, true);
+    ghStatus('✗ Error', 'var(--red2)');
+    return false;
+  }
+}
+
+// ── STARTUP LOAD: GitHub first, localStorage fallback ────────────────────────
+async function loadDataWithGitHub() {
+  if (hasGHConfig()) {
+    ghLog('Startup: fetching latest data from GitHub…');
+    const ok = await pullFromGitHub(false);
+    if (ok) { ghLog('Startup: loaded from GitHub.'); return; }
+    ghLog('Startup: GitHub unavailable — loading from localStorage.');
+  }
+  loadData();
+}
 
 </script>
 </body></html>
