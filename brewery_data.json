@@ -268,7 +268,13 @@
       ],
       "note": "Serve first week of Dec",
       "seqStart": 1,
-      "enabled": true
+      "enabled": true,
+      "targets": [
+        [
+          12,
+          1
+        ]
+      ]
     },
     {
       "name": "Fiddlers Flame",
