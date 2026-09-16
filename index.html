@@ -5623,6 +5623,32 @@ for (const item of seasonalList) {
 // ───────────────────────────────────────────────────────
 // (Pass 3 removed: Kolsch is now a regular seasonal with multiple target dates)
 
+// ── RESET TANK FREE DATES BEFORE PASS 4 ──────────────────────────────────────
+// The seasonal pass (Pass 2) advances tank.free for every seasonal placed,
+// including 2027 seasonals. This poisons Pass 4 — T02 and T03 appear occupied
+// for a year even though they'll actually be free in weeks.
+// Solution: reset each tank's free date to what history says is physically in
+// each tank RIGHT NOW, then let Pass 4's isFree() check against that.
+// Seasonal slot conflicts are handled by slot.brews.length > 0, not tank.free.
+[T01, T02, T03].forEach(t => { t.free = new Date(0); });
+sortedHist.forEach(h => {
+  const beer2 = (h.beerId != null)
+    ? (BEERS.find(b => b.id === h.beerId) || beerByName(h.name))
+    : beerByName(h.name);
+  if (!beer2) return;
+  const brewDate2 = parseDate(h.date);
+  const kegDate2  = h.kegDate ? parseDate(h.kegDate) : calcKegDate(null, brewDate2, beer2.t, []);
+  if (!kegDate2) return;
+  const stillIn2   = kegDate2 <= TODAY && isInTank(h);
+  const effFree2   = stillIn2 ? FAR_FUTURE : kegDate2;
+  const named2     = tanks.find(t => t.name === h.tank);
+  const laneTank2  = beer2.lane === 'ipa' ? T01 : beer2.lane === 'lager' ? T02 : T03;
+  const target2    = named2 || laneTank2;
+  if (effFree2 > target2.free) { target2.free = effFree2; target2.beerType = beer2.type; }
+});
+console.log('[PRE-PASS4] Tank free dates after history reset — T01:',
+  fmtISO(T01.free), 'T02:', fmtISO(T02.free), 'T03:', fmtISO(T03.free));
+
 // PASS 4 - CORE + FILLERS
 // ───────────────────────────────────────────────────────
 // Rules:
@@ -5700,11 +5726,16 @@ for (const slot of slots) {
     slot.brews.push(assignTank(T02, lagers[lagerIdx++ % lagers.length], sat, weekKegDates));
 
   } else if (fillers.length && t03Free && !t01Free && !t02Free) {
-    // T03 free AND both core lanes occupied → brew filler
+    // T03 free AND both core lanes currently occupied → brew filler
     slot.brews.push(assignTank(T03, fillers[fillerIdx++ % fillers.length], sat, weekKegDates));
   }
   // All occupied or no eligible beer → no brew this Saturday
 }
+
+console.log('[PASS4 DONE] First 10 scheduled:',
+  slots.filter(s=>s.brews.length>0).slice(0,10)
+    .map(s => fmtISO(s.sat)+' '+s.brews[0].tank+' → '+s.brews[0].beer.name)
+);
 
 console.log('[Pass4] First 8 scheduled:',
   slots.filter(s=>s.brews.length>0).slice(0,8)
