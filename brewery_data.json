@@ -31923,6 +31923,24 @@
           "American Ale Yeast",
           "CALI American Ale"
         ]
+      },
+      {
+        "name": "Lager Yeast",
+        "category": "Yeast",
+        "bfType": "Lager",
+        "members": [
+          "Berlin Lager yeast",
+          "German Lager Yeast"
+        ]
+      },
+      {
+        "name": "IPA yeast",
+        "category": "Yeast",
+        "bfType": "",
+        "members": [
+          "IPA yeast -Lallemand LalBrew Aurora dry yeast (500g)",
+          "West Coast"
+        ]
       }
     ],
     "orders": []
