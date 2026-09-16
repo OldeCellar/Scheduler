@@ -480,6 +480,8 @@ hr.divider{border:none;border-top:1px solid var(--border);margin:16px 0;}
     <button class="btn btn-secondary btn-sm" onclick="openSkipWeekModal()">✕ Skip Week</button>
     <button class="btn btn-secondary btn-sm" onclick="doRebuildAuto(this)" style="">↺ Rebuild Auto</button>
     <span class="sched-hint">Click column headers to sort</span>
+    <span id="sched-timestamps" style="font-size:10px;font-family:'IBM Plex Mono',monospace;
+      color:var(--muted);margin-left:auto;display:flex;gap:16px;align-items:center;flex-wrap:wrap;"></span>
   </div>
   <div class="card" style="overflow-x:auto;">
     <table class="sched-table" id="sched-table"><thead><tr>
@@ -5205,13 +5207,14 @@ function importData(){
 // ════════════════════════════════════════════════════════
 function doRebuildAuto(btn) {
   rebuildSchedule();
+  _schedBuildTime = new Date();
   renderSchedule();
   renderDashboard();
   if (btn) {
     const orig = btn.textContent;
-    btn.textContent = '✓ Rebuilt';
+    btn.textContent = '✓ Schedule rebuilt';
     btn.style.color = 'var(--hops)';
-    setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 2000);
+    setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 3000);
   }
 }
 
@@ -6009,12 +6012,32 @@ function renderDashboard(){
     .flatMap(w => w.brews.filter(b => b.beer.cat === 'seasonal'))
     .forEach(b => alerts.push({ t: 'warn', m: `Seasonal: ${b.beer.name} — brew ${fmtD(b.brewDate)}, ready ${fmtD(b.readyDate)}` }));
 
+  // BF sync staleness warning
+  const bfAge = _bfSyncTime ? Math.round((new Date() - _bfSyncTime) / 60000) : null;
+  if (!_bfSyncTime) {
+    alerts.unshift({ t: 'warn',
+      m: '⚠ Brewfather not synced this session — schedule may be stale. Click Brewfather Sync to update.' });
+  } else if (bfAge > 120) {
+    alerts.unshift({ t: 'warn',
+      m: `⚠ BF last synced ${bfAge} minutes ago — consider refreshing for accurate tank status.` });
+  }
+
   if (!alerts.length) {
     alerts.push({ t: 'ok', m: 'Schedule looks good — no urgent actions needed.' });
   }
 
+  // Timestamp footer for dashboard
+  const bfSyncStr   = _bfSyncTime  ? _bfSyncTime.toLocaleString()  : 'Not yet synced this session';
+  const schedStr    = _schedBuildTime ? _schedBuildTime.toLocaleString() : 'Not yet run this session';
+  const tsFooter = `<div style="margin-top:10px;font-size:11px;font-family:'IBM Plex Mono',monospace;
+    color:var(--muted);display:flex;gap:24px;flex-wrap:wrap;padding:8px 0;
+    border-top:1px solid var(--border);">
+    <span>BF last synced: <strong style="color:var(--text2);">${bfSyncStr}</strong></span>
+    <span>Schedule last built: <strong style="color:var(--text2);">${schedStr}</strong></span>
+  </div>`;
+
   document.getElementById('dash-alerts').innerHTML =
-    alerts.map(a => `<div class="alert alert-${a.t}">${a.m}</div>`).join('');
+    alerts.map(a => `<div class="alert alert-${a.t}">${a.m}</div>`).join('') + tsFooter;
 
   let th = '<div class="tank-grid">';
   ct.forEach(t => {
@@ -6068,6 +6091,15 @@ function renderDashboard(){
 // SCHEDULE EDITOR
 // ════════════════════════════════════════════════════════
 function renderSchedule(){
+  // Update timestamp bar
+  const tsEl = document.getElementById('sched-timestamps');
+  if (tsEl) {
+    const bfStr    = _bfSyncTime     ? _bfSyncTime.toLocaleString()     : '<span style="color:var(--red2)">Not synced ⚠</span>';
+    const schedStr = _schedBuildTime ? _schedBuildTime.toLocaleString() : '<span style="color:var(--amber)">Not yet run</span>';
+    tsEl.innerHTML =
+      `<span>BF sync: <strong style="color:var(--text2);">${bfStr}</strong></span>` +
+      `<span>Schedule built: <strong style="color:var(--text2);">${schedStr}</strong></span>`;
+  }
   const sel=document.getElementById('sched-start-sel');
   // Always rebuild options so dates stay current (pre-rendered HTML dates go stale)
   const _prevVal = sel.value;
@@ -6943,6 +6975,8 @@ function saveSkipWeek(){
 // ════════════════════════════════════════════════════════
 // Cache: batchNum (number) → { status, kegDate, measuredOG, measuredFG, abv, notes }
 let BF_BATCH_CACHE = {};  // populated by syncBFBatches()
+let _bfSyncTime      = null;   // Date of last successful BF sync
+let _schedBuildTime  = null;   // Date of last auto-schedule rebuild
 
 // ── BF FIELD DIAGNOSTIC ───────────────────────────────────────────────────────
 // Fetches a single batch from BF with complete=true and displays ALL date fields
@@ -7239,6 +7273,7 @@ async function syncBFBatches(){
       badge.style.display = 'inline-block';
       badge.className = 'bf-status bf-ok';
       badge.textContent = '✓ BF synced · ' + allBatches.length + ' batches';
+      _bfSyncTime = new Date();
     }
     // Update next batch display
     const nbd = document.getElementById('next-batch-display');
@@ -10867,6 +10902,7 @@ async function loadDataWithGitHub() {
 loadGHConfig();
 loadDataWithGitHub().then(() => {
   rebuildSchedule();
+  _schedBuildTime = null;  // startup rebuild doesn't count — user must click Rebuild Auto
   renderAll();
   if(BF_CREDS.userId){document.getElementById('modal-bf-userid').value=BF_CREDS.userId;document.getElementById('bf-userid').value=BF_CREDS.userId;}
   if(BF_CREDS.apiKey){document.getElementById('modal-bf-apikey').value=BF_CREDS.apiKey;document.getElementById('bf-apikey').value=BF_CREDS.apiKey;}
