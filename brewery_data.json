@@ -31351,7 +31351,7 @@
         "bf_form": "Slurry",
         "bf_laboratory": "Wyeast Labs",
         "bf_productId": "1084",
-        "onHand": 2000,
+        "onHand": 0,
         "unit": "g",
         "bf_cost": 0,
         "bf_lotNo": "salvaged from Vanilla Porter #3"
