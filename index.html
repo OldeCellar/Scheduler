@@ -1528,6 +1528,13 @@ hr.divider{border:none;border-top:1px solid var(--border);margin:16px 0;}
       <option value="">All ingredients</option>
       
     </select>
+    <span class="ctrl-label">Order Status:</span>
+    <select id="ing-order-filter" style="font-size:11px;font-family:'IBM Plex Mono',monospace;padding:4px 8px;border:1px solid var(--border2);border-radius:var(--radius);" onchange="_demandOrderFilter=this.value;renderIngDemand()">
+      <option value="">All items</option>
+      <option value="needed">Needs ordering (qty &gt; 0)</option>
+      <option value="covered">Covered (on hand)</option>
+      <option value="unknown">No inventory data</option>
+    </select>
     <button class="btn btn-secondary btn-sm" id="refresh-recipes-btn" onclick="fetchAllRecipesAndRefresh()">↺ Load Scheduled Recipes</button>
     <span style="font-size:10px;color:var(--muted);margin-left:auto;">0 batches · 0 rows</span>
   </div><div class="alert alert-info">No Planning/Brewing/Fermenting batches found. Sync Brewfather first or widen the look-ahead.</div></div>
@@ -8552,6 +8559,8 @@ async function renderIngDemand(el){
   if(typeEl) _demandTypeFilter=typeEl.value;
   const ingEl=document.getElementById('ing-ing-filter');
   if(ingEl) _demandIngFilter=ingEl.value.toLowerCase().trim();
+  const orderFilterEl=document.getElementById('ing-order-filter');
+  if(orderFilterEl) _demandOrderFilter=orderFilterEl.value;
 
   const cutoff=addDays(TODAY,_demandWeeks*7);
 
@@ -8693,6 +8702,17 @@ async function renderIngDemand(el){
   let rows=Object.values(demand);
   if(_demandTypeFilter) rows=rows.filter(r=>r.type===_demandTypeFilter);
   if(_demandIngFilter)  rows=rows.filter(r=>r.name.toLowerCase().includes(_demandIngFilter));
+  // Order status filter
+  if(_demandOrderFilter) {
+    rows = rows.filter(r => {
+      const onHand = r.onHand != null ? Number(r.onHand) : null;
+      const orderQty = onHand != null ? Math.max(0, r.totalAmt - onHand) : null;
+      if(_demandOrderFilter === 'needed')  return orderQty != null && orderQty > 0;
+      if(_demandOrderFilter === 'covered') return orderQty != null && orderQty === 0;
+      if(_demandOrderFilter === 'unknown') return orderQty == null;
+      return true;
+    });
+  }
 
   rows.sort((a,b)=>{
     const col=_demandSort.col,dir=_demandSort.dir;
@@ -9363,15 +9383,30 @@ async function fetchAllRecipesAndRefresh(){
   if(namesToFetch.length){
     if(btn) btn.textContent = `⏳ Fetching recipe list from Brewfather…`;
     try{
-      const ctrl=new AbortController(); const t=setTimeout(()=>ctrl.abort(),15000);
-      const r=await fetch(`https://api.brewfather.app/v2/recipes?limit=200&complete=true`,
-        {headers:{'Authorization':bfAuth()},signal:ctrl.signal});
-      clearTimeout(t);
-      if(!r.ok){
-        nameFetchErrors.push('Recipe list HTTP ' + r.status);
+      // BF API caps at 50 per page — paginate with start_after until we have all recipes
+      let list = [];
+      let lastId = null;
+      let page = 0;
+      while(true) {
+        page++;
+        const url = `https://api.brewfather.app/v2/recipes?limit=50&complete=true` +
+                    (lastId ? `&start_after=${lastId}` : '');
+        const ctrl=new AbortController(); const t=setTimeout(()=>ctrl.abort(),15000);
+        const r=await fetch(url, {headers:{'Authorization':bfAuth()},signal:ctrl.signal});
+        clearTimeout(t);
+        if(!r.ok){ nameFetchErrors.push('Recipe list HTTP ' + r.status + ' (page '+page+')'); break; }
+        const page_list = await r.json().catch(()=>[]);
+        if(!page_list.length) break;
+        list = list.concat(page_list);
+        console.log(`BF recipe list page ${page}: ${page_list.length} recipes (total so far: ${list.length})`);
+        if(page_list.length < 50) break; // last page
+        lastId = page_list[page_list.length-1]._id;
+        if(page > 20) { console.warn('Recipe pagination safety limit hit'); break; } // safety
+      }
+      if(false){ // dummy block to match original structure
+        nameFetchErrors.push('Recipe list HTTP 0');
       } else {
-        const list = await r.json().catch(()=>[]);
-        console.log('BF recipe list returned', list.length, 'recipes:', list.map(x=>x.name));
+        console.log('BF recipe list returned', list.length, 'recipes total:', list.map(x=>x.name));
         for(const beerName of namesToFetch){
           const normalize = s => (s||'').toLowerCase().trim().replace(/\s+/g,' ');
           let match = list.find(rec => normalize(rec.name) === normalize(beerName));
@@ -9538,8 +9573,9 @@ const _kegTypeState   = { search:'' };
 const _kegPresetState = { search:'' };
 
 // ── Ingredient demand tab state ───────────────────────────────────────────────
-let _demandTypeFilter = '';
-let _demandIngFilter  = '';
+let _demandTypeFilter  = '';
+let _demandIngFilter   = '';
+let _demandOrderFilter = '';
 
 // ── INGREDIENT ALIAS SYSTEM ───────────────────────────────────────────────────
 // Resolves an ingredient name to its alias name (or returns the original name)
