@@ -31251,7 +31251,7 @@
         "bf_form": "Slurry",
         "bf_laboratory": "White Labs",
         "bf_productId": "WLP029",
-        "onHand": 680,
+        "onHand": 0,
         "unit": "ml",
         "bf_cost": 0,
         "bf_lotNo": "saved from batch #519 Olde King Kolsch #02"
