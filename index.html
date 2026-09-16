@@ -4970,7 +4970,7 @@ function calcKegDate(bfBottlingDate, brewDate, tankDays, allKegDates) {
 // ════════════════════════════════════════════════════════
 
 // set APP_VERSION and STORAGE_KEY
-let APP_VERSION = 'v33-20260916-1213';
+let APP_VERSION = 'v33.1-20260916';
 const STORAGE_KEY = 'brewery_scheduler';  // fixed — version-independent
 
 document.title =
@@ -5132,7 +5132,7 @@ function downloadHtmlFile() {
   if (s2 === source) { alert('Could not locate DEFAULT_PACKAGING markers — download aborted.'); return; }
   source = s2;
 
-  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33-20260916-1213';");
+  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.1-20260916';");
 
   source = source.replace(/\n<script id="__html_source__">var _HTML_SOURCE_B64_="[A-Za-z0-9+\/=]*";<\/script>\n/, '\n');
 
