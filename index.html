@@ -5337,10 +5337,22 @@ sortedHist.forEach(h => {
   // Only advance the free date — never move it backward.
   // This ensures the latest brew in a tank always wins.
   if (effectiveFree > targetTank.free) {
+    // Warn if any entry pushes a tank's free date more than 60 days out
+    const sixtyDays = addDays(TODAY, 60);
+    if (effectiveFree > sixtyDays) {
+      console.warn('[TANK REPLAY] Batch #' + h.batch + ' "' + h.name + '"' +
+        ' brew=' + h.date + ' keg=' + (h.kegDate||'(calc '+fmtISO(kegDate)+')') +
+        ' bfStatus=' + (h.bfStatus||'-') +
+        ' stillInTank=' + stillPhysicallyInTank +
+        ' → sets ' + targetTank.name + '.free=' + fmtISO(effectiveFree));
+    }
     targetTank.free = effectiveFree;
     targetTank.beerType = beer.type;
   }
 });
+
+// Log final tank free dates so we can see what set them
+console.log('[TANK REPLAY] Final free dates — T01:', fmtISO(T01.free), 'T02:', fmtISO(T02.free), 'T03:', fmtISO(T03.free));
 
 
 function parseTargetMD(target) {
