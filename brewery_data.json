@@ -2214,10 +2214,10 @@
         "name": "Carafa Special III",
         "type": "Fermentable",
         "bf_id": "default-6970cb8",
-        "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
+        "minStock": 5,
+        "supplier": "MoreWinePro",
+        "sku": "GR693E",
+        "purchaseQty": 2.268,
         "purchaseUnit": "kg",
         "notes": "",
         "_fromBF": true,
@@ -4509,7 +4509,16 @@
         "bf_lotNo": ""
       }
     ],
-    "ingredientAliases": [],
+    "ingredientAliases": [
+      {
+        "name": "Acid Malt",
+        "category": "Fermentable",
+        "bfType": "Grain",
+        "members": [
+          "Acid Malt"
+        ]
+      }
+    ],
     "orders": []
   },
   "kegOverrides": {},
