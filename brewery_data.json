@@ -1,5 +1,5 @@
 {
-  "appVersion": "v33.1-20260916",
+  "appVersion": "v33.2-20260917",
   "beers": [
     {
       "id": 1,
@@ -1984,9 +1984,9 @@
         "type": "Fermentable",
         "bf_id": "default-5c999b6",
         "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
+        "supplier": "MoreWinePro",
+        "sku": "GR598E",
+        "purchaseQty": 2.268,
         "purchaseUnit": "kg",
         "notes": "",
         "_fromBF": true,
