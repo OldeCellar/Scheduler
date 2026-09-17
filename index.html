@@ -4970,7 +4970,7 @@ function calcKegDate(bfBottlingDate, brewDate, tankDays, allKegDates) {
 // ════════════════════════════════════════════════════════
 
 // set APP_VERSION and STORAGE_KEY
-let APP_VERSION = 'v33.1-20260916';
+let APP_VERSION = 'v33.2-20260916';
 const STORAGE_KEY = 'brewery_scheduler';  // fixed — version-independent
 
 document.title =
@@ -5132,7 +5132,7 @@ function downloadHtmlFile() {
   if (s2 === source) { alert('Could not locate DEFAULT_PACKAGING markers — download aborted.'); return; }
   source = s2;
 
-  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.1-20260916';");
+  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.2-20260916';");
 
   source = source.replace(/\n<script id="__html_source__">var _HTML_SOURCE_B64_="[A-Za-z0-9+\/=]*";<\/script>\n/, '\n');
 
@@ -8759,10 +8759,18 @@ async function renderIngDemand(el){
       <option value="">All ingredients</option>
       ${allIngNames.map(n=>`<option value="${n.replace(/"/g,'&quot;')}" ${_demandIngFilter===n.toLowerCase()?'selected':''}>${n}</option>`).join('')}
     </select>
+    <span class="ctrl-label">Order Status:</span>
+    <select id="ing-order-filter" style="font-size:11px;font-family:'IBM Plex Mono',monospace;padding:4px 8px;border:1px solid var(--border2);border-radius:var(--radius);"
+      onchange="_demandOrderFilter=this.value;renderIngDemand()">
+      <option value=""        ${_demandOrderFilter===''       ?'selected':''}>All items</option>
+      <option value="needed"  ${_demandOrderFilter==='needed' ?'selected':''}>Needs ordering</option>
+      <option value="covered" ${_demandOrderFilter==='covered'?'selected':''}>Covered (on hand)</option>
+      <option value="unknown" ${_demandOrderFilter==='unknown'?'selected':''}>No inventory data</option>
+    </select>
     <button class="btn btn-secondary btn-sm" id="refresh-recipes-btn" onclick="fetchAllRecipesAndRefresh()">↺ Load Scheduled Recipes</button>
     <button class="btn btn-secondary btn-sm" onclick="clearRecipeCache()" title="Use this after editing a recipe in Brewfather — forces a fresh fetch instead of using cached data">✕ Clear Recipe Cache</button>
     <span style="font-size:10px;color:var(--muted);margin-left:auto;">${demandBatches.length} batches · ${rows.length} rows</span>
-  </div>`;
+  </div>\`;
 
   if(uncached>0) html+=`<div class="alert alert-warn" style="margin-bottom:10px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
     <span>⚠ ${uncached} batch${uncached>1?'es':''} missing recipe data — recipe details must be loaded from Brewfather before ingredient totals can be calculated.</span>
@@ -10364,20 +10372,41 @@ async function pullBFInventory(filterType, inStockOnly = false){
 function renderIngOrder(el){
   if(!PACKAGING.inventory) PACKAGING.inventory=[];
   const demand={};
+  const addIng=(list,type)=>{(list||[]).forEach(ing=>{
+    const key=type+'|'+(ing.name||'');
+    if(!demand[key]) demand[key]={name:ing.name,type,need:0,unit:ing.unit||'g'};
+    demand[key].need+=(ing.amount||0);
+  });};
+
+  // Source 1: BF batches that are actively Planning/Brewing/Fermenting
   BREW_HISTORY.forEach(h=>{
     const bf=BF_BATCH_CACHE[h.batch];
     if(!bf||!['Planning','Brewing','Fermenting'].includes(bf.status)) return;
     const cached=_recipeCache[h.batch]; if(!cached) return;
     const recipe=cached.recipe||{};
-    const addIng=(list,type)=>{(list||[]).forEach(ing=>{
-      const key=type+'|'+(ing.name||'');
-      if(!demand[key]) demand[key]={name:ing.name,type,need:0,unit:ing.unit||'g'};
-      demand[key].need+=(ing.amount||0);
-    });};
     addIng(recipe.fermentables||cached.fermentables,'Fermentable');
     addIng(recipe.hops||cached.hops,'Hop');
     addIng(recipe.yeasts||cached.yeasts,'Yeast');
     addIng(recipe.miscs||cached.miscs,'Misc');
+  });
+
+  // Source 2: Scheduled future brews (from SCHEDULE) matched by beer name
+  // Uses the same _recipeCacheByName as Demand by Period
+  const orderCutoff = addDays(TODAY, (_demandWeeks||12)*7);
+  SCHEDULE.forEach(w=>{
+    if(!w.brews||!w.brews.length) return;
+    const sat = w.sat instanceof Date ? w.sat : parseDate(w.sat);
+    if(!sat||sat<TODAY||sat>orderCutoff) return;
+    w.brews.forEach(b=>{
+      if(!b.beer) return;
+      const cached = _recipeCacheByName[(b.beer.name||'').toLowerCase()];
+      if(!cached) return;
+      const recipe = cached.recipe||{};
+      addIng(recipe.fermentables||cached.fermentables,'Fermentable');
+      addIng(recipe.hops||cached.hops,'Hop');
+      addIng(recipe.yeasts||cached.yeasts,'Yeast');
+      addIng(recipe.miscs||cached.miscs,'Misc');
+    });
   });
 
   let h=`<div class="controls" style="margin-bottom:14px;">
