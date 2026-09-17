@@ -4970,7 +4970,7 @@ function calcKegDate(bfBottlingDate, brewDate, tankDays, allKegDates) {
 // ════════════════════════════════════════════════════════
 
 // set APP_VERSION and STORAGE_KEY
-let APP_VERSION = 'v33.2-20260917';
+let APP_VERSION = 'v33.3-20260917';
 const STORAGE_KEY = 'brewery_scheduler';  // fixed — version-independent
 
 document.title =
@@ -5132,7 +5132,7 @@ function downloadHtmlFile() {
   if (s2 === source) { alert('Could not locate DEFAULT_PACKAGING markers — download aborted.'); return; }
   source = s2;
 
-  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.2-20260917';");
+  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.3-20260917';");
 
   source = source.replace(/\n<script id="__html_source__">var _HTML_SOURCE_B64_="[A-Za-z0-9+\/=]*";<\/script>\n/, '\n');
 
@@ -8702,18 +8702,6 @@ async function renderIngDemand(el){
   let rows=Object.values(demand);
   if(_demandTypeFilter) rows=rows.filter(r=>r.type===_demandTypeFilter);
   if(_demandIngFilter)  rows=rows.filter(r=>r.name.toLowerCase().includes(_demandIngFilter));
-  // Order status filter
-  if(_demandOrderFilter) {
-    rows = rows.filter(r => {
-      const onHand = r.onHand != null ? Number(r.onHand) : null;
-      const orderQty = onHand != null ? Math.max(0, r.totalAmt - onHand) : null;
-      if(_demandOrderFilter === 'needed')  return orderQty != null && orderQty > 0;
-      if(_demandOrderFilter === 'covered') return orderQty != null && orderQty === 0;
-      if(_demandOrderFilter === 'unknown') return orderQty == null;
-      return true;
-    });
-  }
-
   rows.sort((a,b)=>{
     const col=_demandSort.col,dir=_demandSort.dir;
     let av=a[col]??'',bv=b[col]??'';
@@ -8837,6 +8825,18 @@ async function renderIngDemand(el){
     inv = sumLots(lots);
   }
   if (!inv) {
+    // Prefix match: recipe name "Roasted Barley" matches inventory "Roasted Barley 1500"
+    // and "Roasted Barley 600" — sum all inventory items whose name STARTS WITH the row name
+    // (or vice versa: inventory name starts with row name, or row name starts with inv name)
+    const rNorm = _normInv(r.name);
+    const prefixLots = (PACKAGING.inventory||[]).filter(i => {
+      if (i.type !== r.type) return false;
+      const iNorm = _normInv(i.name);
+      return iNorm.startsWith(rNorm) || rNorm.startsWith(iNorm);
+    });
+    if (prefixLots.length) inv = sumLots(prefixLots);
+  }
+  if (!inv) {
     // Combined laboratory+name+form match (handles Yeast rows where r.name is
     // "Lab NAME (Form)") — sum all lots that share this combined identity
     const lots = (PACKAGING.inventory||[]).filter(i => {
@@ -8849,20 +8849,52 @@ async function renderIngDemand(el){
   }
     const onHand=inv?inv.onHand:null;
     const orderQty=onHand!=null?Math.max(0,r.totalAmt-onHand):null;
-    const onHandTxt=onHand!=null?`<span class="mono">${onHand.toFixed(2)}</span>`:`<span style="color:var(--muted);font-size:10px;">not tracked</span>`;
-    const orderQtyTxt=orderQty!=null?(orderQty>0?`<span class="mono" style="color:var(--red2);font-weight:600;">${orderQty.toFixed(2)}</span>`:`<span style="color:var(--hops);font-size:10px;">✓ covered</span>`):`<span style="color:var(--muted);font-size:10px;">—</span>`;
+    r._onHand=onHand; r._orderQty=orderQty;  // attach for post-render filtering
+    const _unitSfx = r.type==='Fermentable'?'kg':r.type==='Hop'?'g':'g';
+    const onHandTxt=onHand!=null?`<span class="mono">${onHand.toFixed(2)} ${_unitSfx}</span>`:`<span style="color:var(--muted);font-size:10px;">not tracked</span>`;
+    const orderQtyTxt=orderQty!=null?(orderQty>0?`<span class="mono" style="color:var(--red2);font-weight:600;">${orderQty.toFixed(2)} ${_unitSfx}</span>`:`<span style="color:var(--hops);font-size:10px;">✓ covered</span>`):`<span style="color:var(--muted);font-size:10px;">—</span>`;
     const seen=new Set();
     const batchTags=r.batchRefs.filter(b=>{if(seen.has(b.batch))return false;seen.add(b.batch);return true;})
       .map(b=>`<span style="display:inline-block;margin-right:6px;margin-bottom:2px;"><span class="batch-num" style="font-size:10px;">#${b.batch}</span><span style="font-size:10px;color:var(--muted);"> ${b.beerName.split(' ').slice(0,2).join(' ')} · ${b.brewDate}</span></span>`).join('');
     const tc={Fermentable:'b-lager',Hop:'b-ipa',Yeast:'b-kolsch',Misc:'b-filler'}[r.type]||'b-filler';
     html+=`<tr><td><span class="badge ${tc}" style="font-size:9px;">${r.type}</span></td>
       <td style="font-family:'Playfair Display',serif;font-size:13px;">${r.name}</td>
-      <td class="mono" style="font-weight:600;">${r.totalAmt.toFixed(2)}</td>
-      <td class="mono" style="font-size:10px;color:var(--muted);">${r.unit}</td>
+      <td class="mono" style="font-weight:600;">${r.totalAmt.toFixed(2)} ${_unitSfx}</td>
       <td>${onHandTxt}</td><td>${orderQtyTxt}</td>
       <td style="font-size:11px;line-height:1.8;">${batchTags}</td></tr>`;
   });
   html+=`</tbody></table><div style="margin-top:10px;font-size:10px;color:var(--muted);font-family:'IBM Plex Mono',monospace;">On Hand from Inventory tabs · <span style="color:var(--red2);">Order Qty</span> = Total−OnHand when &gt;0 · <span style="color:var(--hops);">✓ covered</span> = sufficient stock</div>`;
+
+  // Apply order status filter AFTER onHand/_orderQty are attached to each row
+  // We filter rows then rebuild just the tbody so we don't repeat the header/controls
+  if(_demandOrderFilter) {
+    const filteredRows = rows.filter(r => {
+      if(_demandOrderFilter === 'needed')  return r._orderQty != null && r._orderQty > 0;
+      if(_demandOrderFilter === 'covered') return r._orderQty != null && r._orderQty <= 0;
+      if(_demandOrderFilter === 'unknown') return r._onHand == null;
+      return true;
+    });
+    const unitOf = r => r.type==='Fermentable'?'kg':r.type==='Hop'?'g':'g';
+    const newTbody = filteredRows.map(r => {
+      const seen=new Set();
+      const batchTags=r.batchRefs.filter(b=>{if(seen.has(b.batch))return false;seen.add(b.batch);return true;})
+        .map(b=>`<span style="display:inline-block;margin-right:6px;margin-bottom:2px;"><span class="batch-num" style="font-size:10px;">#${b.batch}</span><span style="font-size:10px;color:var(--muted);"> ${b.beerName.split(' ').slice(0,2).join(' ')} · ${b.brewDate}</span></span>`).join('');
+      const tc={Fermentable:'b-lager',Hop:'b-ipa',Yeast:'b-kolsch',Misc:'b-filler'}[r.type]||'b-filler';
+      const u=unitOf(r);
+      const onHandTxt=r._onHand!=null?`<span class="mono">${r._onHand.toFixed(2)} ${u}</span>`:`<span style="color:var(--muted);font-size:10px;">not tracked</span>`;
+      const oq=r._orderQty;
+      const orderQtyTxt=oq!=null?(oq>0?`<span class="mono" style="color:var(--red2);font-weight:600;">${oq.toFixed(2)} ${u}</span>`:`<span style="color:var(--hops);font-size:10px;">✓ covered</span>`):`<span style="color:var(--muted);font-size:10px;">—</span>`;
+      return `<tr><td><span class="badge ${tc}" style="font-size:9px;">${r.type}</span></td>
+        <td style="font-family:'Playfair Display',serif;font-size:13px;">${r.name}</td>
+        <td class="mono" style="font-weight:600;">${r.totalAmt.toFixed(2)} ${u}</td>
+        <td>${onHandTxt}</td><td>${orderQtyTxt}</td>
+        <td style="font-size:11px;line-height:1.8;">${batchTags}</td></tr>`;
+    }).join('');
+    // Replace tbody content in html
+    html = html.replace(/<tbody>[\s\S]*<\/tbody>/, '<tbody>' + newTbody + '</tbody>');
+    if(!filteredRows.length) html = html.replace(/<tbody>[\s\S]*<\/tbody>/,'<tbody><tr><td colspan="6" style="text-align:center;padding:20px;color:var(--muted);">No items match this filter.</td></tr></tbody>');
+  }
+
   el.innerHTML=html;
 }
 
@@ -9949,7 +9981,13 @@ if(!PACKAGING.ingredientAliases) PACKAGING.ingredientAliases = [];
       <th></th>
     </tr></thead><tbody>`;
     list.forEach(item=>{
-      const ri = PACKAGING.inventory.findIndex(x=>x.name===item.name&&x.type===item.type);
+      // Match by bf_id first (unique per BF item), then name+type+supplier fallback
+      // This prevents two items with the same name (e.g. Bestmalz vs Weyermann Acid Malt)
+      // from both writing to the same inventory index.
+      const ri = PACKAGING.inventory.findIndex(x=>
+        item.bf_id ? x.bf_id===item.bf_id
+                   : x.name===item.name&&x.type===item.type&&(x.bf_supplier||'')===(item.bf_supplier||'')
+      );
       const low = item.minStock>0&&item.onHand<=item.minStock;
       h += `<tr ${low?'style="background:rgba(176,48,32,0.04);"':''}>
         <td style="font-weight:500;white-space:nowrap;">${esc(item.name)}${item._fromBF?'<span style="font-size:8px;color:var(--hops);margin-left:4px;">●BF</span>':''}${_aliasMap[(item.name||"").toLowerCase()]?`<span style="margin-left:5px;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:0px 6px;font-size:9px;color:var(--muted);font-weight:400;">🔗 ${_aliasMap[(item.name||"").toLowerCase()]}</span>`:""}</td>
@@ -10055,7 +10093,13 @@ if(!PACKAGING.ingredientAliases) PACKAGING.ingredientAliases = [];
       <th></th>
     </tr></thead><tbody>`;
     list.forEach(item=>{
-      const ri = PACKAGING.inventory.findIndex(x=>x.name===item.name&&x.type===item.type);
+      // Match by bf_id first (unique per BF item), then name+type+supplier fallback
+      // This prevents two items with the same name (e.g. Bestmalz vs Weyermann Acid Malt)
+      // from both writing to the same inventory index.
+      const ri = PACKAGING.inventory.findIndex(x=>
+        item.bf_id ? x.bf_id===item.bf_id
+                   : x.name===item.name&&x.type===item.type&&(x.bf_supplier||'')===(item.bf_supplier||'')
+      );
       const low = item.minStock>0&&item.onHand<=item.minStock;
       h += `<tr ${low?'style="background:rgba(176,48,32,0.04);"':''}>
         <td style="font-size:11px;color:var(--muted);">${esc(item.bf_type||'')}</td>
@@ -10110,7 +10154,13 @@ if(!PACKAGING.ingredientAliases) PACKAGING.ingredientAliases = [];
       <th></th>
     </tr></thead><tbody>`;
     list.forEach(item=>{
-      const ri = PACKAGING.inventory.findIndex(x=>x.name===item.name&&x.type===item.type);
+      // Match by bf_id first (unique per BF item), then name+type+supplier fallback
+      // This prevents two items with the same name (e.g. Bestmalz vs Weyermann Acid Malt)
+      // from both writing to the same inventory index.
+      const ri = PACKAGING.inventory.findIndex(x=>
+        item.bf_id ? x.bf_id===item.bf_id
+                   : x.name===item.name&&x.type===item.type&&(x.bf_supplier||'')===(item.bf_supplier||'')
+      );
       const low = item.minStock>0&&item.onHand<=item.minStock;
       h += `<tr ${low?'style="background:rgba(176,48,32,0.04);"':''}>
         <td style="font-weight:500;white-space:nowrap;">${esc(item.name)}${item._fromBF?'<span style="font-size:8px;color:var(--hops);margin-left:4px;">●BF</span>':''}${_aliasMap[(item.name||"").toLowerCase()]?`<span style="margin-left:5px;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:0px 6px;font-size:9px;color:var(--muted);font-weight:400;">🔗 ${_aliasMap[(item.name||"").toLowerCase()]}</span>`:""}</td>
@@ -10417,19 +10467,27 @@ function renderIngOrder(el){
     <th>Type</th><th>Ingredient</th><th>Needed</th><th>On Hand</th><th>Order Qty</th><th>Unit</th>
   </tr></thead><tbody>`;
   const orderItems=[];
+  const _normOL = s => (s||'').toLowerCase().trim().replace(/\s+/g,' ');
+  const unitOfType = t => t==='Fermentable'?'kg':t==='Hop'?'g':'g';
   Object.values(demand).sort((a,b)=>a.type.localeCompare(b.type)||a.name.localeCompare(b.name)).forEach(d=>{
-    const inv=PACKAGING.inventory.find(i=>i.name.toLowerCase()===d.name.toLowerCase()&&i.type===d.type);
-    const onHand=inv?inv.onHand:0;
+    // Match using prefix logic so "Roasted Barley" matches "Roasted Barley 1500" etc
+    const rNm = _normOL(d.name);
+    const invLots = (PACKAGING.inventory||[]).filter(i=>{
+      if(i.type!==d.type) return false;
+      const iNm = _normOL(i.name);
+      return iNm===rNm || iNm.startsWith(rNm) || rNm.startsWith(iNm);
+    });
+    const onHand = invLots.length ? invLots.reduce((s,i)=>s+(Number(i.onHand)||0),0) : 0;
     const orderQty=Math.max(0,d.need-onHand);
+    const u = unitOfType(d.type);
     if(orderQty>0){
       orderItems.push({...d,onHand,orderQty});
       h+=`<tr>
         <td style="font-size:10px;color:var(--muted);">${d.type}</td>
         <td>${d.name}</td>
-        <td class="mono">${d.need.toFixed(2)}</td>
-        <td class="mono">${onHand.toFixed(2)}</td>
-        <td class="mono" style="color:var(--red2);font-weight:600;">${orderQty.toFixed(2)}</td>
-        <td class="mono">${d.unit}</td>
+        <td class="mono">${d.need.toFixed(2)} ${u}</td>
+        <td class="mono">${onHand.toFixed(2)} ${u}</td>
+        <td class="mono" style="color:var(--red2);font-weight:600;">${orderQty.toFixed(2)} ${u}</td>
       </tr>`;
     }
   });
