@@ -4970,7 +4970,7 @@ function calcKegDate(bfBottlingDate, brewDate, tankDays, allKegDates) {
 // ════════════════════════════════════════════════════════
 
 // set APP_VERSION and STORAGE_KEY
-let APP_VERSION = 'v33.2-20260916';
+let APP_VERSION = 'v33.2-20260917';
 const STORAGE_KEY = 'brewery_scheduler';  // fixed — version-independent
 
 document.title =
@@ -5132,7 +5132,7 @@ function downloadHtmlFile() {
   if (s2 === source) { alert('Could not locate DEFAULT_PACKAGING markers — download aborted.'); return; }
   source = s2;
 
-  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.2-20260916';");
+  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.2-20260917';");
 
   source = source.replace(/\n<script id="__html_source__">var _HTML_SOURCE_B64_="[A-Za-z0-9+\/=]*";<\/script>\n/, '\n');
 
@@ -8770,7 +8770,7 @@ async function renderIngDemand(el){
     <button class="btn btn-secondary btn-sm" id="refresh-recipes-btn" onclick="fetchAllRecipesAndRefresh()">↺ Load Scheduled Recipes</button>
     <button class="btn btn-secondary btn-sm" onclick="clearRecipeCache()" title="Use this after editing a recipe in Brewfather — forces a fresh fetch instead of using cached data">✕ Clear Recipe Cache</button>
     <span style="font-size:10px;color:var(--muted);margin-left:auto;">${demandBatches.length} batches · ${rows.length} rows</span>
-  </div>\`;
+  </div>`;
 
   if(uncached>0) html+=`<div class="alert alert-warn" style="margin-bottom:10px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
     <span>⚠ ${uncached} batch${uncached>1?'es':''} missing recipe data — recipe details must be loaded from Brewfather before ingredient totals can be calculated.</span>
