@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.5-20260918",
-  "savedAt": "2026-09-18T11:44:03.884Z",
+  "savedAt": "2026-09-18T12:36:18.461Z",
   "beers": [
     {
       "id": 1,
@@ -4523,7 +4523,17 @@
         "bf_lotNo": ""
       }
     ],
-    "ingredientAliases": [],
+    "ingredientAliases": [
+      {
+        "name": "Pale Ale Malt",
+        "category": "Fermentable",
+        "bfType": "Grain",
+        "members": [
+          "Maris Otter",
+          "Pale Ale null-LOX"
+        ]
+      }
+    ],
     "orders": []
   },
   "kegOverrides": {},
