@@ -4970,7 +4970,7 @@ function calcKegDate(bfBottlingDate, brewDate, tankDays, allKegDates) {
 // ════════════════════════════════════════════════════════
 
 // set APP_VERSION and STORAGE_KEY
-let APP_VERSION = 'v33.5-20260918';
+let APP_VERSION = 'v33.7-20260918';
 const STORAGE_KEY = 'brewery_scheduler';  // fixed — version-independent
 
 document.title =
@@ -5133,7 +5133,7 @@ function downloadHtmlFile() {
   if (s2 === source) { alert('Could not locate DEFAULT_PACKAGING markers — download aborted.'); return; }
   source = s2;
 
-  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.5-20260918';");
+  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.7-20260918';");
 
   source = source.replace(/\n<script id="__html_source__">var _HTML_SOURCE_B64_="[A-Za-z0-9+\/=]*";<\/script>\n/, '\n');
 
@@ -5300,13 +5300,22 @@ function assignTank(tank, beer, sat, allKegDates) {
 // Only include past brews (date <= today) and valid tanks — exclude future
 // planned entries and Tank 00 which would push free-dates years forward
 const VALID_TANKS = new Set(['Tank 01', 'Tank 02', 'Tank 03']);
+// Active BF statuses — brews in these states physically occupy a tank
+const BF_ACTIVE = new Set(['Planning','Brewing','Fermenting','Conditioning']);
+
 const sortedHist = [...BREW_HISTORY]
   .filter(h => {
     if (!h.date) return false;
     const d = parseDate(h.date);
-    if (!d || d > TODAY) return false;
+    if (!d) return false;
     if (h.tank && !VALID_TANKS.has(h.tank)) return false;
-    return true;
+    // Include past brews always
+    if (d <= TODAY) return true;
+    // Include NEAR-FUTURE brews (within 14 days) that BF confirms are active
+    // These are physically committed — they've been pitched or are planned
+    const daysAhead = (d - TODAY) / 86400000;
+    if (daysAhead <= 14 && h.bfStatus && BF_ACTIVE.has(h.bfStatus)) return true;
+    return false;
   })
   .sort((a, b) => parseDate(a.date) - parseDate(b.date));
 
@@ -5440,6 +5449,15 @@ SCHEDULE = [];
 // these weeks must not get a second brew scheduled into a different tank.
 const historyOccupiedSaturdays = new Set(
   BREW_HISTORY
+    .filter(h => {
+      if (!h.date) return false;
+      const d = parseDate(h.date);
+      if (!d) return false;
+      if (d <= TODAY) return true;
+      // Also block near-future active BF brews so Pass 4 doesn't schedule over them
+      const daysAhead = (d - TODAY) / 86400000;
+      return daysAhead <= 14 && h.bfStatus && BF_ACTIVE.has(h.bfStatus);
+    })
     .map(h => parseDate(h.date))
     .filter(Boolean)
     .map(d => wkKey(saturdayOf(d)))
@@ -8777,7 +8795,17 @@ async function renderIngDemand(el){
   // This covers two cases that both need summing:
   //   1. Alias groups (e.g. "Lager Malt" = sum of all member ingredients)
   //   2. Multiple lots of the SAME ingredient (e.g. Strata Pellet 2023 + Strata Pellet 2025)
-  const _normInv = s => (s||'').toLowerCase().trim().replace(/\s+/g, ' ');
+  // Normalize ingredient name for matching:
+  // 1. Lowercase + collapse whitespace
+  // 2. Strip BF LOX/null-LOX suffixes (e.g. "Pale Ale null-LOX" → "Pale Ale")
+  // 3. Normalize "Noun, Adjective" → "Adjective Noun" (e.g. "Barley, Flaked" → "Flaked Barley")
+  const _normInv = s => {
+    let n = (s||'').toLowerCase().trim().replace(/\s+/g, ' ');
+    n = n.replace(/\s*-?null-lox\s*$/i, '').replace(/\s*-lox\s*$/i, '').trim();
+    // "word, word" → "word word" (inverted comma form)
+    n = n.replace(/^([\w\s]+),\s*([\w\s]+)$/, '$2 $1').trim();
+    return n;
+  };
   // For hops, strip a trailing crop year (e.g. "Strata 2023" -> "strata") so
   // multiple year-lots of the same hop are treated as the same ingredient
   // when summing on-hand quantity.
