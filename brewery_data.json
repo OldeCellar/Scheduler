@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.5-20260918",
-  "savedAt": "2026-09-18T11:34:18.090Z",
+  "savedAt": "2026-09-18T11:35:13.693Z",
   "beers": [
     {
       "id": 1,
@@ -2208,7 +2208,7 @@
         "type": "Fermentable",
         "bf_id": "default-4c1345c",
         "minStock": 0,
-        "supplier": "",
+        "supplier": "MoreWinePro",
         "sku": "",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
