@@ -4970,7 +4970,7 @@ function calcKegDate(bfBottlingDate, brewDate, tankDays, allKegDates) {
 // ════════════════════════════════════════════════════════
 
 // set APP_VERSION and STORAGE_KEY
-let APP_VERSION = 'v33.4-20260918';
+let APP_VERSION = 'v33.5-20260918';
 const STORAGE_KEY = 'brewery_scheduler';  // fixed — version-independent
 
 document.title =
@@ -5133,7 +5133,7 @@ function downloadHtmlFile() {
   if (s2 === source) { alert('Could not locate DEFAULT_PACKAGING markers — download aborted.'); return; }
   source = s2;
 
-  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.4-20260918';");
+  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.5-20260918';");
 
   source = source.replace(/\n<script id="__html_source__">var _HTML_SOURCE_B64_="[A-Za-z0-9+\/=]*";<\/script>\n/, '\n');
 
@@ -10965,6 +10965,23 @@ async function pullFromGitHub(manual) {
     // Preserve local credentials — never overwrite from GitHub
     const savedBFCreds = { ...BF_CREDS };
 
+    // Preserve manually entered inventory fields before overwriting PACKAGING.
+    // BF-sourced structure comes from GitHub, but local onHand/minStock/supplier/
+    // sku/purchaseQty/purchaseUnit values always win — they are the source of truth
+    // for what you physically have on hand and where you buy it.
+    const _localInvFields = {};
+    (PACKAGING.inventory || []).forEach(item => {
+      const key = item.bf_id || (item.type + '|' + item.name);
+      _localInvFields[key] = {
+        onHand:       item.onHand,
+        minStock:     item.minStock,
+        supplier:     item.supplier,
+        sku:          item.sku,
+        purchaseQty:  item.purchaseQty,
+        purchaseUnit: item.purchaseUnit,
+      };
+    });
+
     // Load pulled data into app
     BEERS          = d.beers;
     BEERS.forEach(b => {
@@ -10981,6 +10998,20 @@ async function pullFromGitHub(manual) {
     PACKAGING      = d.packaging    || JSON.parse(JSON.stringify(DEFAULT_PACKAGING));
     if (!PACKAGING.inventory)         PACKAGING.inventory = [];
     if (!PACKAGING.ingredientAliases) PACKAGING.ingredientAliases = [];
+
+    // Restore manually entered values — these survive a GitHub pull
+    PACKAGING.inventory.forEach(item => {
+      const key = item.bf_id || (item.type + '|' + item.name);
+      const loc = _localInvFields[key];
+      if (!loc) return;
+      if (loc.onHand       != null) item.onHand       = loc.onHand;
+      if (loc.minStock     != null) item.minStock      = loc.minStock;
+      if (loc.supplier     != null) item.supplier      = loc.supplier;
+      if (loc.sku          != null) item.sku           = loc.sku;
+      if (loc.purchaseQty  != null) item.purchaseQty   = loc.purchaseQty;
+      if (loc.purchaseUnit != null) item.purchaseUnit  = loc.purchaseUnit;
+    });
+
     KEG_OVERRIDES  = d.kegOverrides  || {};
     BF_BATCH_CACHE = d.bfBatchCache  || {};
     if (d.appVersion) setAppVersion(d.appVersion);
@@ -11044,6 +11075,18 @@ async function loadDataWithGitHub() {
 
     // GitHub is newer (or timestamps unavailable) — load from GitHub
     const savedBFCreds = { ...BF_CREDS };
+
+    // Save local inventory manual fields before overwriting
+    const localInvFields = {};
+    (PACKAGING.inventory || []).forEach(item => {
+      const key = item.bf_id || (item.type + '|' + item.name);
+      localInvFields[key] = {
+        onHand: item.onHand, minStock: item.minStock,
+        supplier: item.supplier, sku: item.sku,
+        purchaseQty: item.purchaseQty, purchaseUnit: item.purchaseUnit,
+      };
+    });
+
     BEERS = d.beers;
     BEERS.forEach(b => {
       if (!b.lane) {
@@ -11059,6 +11102,20 @@ async function loadDataWithGitHub() {
     PACKAGING      = d.packaging    || JSON.parse(JSON.stringify(DEFAULT_PACKAGING));
     if (!PACKAGING.inventory)         PACKAGING.inventory = [];
     if (!PACKAGING.ingredientAliases) PACKAGING.ingredientAliases = [];
+
+    // Re-apply locally entered values — these survive a GitHub pull
+    PACKAGING.inventory.forEach(item => {
+      const key = item.bf_id || (item.type + '|' + item.name);
+      const local = localInvFields[key];
+      if (!local) return;
+      if (local.onHand       != null) item.onHand       = local.onHand;
+      if (local.minStock     != null) item.minStock      = local.minStock;
+      if (local.supplier     != null) item.supplier      = local.supplier;
+      if (local.sku          != null) item.sku           = local.sku;
+      if (local.purchaseQty  != null) item.purchaseQty   = local.purchaseQty;
+      if (local.purchaseUnit != null) item.purchaseUnit  = local.purchaseUnit;
+    });
+
     KEG_OVERRIDES  = d.kegOverrides  || {};
     BF_BATCH_CACHE = d.bfBatchCache  || {};
     if (d.appVersion) setAppVersion(d.appVersion);
