@@ -4970,7 +4970,7 @@ function calcKegDate(bfBottlingDate, brewDate, tankDays, allKegDates) {
 // ════════════════════════════════════════════════════════
 
 // set APP_VERSION and STORAGE_KEY
-let APP_VERSION = 'v33.3-20260917';
+let APP_VERSION = 'v33.4-20260918';
 const STORAGE_KEY = 'brewery_scheduler';  // fixed — version-independent
 
 document.title =
@@ -5007,6 +5007,7 @@ function askForVersion() {
 function getDataObject() {
   return {
     appVersion: APP_VERSION,
+    savedAt:    new Date().toISOString(),
     beers: BEERS,
     history: BREW_HISTORY,
     overrides: OVERRIDES,
@@ -5132,7 +5133,7 @@ function downloadHtmlFile() {
   if (s2 === source) { alert('Could not locate DEFAULT_PACKAGING markers — download aborted.'); return; }
   source = s2;
 
-  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.3-20260917';");
+  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.4-20260918';");
 
   source = source.replace(/\n<script id="__html_source__">var _HTML_SOURCE_B64_="[A-Za-z0-9+\/=]*";<\/script>\n/, '\n');
 
@@ -8824,18 +8825,11 @@ async function renderIngDemand(el){
     const lots = (PACKAGING.inventory||[]).filter(i=>_normInv(i.name)===_normInv(r.name)&&i.type===r.type);
     inv = sumLots(lots);
   }
-  if (!inv) {
-    // Prefix match: recipe name "Roasted Barley" matches inventory "Roasted Barley 1500"
-    // and "Roasted Barley 600" — sum all inventory items whose name STARTS WITH the row name
-    // (or vice versa: inventory name starts with row name, or row name starts with inv name)
-    const rNorm = _normInv(r.name);
-    const prefixLots = (PACKAGING.inventory||[]).filter(i => {
-      if (i.type !== r.type) return false;
-      const iNorm = _normInv(i.name);
-      return iNorm.startsWith(rNorm) || rNorm.startsWith(iNorm);
-    });
-    if (prefixLots.length) inv = sumLots(prefixLots);
-  }
+  // NOTE: Prefix/fuzzy matching intentionally removed.
+  // Recipe ingredients must match inventory by EXACT name.
+  // If BF recipe says "Roasted Barley 1500" it matches only the "Roasted Barley 1500"
+  // inventory lot — never "Roasted Barley 600". Use Ingredient Aliases to group
+  // interchangeable ingredients explicitly.
   if (!inv) {
     // Combined laboratory+name+form match (handles Yeast rows where r.name is
     // "Lab NAME (Form)") — sum all lots that share this combined identity
@@ -9994,7 +9988,7 @@ if(!PACKAGING.ingredientAliases) PACKAGING.ingredientAliases = [];
         <td style="font-size:11px;color:var(--muted);">${esc(item.bf_supplier||'')}</td>
         <td style="font-size:11px;">${esc(item.bf_type||'')}${item.bf_use?'<span style="color:var(--muted);font-size:10px;"> / '+esc(item.bf_use)+'</span>':''}</td>
         <td><input type="number" class="form-input" value="${item.onHand||0}" min="0" step="0.01" style="width:90px;"
-          onchange="PACKAGING.inventory[${ri}].onHand=parseFloat(this.value)||0;markDirty();">
+          onchange="if(${ri}>=0){PACKAGING.inventory[${ri}].onHand=parseFloat(this.value)||0;markDirty();}">
           ${low?'<span style="color:var(--red2);font-size:9px;display:block;">⚠ Low</span>':''}</td>
         <td><input type="text" class="form-input" value="${esc(item.bf_origin||'')}" style="width:80px;"
           onchange="PACKAGING.inventory[${ri}].bf_origin=this.value;markDirty();"></td>
@@ -10007,16 +10001,16 @@ if(!PACKAGING.ingredientAliases) PACKAGING.ingredientAliases = [];
         <td><input type="text" class="form-input" value="${esc(item.bf_lotNo||'')}" style="width:90px;" placeholder="Lot #"
           onchange="PACKAGING.inventory[${ri}].bf_lotNo=this.value;markDirty();"></td>
         <td><input type="number" class="form-input" value="${item.minStock||0}" min="0" step="0.01" style="width:75px;"
-          onchange="PACKAGING.inventory[${ri}].minStock=parseFloat(this.value)||0;markDirty();"></td>
+          onchange="if(${ri}>=0){PACKAGING.inventory[${ri}].minStock=parseFloat(this.value)||0;markDirty();}"></td>
         <td><input type="text" class="form-input" value="${esc(item.supplier||'')}" style="width:100px;"
-          onchange="PACKAGING.inventory[${ri}].supplier=this.value;markDirty();"></td>
+          onchange="if(${ri}>=0){PACKAGING.inventory[${ri}].supplier=this.value;markDirty();}"></td>
         <td><input type="text" class="form-input" value="${esc(item.sku||'')}" style="width:80px;"
-          onchange="PACKAGING.inventory[${ri}].sku=this.value;markDirty();"></td>
+          onchange="if(${ri}>=0){PACKAGING.inventory[${ri}].sku=this.value;markDirty();}"></td>
         <td style="white-space:nowrap;">
           <input type="number" class="form-input" value="${item.purchaseQty||0}" min="0" step="0.01" style="width:90px;"
-            onchange="PACKAGING.inventory[${ri}].purchaseQty=parseFloat(this.value)||0;markDirty();">
+            onchange="if(${ri}>=0){PACKAGING.inventory[${ri}].purchaseQty=parseFloat(this.value)||0;markDirty();}">
           <input type="text" class="form-input" value="${esc(item.purchaseUnit||'kg')}" style="width:36px;"
-            onchange="PACKAGING.inventory[${ri}].purchaseUnit=this.value;markDirty();">
+            onchange="if(${ri}>=0){PACKAGING.inventory[${ri}].purchaseUnit=this.value;markDirty();}">
         </td>
         <td><button class="skip-btn" onclick="removeInventoryItem(${ri})">✕</button></td>
       </tr>`;
@@ -10057,17 +10051,17 @@ if(!PACKAGING.ingredientAliases) PACKAGING.ingredientAliases = [];
         <td class="mono" style="font-size:11px;">${esc(item.bf_year||'')}</td>
         <td class="mono" style="font-size:11px;">${item.bf_alpha!=null?num(item.bf_alpha)+'%':''}</td>
         <td><input type="number" class="form-input" value="${item.onHand||0}" min="0" step="0.1" style="width:90px;"
-          onchange="PACKAGING.inventory[${ri}].onHand=parseFloat(this.value)||0;markDirty();">
+          onchange="if(${ri}>=0){PACKAGING.inventory[${ri}].onHand=parseFloat(this.value)||0;markDirty();}">
           ${low?'<span style="color:var(--red2);font-size:9px;display:block;">⚠ Low</span>':''}</td>
         <td class="mono" style="font-size:11px;">${item.bf_cost!=null?'$'+num(item.bf_cost):''}</td>
         <td><input type="text" class="form-input" value="${esc(item.bf_lotNo||'')}" style="width:90px;" placeholder="Lot #"
           onchange="PACKAGING.inventory[${ri}].bf_lotNo=this.value;markDirty();"></td>
         <td><input type="number" class="form-input" value="${item.minStock||0}" min="0" step="1" style="width:75px;"
-          onchange="PACKAGING.inventory[${ri}].minStock=parseFloat(this.value)||0;markDirty();"></td>
+          onchange="if(${ri}>=0){PACKAGING.inventory[${ri}].minStock=parseFloat(this.value)||0;markDirty();}"></td>
         <td><input type="text" class="form-input" value="${esc(item.supplier||'')}" style="width:100px;"
-          onchange="PACKAGING.inventory[${ri}].supplier=this.value;markDirty();"></td>
+          onchange="if(${ri}>=0){PACKAGING.inventory[${ri}].supplier=this.value;markDirty();}"></td>
         <td><input type="text" class="form-input" value="${esc(item.sku||'')}" style="width:80px;"
-          onchange="PACKAGING.inventory[${ri}].sku=this.value;markDirty();"></td>
+          onchange="if(${ri}>=0){PACKAGING.inventory[${ri}].sku=this.value;markDirty();}"></td>
         <td><button class="skip-btn" onclick="removeInventoryItem(${ri})">✕</button></td>
       </tr>`;
     });
@@ -10105,7 +10099,7 @@ if(!PACKAGING.ingredientAliases) PACKAGING.ingredientAliases = [];
         <td style="font-size:11px;color:var(--muted);">${esc(item.bf_type||'')}</td>
         <td style="font-weight:500;white-space:nowrap;">${esc(item.name)}${item._fromBF?'<span style="font-size:8px;color:var(--hops);margin-left:4px;">●BF</span>':''}${_aliasMap[(item.name||"").toLowerCase()]?`<span style="margin-left:5px;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:0px 6px;font-size:9px;color:var(--muted);font-weight:400;">🔗 ${_aliasMap[(item.name||"").toLowerCase()]}</span>`:""}</td>
         <td><input type="number" class="form-input" value="${item.onHand||0}" min="0" step="0.01" style="width:90px;"
-          onchange="PACKAGING.inventory[${ri}].onHand=parseFloat(this.value)||0;markDirty();">
+          onchange="if(${ri}>=0){PACKAGING.inventory[${ri}].onHand=parseFloat(this.value)||0;markDirty();}">
           ${low?'<span style="color:var(--red2);font-size:9px;display:block;">⚠ Low</span>':''}</td>
         <td><input type="text" class="form-input" value="${esc(item.bf_form||'')}" style="width:70px;" placeholder="Dry/Liquid"
           onchange="PACKAGING.inventory[${ri}].bf_form=this.value;markDirty();"></td>
@@ -10118,16 +10112,16 @@ if(!PACKAGING.ingredientAliases) PACKAGING.ingredientAliases = [];
         <td><input type="text" class="form-input" value="${esc(item.bf_lotNo||'')}" style="width:90px;" placeholder="Lot #"
           onchange="PACKAGING.inventory[${ri}].bf_lotNo=this.value;markDirty();"></td>
         <td><input type="number" class="form-input" value="${item.minStock||0}" min="0" step="0.01" style="width:75px;"
-          onchange="PACKAGING.inventory[${ri}].minStock=parseFloat(this.value)||0;markDirty();"></td>
+          onchange="if(${ri}>=0){PACKAGING.inventory[${ri}].minStock=parseFloat(this.value)||0;markDirty();}"></td>
         <td><input type="text" class="form-input" value="${esc(item.supplier||'')}" style="width:100px;"
-          onchange="PACKAGING.inventory[${ri}].supplier=this.value;markDirty();"></td>
+          onchange="if(${ri}>=0){PACKAGING.inventory[${ri}].supplier=this.value;markDirty();}"></td>
         <td><input type="text" class="form-input" value="${esc(item.sku||'')}" style="width:80px;"
-          onchange="PACKAGING.inventory[${ri}].sku=this.value;markDirty();"></td>
+          onchange="if(${ri}>=0){PACKAGING.inventory[${ri}].sku=this.value;markDirty();}"></td>
         <td style="white-space:nowrap;">
           <input type="number" class="form-input" value="${item.purchaseQty||0}" min="0" step="0.01" style="width:90px;"
-            onchange="PACKAGING.inventory[${ri}].purchaseQty=parseFloat(this.value)||0;markDirty();">
+            onchange="if(${ri}>=0){PACKAGING.inventory[${ri}].purchaseQty=parseFloat(this.value)||0;markDirty();}">
           <input type="text" class="form-input" value="${esc(item.purchaseUnit||'pkg')}" style="width:36px;"
-            onchange="PACKAGING.inventory[${ri}].purchaseUnit=this.value;markDirty();">
+            onchange="if(${ri}>=0){PACKAGING.inventory[${ri}].purchaseUnit=this.value;markDirty();}">
         </td>
         <td><button class="skip-btn" onclick="removeInventoryItem(${ri})">✕</button></td>
       </tr>`;
@@ -10167,7 +10161,7 @@ if(!PACKAGING.ingredientAliases) PACKAGING.ingredientAliases = [];
         <td style="font-size:11px;">${esc(item.bf_type||'')}</td>
         <td style="font-size:11px;color:var(--muted);">${esc(item.bf_use||'')}</td>
         <td><input type="number" class="form-input" value="${item.onHand||0}" min="0" step="0.01" style="width:90px;"
-          onchange="PACKAGING.inventory[${ri}].onHand=parseFloat(this.value)||0;markDirty();">
+          onchange="if(${ri}>=0){PACKAGING.inventory[${ri}].onHand=parseFloat(this.value)||0;markDirty();}">
           ${low?'<span style="color:var(--red2);font-size:9px;display:block;">⚠ Low</span>':''}</td>
         <td class="mono" style="font-size:11px;">${esc(item.unit||'g')}</td>
         <td><input type="number" class="form-input" value="${item.bf_cost!=null?item.bf_cost:''}" min="0" step="0.01" style="width:70px;" placeholder="$/unit"
@@ -10175,16 +10169,16 @@ if(!PACKAGING.ingredientAliases) PACKAGING.ingredientAliases = [];
         <td><input type="text" class="form-input" value="${esc(item.bf_lotNo||'')}" style="width:90px;" placeholder="Lot #"
           onchange="PACKAGING.inventory[${ri}].bf_lotNo=this.value;markDirty();"></td>
         <td><input type="number" class="form-input" value="${item.minStock||0}" min="0" step="0.01" style="width:75px;"
-          onchange="PACKAGING.inventory[${ri}].minStock=parseFloat(this.value)||0;markDirty();"></td>
+          onchange="if(${ri}>=0){PACKAGING.inventory[${ri}].minStock=parseFloat(this.value)||0;markDirty();}"></td>
         <td><input type="text" class="form-input" value="${esc(item.supplier||'')}" style="width:100px;"
-          onchange="PACKAGING.inventory[${ri}].supplier=this.value;markDirty();"></td>
+          onchange="if(${ri}>=0){PACKAGING.inventory[${ri}].supplier=this.value;markDirty();}"></td>
         <td><input type="text" class="form-input" value="${esc(item.sku||'')}" style="width:80px;"
-          onchange="PACKAGING.inventory[${ri}].sku=this.value;markDirty();"></td>
+          onchange="if(${ri}>=0){PACKAGING.inventory[${ri}].sku=this.value;markDirty();}"></td>
         <td style="white-space:nowrap;">
           <input type="number" class="form-input" value="${item.purchaseQty||0}" min="0" step="0.01" style="width:90px;"
-            onchange="PACKAGING.inventory[${ri}].purchaseQty=parseFloat(this.value)||0;markDirty();">
+            onchange="if(${ri}>=0){PACKAGING.inventory[${ri}].purchaseQty=parseFloat(this.value)||0;markDirty();}">
           <input type="text" class="form-input" value="${esc(item.purchaseUnit||'g')}" style="width:36px;"
-            onchange="PACKAGING.inventory[${ri}].purchaseUnit=this.value;markDirty();">
+            onchange="if(${ri}>=0){PACKAGING.inventory[${ri}].purchaseUnit=this.value;markDirty();}">
         </td>
         <td><input type="text" class="form-input" value="${esc(item.notes||'')}"
           onchange="PACKAGING.inventory[${ri}].notes=this.value;markDirty();"></td>
@@ -11010,15 +11004,75 @@ async function pullFromGitHub(manual) {
   }
 }
 
-// ── STARTUP LOAD: GitHub first, localStorage fallback ────────────────────────
+// ── STARTUP LOAD: compare GitHub vs localStorage timestamps, use newer ────────
 async function loadDataWithGitHub() {
-  if (hasGHConfig()) {
-    ghLog('Startup: fetching latest data from GitHub…');
-    const ok = await pullFromGitHub(false);
-    if (ok) { ghLog('Startup: loaded from GitHub.'); return; }
-    ghLog('Startup: GitHub unavailable — loading from localStorage.');
+  if (!hasGHConfig()) { loadData(); return; }
+
+  // Read localStorage timestamp before potentially overwriting it
+  let localSavedAt = null;
+  try {
+    const local = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    localSavedAt = local.savedAt ? new Date(local.savedAt) : null;
+  } catch(e) {}
+
+  ghLog('Startup: fetching latest data from GitHub…');
+  try {
+    const branch = _ghConfig.branch || GH_BRANCH;
+    const repo   = _ghConfig.repo   || GH_REPO;
+    const url = 'https://raw.githubusercontent.com/' + repo + '/' + branch +
+                '/' + GH_DATA_FILE + '?t=' + Date.now();
+    const r = await fetch(url);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+
+    const d = await r.json();
+    if (!d.beers || !d.history) throw new Error('Missing beers or history');
+
+    const ghSavedAt = d.savedAt ? new Date(d.savedAt) : null;
+
+    // If localStorage is NEWER than GitHub, keep localStorage and push it to
+    // GitHub to bring it back in sync — this handles the case where a save
+    // succeeded to localStorage but the GitHub push failed or hadn't completed.
+    if (localSavedAt && ghSavedAt && localSavedAt > ghSavedAt) {
+      ghLog('Startup: localStorage (' + localSavedAt.toLocaleTimeString() +
+            ') is newer than GitHub (' + ghSavedAt.toLocaleTimeString() +
+            ') — keeping local data and pushing to GitHub.');
+      loadData();  // load from localStorage
+      // Push the newer local data back to GitHub to sync it
+      pushToGitHub(false).catch(e => console.warn('Startup re-sync push failed:', e.message));
+      return;
+    }
+
+    // GitHub is newer (or timestamps unavailable) — load from GitHub
+    const savedBFCreds = { ...BF_CREDS };
+    BEERS = d.beers;
+    BEERS.forEach(b => {
+      if (!b.lane) {
+        if (b.type === 'IPA')        b.lane = 'ipa';
+        else if (b.type === 'Lager') b.lane = 'lager';
+        else                         b.lane = 'flex';
+      }
+    });
+    BREW_HISTORY   = d.history      || [];
+    OVERRIDES      = d.overrides    || {};
+    KEG_SETTINGS   = d.kegSettings  || { ...DEFAULT_KEG };
+    USAGE_LOG      = d.usageLog     || [];
+    PACKAGING      = d.packaging    || JSON.parse(JSON.stringify(DEFAULT_PACKAGING));
+    if (!PACKAGING.inventory)         PACKAGING.inventory = [];
+    if (!PACKAGING.ingredientAliases) PACKAGING.ingredientAliases = [];
+    KEG_OVERRIDES  = d.kegOverrides  || {};
+    BF_BATCH_CACHE = d.bfBatchCache  || {};
+    if (d.appVersion) setAppVersion(d.appVersion);
+    BF_CREDS = savedBFCreds;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(getDataObject()));
+
+    ghLog('Startup: loaded from GitHub (' +
+          (ghSavedAt ? ghSavedAt.toLocaleString() : 'no timestamp') + ').');
+    ghStatus('✓ Loaded ' + new Date().toISOString().slice(0,16).replace('T',' '), 'var(--hops)');
+
+  } catch(e) {
+    ghLog('Startup: GitHub unavailable (' + e.message + ') — loading from localStorage.');
+    loadData();
   }
-  loadData();
 }
 
 // ── STARTUP: GitHub first, localStorage fallback ──────────────────────────
