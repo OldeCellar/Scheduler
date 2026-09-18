@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.5-20260918",
-  "savedAt": "2026-09-18T13:21:31.470Z",
+  "savedAt": "2026-09-18T13:25:19.453Z",
   "beers": [
     {
       "id": 1,
@@ -1980,11 +1980,8 @@
       "reason": "No brew"
     },
     "2026-09-26": {
-      "beer": "Pliny the Elder",
-      "tank": "Tank 02",
-      "notes": "",
-      "batch": null,
-      "seq": null
+      "skip": true,
+      "reason": "Manual skip"
     }
   },
   "kegSettings": {
