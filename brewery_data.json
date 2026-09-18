@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.5-20260918",
-  "savedAt": "2026-09-18T23:54:05.865Z",
+  "savedAt": "2026-09-18T23:56:29.245Z",
   "beers": [
     {
       "id": 1,
@@ -30,7 +30,7 @@
       "m": 7,
       "total": 28,
       "lane": "ipa",
-      "rotationOrder": 1,
+      "rotationOrder": 4,
       "target": null,
       "note": "",
       "seqStart": 1,
@@ -377,6 +377,24 @@
       "note": "",
       "enabled": true,
       "id": 20
+    },
+    {
+      "name": "White Lotus",
+      "style": "Other",
+      "type": "Other",
+      "cat": "filler",
+      "lane": "flex",
+      "pri": 3,
+      "t": 21,
+      "m": 7,
+      "total": 28,
+      "rotationOrder": null,
+      "target": null,
+      "targets": null,
+      "seqStart": null,
+      "note": "",
+      "enabled": true,
+      "id": 21
     }
   ],
   "history": [
