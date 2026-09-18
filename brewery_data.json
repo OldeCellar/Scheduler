@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.5-20260918",
-  "savedAt": "2026-09-18T23:50:57.938Z",
+  "savedAt": "2026-09-18T23:54:05.865Z",
   "beers": [
     {
       "id": 1,
@@ -24,17 +24,18 @@
       "name": "Zephyr",
       "style": "IPA",
       "type": "IPA",
-      "cat": "filler",
+      "cat": "core brand",
       "pri": 3,
       "t": 21,
       "m": 7,
       "total": 28,
-      "lane": "flex",
+      "lane": "ipa",
       "rotationOrder": 1,
       "target": null,
       "note": "",
       "seqStart": 1,
-      "enabled": true
+      "enabled": true,
+      "targets": null
     },
     {
       "id": 3,
