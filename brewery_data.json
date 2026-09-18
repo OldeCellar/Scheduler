@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.5-20260918",
-  "savedAt": "2026-09-18T23:56:29.245Z",
+  "savedAt": "2026-09-18T23:58:00.237Z",
   "beers": [
     {
       "id": 1,
@@ -386,15 +386,33 @@
       "lane": "flex",
       "pri": 3,
       "t": 21,
-      "m": 7,
-      "total": 28,
-      "rotationOrder": null,
+      "m": 14,
+      "total": 35,
+      "rotationOrder": 1,
       "target": null,
       "targets": null,
       "seqStart": null,
       "note": "",
       "enabled": true,
       "id": 21
+    },
+    {
+      "name": "Rising Sun",
+      "style": "Ale",
+      "type": "Ale",
+      "cat": "filler",
+      "lane": "flex",
+      "pri": 3,
+      "t": 21,
+      "m": 14,
+      "total": 35,
+      "rotationOrder": 2,
+      "target": null,
+      "targets": null,
+      "seqStart": null,
+      "note": "",
+      "enabled": true,
+      "id": 22
     }
   ],
   "history": [
