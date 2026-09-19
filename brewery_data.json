@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.10-20260919",
-  "savedAt": "2026-09-19T22:50:28.549Z",
+  "savedAt": "2026-09-19T22:52:23.069Z",
   "beers": [
     {
       "id": 1,
@@ -4581,6 +4581,25 @@
           "German Lager Yeast",
           "Pilsner 1 - slant",
           "Pilsner Lager - slant"
+        ]
+      },
+      {
+        "name": "IPA yeast",
+        "category": "Yeast",
+        "bfType": "",
+        "members": [
+          "IPA yeast -Lallemand LalBrew Aurora dry yeast (500g)",
+          "West Coast"
+        ]
+      },
+      {
+        "name": "CALI American Ale",
+        "category": "Yeast",
+        "bfType": "",
+        "members": [
+          "American Ale Yeast",
+          "CALI American Ale",
+          "US-05 slants"
         ]
       }
     ],
