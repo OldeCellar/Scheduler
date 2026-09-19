@@ -1,6 +1,6 @@
 {
-  "appVersion": "v33.8-20260919",
-  "savedAt": "2026-09-19T11:59:19.909Z",
+  "appVersion": "v33.9-20260919",
+  "savedAt": "2026-09-19T16:49:22.836Z",
   "beers": [
     {
       "id": 1,
@@ -375,24 +375,6 @@
       "note": "",
       "enabled": true,
       "id": 20
-    },
-    {
-      "name": "White Lotus",
-      "style": "Ale",
-      "type": "Ale",
-      "cat": "filler",
-      "lane": "flex",
-      "pri": 3,
-      "t": 21,
-      "m": 14,
-      "total": 35,
-      "rotationOrder": 2,
-      "target": null,
-      "targets": null,
-      "seqStart": null,
-      "note": "",
-      "enabled": true,
-      "id": 21
     }
   ],
   "history": [
@@ -1975,12 +1957,12 @@
       "beerId": 7,
       "seq": 8,
       "date": "2026-09-19",
-      "kegDate": "2026-10-08",
+      "kegDate": "2026-10-07",
       "tank": "Tank 01",
       "dateTapped": "",
       "dateKicked": "",
       "notes": "",
-      "bfStatus": "Planning"
+      "bfStatus": "Fermenting"
     },
     {
       "batch": 570,
@@ -6251,12 +6233,12 @@
       "bfId": "hp9gqxgkCXo7JXxtqqExtElXdxKBeW"
     },
     "569": {
-      "status": "Planning",
-      "kegDate": "2026-10-08",
+      "status": "Fermenting",
+      "kegDate": "2026-10-07",
       "bfBrewDate": "2026-09-19",
       "keggedVol": null,
-      "abv": 5.9,
-      "og": null,
+      "abv": 5.3,
+      "og": 1.05,
       "fg": null,
       "tank": "Tank 01",
       "dateTapped": null,
