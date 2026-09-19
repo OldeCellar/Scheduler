@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.5-20260918",
-  "savedAt": "2026-09-19T00:13:18.828Z",
+  "savedAt": "2026-09-19T00:14:19.826Z",
   "beers": [
     {
       "id": 1,
@@ -380,15 +380,15 @@
     },
     {
       "name": "White Lotus",
-      "style": "Other",
-      "type": "Other",
+      "style": "Ale",
+      "type": "Ale",
       "cat": "filler",
       "lane": "flex",
       "pri": 3,
       "t": 21,
-      "m": 14,
-      "total": 35,
-      "rotationOrder": 1,
+      "m": 7,
+      "total": 28,
+      "rotationOrder": 3,
       "target": null,
       "targets": null,
       "seqStart": null,
