@@ -4970,7 +4970,7 @@ function calcKegDate(bfBottlingDate, brewDate, tankDays, allKegDates) {
 // ════════════════════════════════════════════════════════
 
 // set APP_VERSION and STORAGE_KEY
-let APP_VERSION = 'v33.9-20260919';
+let APP_VERSION = 'v33.10-20260919';
 const STORAGE_KEY = 'brewery_scheduler';  // fixed — version-independent
 
 document.title =
@@ -5133,7 +5133,7 @@ function downloadHtmlFile() {
   if (s2 === source) { alert('Could not locate DEFAULT_PACKAGING markers — download aborted.'); return; }
   source = s2;
 
-  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.9-20260919';");
+  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.10-20260919';");
 
   source = source.replace(/\n<script id="__html_source__">var _HTML_SOURCE_B64_="[A-Za-z0-9+\/=]*";<\/script>\n/, '\n');
 
@@ -5678,33 +5678,13 @@ sortedHist.forEach(h => {
   if (effFree2 > target2.free) { target2.free = effFree2; target2.beerType = beer2.type; }
 });
 
-// Step 2: re-apply seasonal occupancy from Pass 2 placements.
-// IMPORTANT: only apply the NEXT upcoming seasonal per tank — not all future
-// seasonals. This prevents a Feb 2027 seasonal from blocking Tank 02 for
-// months and starving the lager rotation.
-// We find the earliest upcoming seasonal brew per tank and advance tank.free
-// only to that brew's keg date. Pass 4 fills the gaps; tank.free will be
-// further advanced by assignTank as each core/filler brew is placed.
-const _nextSeasonalPerTank = {};
-slots.forEach(slot => {
-  if (!slot.brews || !slot.brews.length) return;
-  const b = slot.brews[0];
-  if (!b || !b.seasonal) return;
-  if (!b.kegDate) return;
-  const sat = slot.sat instanceof Date ? slot.sat : parseDate(slot.sat);
-  if (!sat || sat <= TODAY) return;  // skip past seasonals
-  const tn = b.tank;
-  if (!_nextSeasonalPerTank[tn] || sat < _nextSeasonalPerTank[tn].sat) {
-    _nextSeasonalPerTank[tn] = { sat, kegDate: b.kegDate, name: b.beer.name };
-  }
-});
-// Apply only the next upcoming seasonal per tank
-Object.entries(_nextSeasonalPerTank).forEach(([tn, s]) => {
-  const tank = tanks.find(t => t.name === tn);
-  if (tank && s.kegDate > tank.free) tank.free = s.kegDate;
-});
-
-console.log('[PRE-PASS4] Tank free dates (history + near-seasonals) — T01:',
+// Step 2 intentionally removed.
+// Tank free dates after history replay are sufficient for Pass 4.
+// The wouldBlockSeasonal() helper in Pass 4 prevents scheduling a core/filler
+// brew that would still be fermenting when an upcoming seasonal needs that tank.
+// This avoids the problem of far-future seasonals (Feb 2027 Fiddlers Flame)
+// incorrectly blocking Tank 02 for months.
+console.log('[PRE-PASS4] Tank free dates (history only) — T01:',
   fmtISO(T01.free), 'T02:', fmtISO(T02.free), 'T03:', fmtISO(T03.free));
 
 // PASS 4 - CORE + FILLERS
