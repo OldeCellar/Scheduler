@@ -4970,7 +4970,7 @@ function calcKegDate(bfBottlingDate, brewDate, tankDays, allKegDates) {
 // ════════════════════════════════════════════════════════
 
 // set APP_VERSION and STORAGE_KEY
-let APP_VERSION = 'v33.7-20260918';
+let APP_VERSION = 'v33.8-20260919';
 const STORAGE_KEY = 'brewery_scheduler';  // fixed — version-independent
 
 document.title =
@@ -5133,7 +5133,7 @@ function downloadHtmlFile() {
   if (s2 === source) { alert('Could not locate DEFAULT_PACKAGING markers — download aborted.'); return; }
   source = s2;
 
-  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.7-20260918';");
+  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.8-20260919';");
 
   source = source.replace(/\n<script id="__html_source__">var _HTML_SOURCE_B64_="[A-Za-z0-9+\/=]*";<\/script>\n/, '\n');
 
@@ -5652,14 +5652,16 @@ for (const item of seasonalList) {
 // ───────────────────────────────────────────────────────
 // (Pass 3 removed: Kolsch is now a regular seasonal with multiple target dates)
 
-// ── RESET TANK FREE DATES BEFORE PASS 4 ──────────────────────────────────────
-// The seasonal pass (Pass 2) advances tank.free for every seasonal placed,
-// including 2027 seasonals. This poisons Pass 4 — T02 and T03 appear occupied
-// for a year even though they'll actually be free in weeks.
-// Solution: reset each tank's free date to what history says is physically in
-// each tank RIGHT NOW, then let Pass 4's isFree() check against that.
-// Seasonal slot conflicts are handled by slot.brews.length > 0, not tank.free.
+// ── REBUILD TANK FREE DATES BEFORE PASS 4 ────────────────────────────────────
+// Strategy:
+//   1. Reset to history-only values (removes 2027 contamination from far-future
+//      seasonals that Pass 2 may have advanced tank.free to).
+//   2. Re-apply occupancy from seasonals placed in Pass 2, BUT only for those
+//      within the 52-week schedule window. This preserves the correct sequencing:
+//      seasonals place first, Pass 4 fills around them, no double-booking.
 [T01, T02, T03].forEach(t => { t.free = new Date(0); });
+
+// Step 1: history replay
 sortedHist.forEach(h => {
   const beer2 = (h.beerId != null)
     ? (BEERS.find(b => b.id === h.beerId) || beerByName(h.name))
@@ -5668,14 +5670,28 @@ sortedHist.forEach(h => {
   const brewDate2 = parseDate(h.date);
   const kegDate2  = h.kegDate ? parseDate(h.kegDate) : calcKegDate(null, brewDate2, beer2.t, []);
   if (!kegDate2) return;
-  const stillIn2   = kegDate2 <= TODAY && isInTank(h);
-  const effFree2   = stillIn2 ? FAR_FUTURE : kegDate2;
-  const named2     = tanks.find(t => t.name === h.tank);
-  const laneTank2  = beer2.lane === 'ipa' ? T01 : beer2.lane === 'lager' ? T02 : T03;
-  const target2    = named2 || laneTank2;
+  const stillIn2  = kegDate2 <= TODAY && isInTank(h);
+  const effFree2  = stillIn2 ? FAR_FUTURE : kegDate2;
+  const named2    = tanks.find(t => t.name === h.tank);
+  const laneTank2 = beer2.lane === 'ipa' ? T01 : beer2.lane === 'lager' ? T02 : T03;
+  const target2   = named2 || laneTank2;
   if (effFree2 > target2.free) { target2.free = effFree2; target2.beerType = beer2.type; }
 });
-console.log('[PRE-PASS4] Tank free dates after history reset — T01:',
+
+// Step 2: re-apply seasonal occupancy from Pass 2 placements (within 52-week window only)
+// This ensures Pass 4 sees Tank 02 as occupied Oct 3–Oct 21 (Czech Mate) before
+// deciding whether Dark Side of the Moon can go there on Oct 17.
+const scheduleEndDate = addDays(TODAY, 52 * 7);
+slots.forEach(slot => {
+  if (!slot.brews || !slot.brews.length) return;
+  const b = slot.brews[0];
+  if (!b || !b.seasonal) return;                          // only seasonal brews
+  if (!b.kegDate || b.kegDate > scheduleEndDate) return; // skip far-future
+  const tank = tanks.find(t => t.name === b.tank);
+  if (tank && b.kegDate > tank.free) tank.free = b.kegDate;
+});
+
+console.log('[PRE-PASS4] Tank free dates (history + near-seasonals) — T01:',
   fmtISO(T01.free), 'T02:', fmtISO(T02.free), 'T03:', fmtISO(T03.free));
 
 // PASS 4 - CORE + FILLERS
