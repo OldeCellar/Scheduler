@@ -15,6 +15,7 @@ jobs:
         uses: actions/checkout@v4
         with:
             persist-credentials: true
+      
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -159,6 +160,8 @@ jobs:
           PYEOF
 
       - name: Commit updated brewery_data.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -170,5 +173,4 @@ jobs:
             git commit -m "BF sync $(date -u '+%Y-%m-%d %H:%M UTC')"
             git push
           fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
