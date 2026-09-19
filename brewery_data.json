@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.9-20260919",
-  "savedAt": "2026-09-19T16:51:05.901Z",
+  "savedAt": "2026-09-19T16:52:12.749Z",
   "beers": [
     {
       "id": 1,
@@ -378,8 +378,8 @@
     },
     {
       "name": "Rising Sun",
-      "style": "IPA",
-      "type": "IPA",
+      "style": "Ale",
+      "type": "Ale",
       "cat": "filler",
       "lane": "flex",
       "pri": 3,
@@ -393,6 +393,24 @@
       "note": "",
       "enabled": true,
       "id": 21
+    },
+    {
+      "name": "White Lotus",
+      "style": "Ale",
+      "type": "Ale",
+      "cat": "filler",
+      "lane": "flex",
+      "pri": 3,
+      "t": 21,
+      "m": 7,
+      "total": 28,
+      "rotationOrder": 2,
+      "target": null,
+      "targets": null,
+      "seqStart": null,
+      "note": "",
+      "enabled": true,
+      "id": 22
     }
   ],
   "history": [
