@@ -4970,7 +4970,7 @@ function calcKegDate(bfBottlingDate, brewDate, tankDays, allKegDates) {
 // ════════════════════════════════════════════════════════
 
 // set APP_VERSION and STORAGE_KEY
-let APP_VERSION = 'v33.11-20260919';
+let APP_VERSION = 'v33.10-20260919';
 const STORAGE_KEY = 'brewery_scheduler';  // fixed — version-independent
 
 document.title =
@@ -5133,7 +5133,7 @@ function downloadHtmlFile() {
   if (s2 === source) { alert('Could not locate DEFAULT_PACKAGING markers — download aborted.'); return; }
   source = s2;
 
-  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.11-20260919';");
+  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.10-20260919';");
 
   source = source.replace(/\n<script id="__html_source__">var _HTML_SOURCE_B64_="[A-Za-z0-9+\/=]*";<\/script>\n/, '\n');
 
@@ -5247,23 +5247,6 @@ function rebuildSchedule() {
           ' (next brew = #' + beer.seqStart + ')'
         );
       }
-    }
-  });
-
-  // Fix seq numbers on future/planning BF batches — BF assigns seq=1 for new
-  // batches but our seqCounter knows the real next sequence number.
-  // Override any history entry whose brew date is in the future OR whose seq
-  // is lower than what the counter says it should be.
-  BREW_HISTORY.forEach(h => {
-    const beerDef = beerByName(h.name);
-    if (!beerDef) return;
-    const expectedSeq = (seqCounter[beerDef.name] || 0) + 1;
-    const brewDate = parseDate(h.date);
-    const isFuture = brewDate && brewDate > TODAY;
-    // If this is a future/planning batch with a suspiciously low seq, fix it
-    if (isFuture && h.seq && h.seq < expectedSeq) {
-      h.seq = expectedSeq;
-      seqCounter[beerDef.name] = expectedSeq;
     }
   });
 
@@ -5797,17 +5780,9 @@ for (const slot of slots) {
   const nextLager  = lagers[lagerIdx % lagers.length];
   const nextFiller = fillers[fillerIdx % fillers.length];
 
-  // isFreeP4: tank must be free by both history (tank.free) AND seasonal
-  // occupancy tracker (_p2TankFree) AND the new brew must not block an
-  // upcoming seasonal (wouldBlockSeasonal)
-  const p2Free = tn => !_p2TankFree[tn] || _p2TankFree[tn] <= sat;
-
-  const t01Free = isFree(T01, sat) && p2Free('Tank 01') &&
-                  !(nextIPA   && wouldBlockSeasonal(T01, sat, nextIPA.t));
-  const t02Free = isFree(T02, sat) && p2Free('Tank 02') &&
-                  !(nextLager  && wouldBlockSeasonal(T02, sat, nextLager.t));
-  const t03Free = isFree(T03, sat) && p2Free('Tank 03') &&
-                  !(nextFiller && wouldBlockSeasonal(T03, sat, (nextFiller||{}).t||21));
+  const t01Free = isFree(T01, sat) && !(nextIPA   && wouldBlockSeasonal(T01, sat, nextIPA.t));
+  const t02Free = isFree(T02, sat) && !(nextLager  && wouldBlockSeasonal(T02, sat, nextLager.t));
+  const t03Free = isFree(T03, sat) && !(nextFiller && wouldBlockSeasonal(T03, sat, (nextFiller||{}).t||21));
 
   // PRIORITY WATERFALL — one brew per Saturday, highest priority first
   if (ipaCore.length && t01Free) {
