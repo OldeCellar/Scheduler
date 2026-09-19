@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.10-20260919",
-  "savedAt": "2026-09-19T22:48:47.058Z",
+  "savedAt": "2026-09-19T22:50:28.549Z",
   "beers": [
     {
       "id": 1,
@@ -4571,7 +4571,19 @@
         "bf_lotNo": ""
       }
     ],
-    "ingredientAliases": [],
+    "ingredientAliases": [
+      {
+        "name": "Lager yeast",
+        "category": "Yeast",
+        "bfType": "Lager",
+        "members": [
+          "Berlin Lager yeast",
+          "German Lager Yeast",
+          "Pilsner 1 - slant",
+          "Pilsner Lager - slant"
+        ]
+      }
+    ],
     "orders": []
   },
   "kegOverrides": {},
