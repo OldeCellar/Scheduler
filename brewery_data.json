@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.10-20260919",
-  "savedAt": "2026-09-19T22:53:31.513Z",
+  "savedAt": "2026-09-19T22:54:41.308Z",
   "beers": [
     {
       "id": 1,
@@ -4610,6 +4610,16 @@
           "Kolsch saved from batch #519",
           "Kolsch-Style Hybrid Ale",
           "WLP029 Kolsch from slant"
+        ]
+      },
+      {
+        "name": "Irish Ale yeast",
+        "category": "Yeast",
+        "bfType": "",
+        "members": [
+          "ENGLISH  Ale",
+          "Wyeast 1084 Irish Ale",
+          "Wyeast 1084 Irish Ale salvaged"
         ]
       }
     ],
