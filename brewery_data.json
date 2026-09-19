@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.10-20260919",
-  "savedAt": "2026-09-19T22:17:36.882Z",
+  "savedAt": "2026-09-19T22:45:20.277Z",
   "beers": [
     {
       "id": 1,
@@ -1359,7 +1359,7 @@
       "seq": 1,
       "date": "2025-06-28",
       "kegDate": "2025-07-15",
-      "tank": "",
+      "tank": "Tank 01",
       "dateTapped": "2025-07-23",
       "dateKicked": "2025-09-23",
       "notes": "",
@@ -1567,7 +1567,7 @@
       "seq": 4,
       "date": "2025-12-06",
       "kegDate": "2025-12-23",
-      "tank": "",
+      "tank": "Tank 01",
       "dateTapped": "2025-12-23",
       "dateKicked": "2026-03-14",
       "notes": "",
@@ -2004,9 +2004,9 @@
     },
     {
       "batch": 570,
-      "name": "Czech Mate ",
+      "name": "Czech Mate",
       "beerId": 4,
-      "seq": 1,
+      "seq": 10,
       "date": "2026-09-26",
       "kegDate": "2026-10-18",
       "tank": "Tank 02",
@@ -2018,7 +2018,7 @@
     {
       "batch": 571,
       "name": "Rising Sun",
-      "beerId": null,
+      "beerId": 21,
       "seq": 1,
       "date": "2026-10-03",
       "kegDate": "2026-10-18",
@@ -6295,7 +6295,7 @@
       "tank": "Tank 02",
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Czech Mate ",
+      "recipeName": "Czech Mate",
       "bfId": "yac6lOlm9mhXkOMibjnc5aEaQ16780"
     },
     "571": {
