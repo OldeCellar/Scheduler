@@ -4970,7 +4970,7 @@ function calcKegDate(bfBottlingDate, brewDate, tankDays, allKegDates) {
 // ════════════════════════════════════════════════════════
 
 // set APP_VERSION and STORAGE_KEY
-let APP_VERSION = 'v33.8-20260919';
+let APP_VERSION = 'v33.9-20260919';
 const STORAGE_KEY = 'brewery_scheduler';  // fixed — version-independent
 
 document.title =
@@ -5133,7 +5133,7 @@ function downloadHtmlFile() {
   if (s2 === source) { alert('Could not locate DEFAULT_PACKAGING markers — download aborted.'); return; }
   source = s2;
 
-  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.8-20260919';");
+  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.9-20260919';");
 
   source = source.replace(/\n<script id="__html_source__">var _HTML_SOURCE_B64_="[A-Za-z0-9+\/=]*";<\/script>\n/, '\n');
 
@@ -5678,17 +5678,30 @@ sortedHist.forEach(h => {
   if (effFree2 > target2.free) { target2.free = effFree2; target2.beerType = beer2.type; }
 });
 
-// Step 2: re-apply seasonal occupancy from Pass 2 placements (within 52-week window only)
-// This ensures Pass 4 sees Tank 02 as occupied Oct 3–Oct 21 (Czech Mate) before
-// deciding whether Dark Side of the Moon can go there on Oct 17.
-const scheduleEndDate = addDays(TODAY, 52 * 7);
+// Step 2: re-apply seasonal occupancy from Pass 2 placements.
+// IMPORTANT: only apply the NEXT upcoming seasonal per tank — not all future
+// seasonals. This prevents a Feb 2027 seasonal from blocking Tank 02 for
+// months and starving the lager rotation.
+// We find the earliest upcoming seasonal brew per tank and advance tank.free
+// only to that brew's keg date. Pass 4 fills the gaps; tank.free will be
+// further advanced by assignTank as each core/filler brew is placed.
+const _nextSeasonalPerTank = {};
 slots.forEach(slot => {
   if (!slot.brews || !slot.brews.length) return;
   const b = slot.brews[0];
-  if (!b || !b.seasonal) return;                          // only seasonal brews
-  if (!b.kegDate || b.kegDate > scheduleEndDate) return; // skip far-future
-  const tank = tanks.find(t => t.name === b.tank);
-  if (tank && b.kegDate > tank.free) tank.free = b.kegDate;
+  if (!b || !b.seasonal) return;
+  if (!b.kegDate) return;
+  const sat = slot.sat instanceof Date ? slot.sat : parseDate(slot.sat);
+  if (!sat || sat <= TODAY) return;  // skip past seasonals
+  const tn = b.tank;
+  if (!_nextSeasonalPerTank[tn] || sat < _nextSeasonalPerTank[tn].sat) {
+    _nextSeasonalPerTank[tn] = { sat, kegDate: b.kegDate, name: b.beer.name };
+  }
+});
+// Apply only the next upcoming seasonal per tank
+Object.entries(_nextSeasonalPerTank).forEach(([tn, s]) => {
+  const tank = tanks.find(t => t.name === tn);
+  if (tank && s.kegDate > tank.free) tank.free = s.kegDate;
 });
 
 console.log('[PRE-PASS4] Tank free dates (history + near-seasonals) — T01:',
@@ -5740,6 +5753,36 @@ console.log('[Pass4] ipaCore:', ipaCore.map(b=>b.name),
 console.log('[Pass4] ipaIdx:', ipaIdx, 'lagerIdx:', lagerIdx, 'fillerIdx:', fillerIdx);
 console.log('[Pass4] T01.free:', fmtISO(T01.free), 'T02.free:', fmtISO(T02.free), 'T03.free:', fmtISO(T03.free));
 
+// Build a lookup of seasonal brew dates per tank so Pass 4 can avoid
+// scheduling a core/filler brew that would still be fermenting when the
+// seasonal needs that tank.
+// key: tankName, value: sorted array of {brewSat, kegDate} for upcoming seasonals
+const _seasonalSchedule = { 'Tank 01': [], 'Tank 02': [], 'Tank 03': [] };
+slots.forEach(slot => {
+  if (!slot.brews || !slot.brews.length) return;
+  const b = slot.brews[0];
+  if (!b || !b.seasonal) return;
+  const sat2 = slot.sat instanceof Date ? slot.sat : parseDate(slot.sat);
+  if (!sat2 || sat2 <= TODAY) return;
+  if (_seasonalSchedule[b.tank]) {
+    _seasonalSchedule[b.tank].push({ brewSat: sat2, kegDate: b.kegDate });
+  }
+});
+
+// Helper: would placing a brew of tankDays duration in a tank on brewSat
+// conflict with the next upcoming seasonal in that tank?
+function wouldBlockSeasonal(tank, brewSat, tankDays) {
+  const upcoming = (_seasonalSchedule[tank.name] || [])
+    .filter(s => s.brewSat > brewSat)
+    .sort((a, b) => a.brewSat - b.brewSat);
+  if (!upcoming.length) return false;
+  const next = upcoming[0];
+  // The brew would keg at brewSat + tankDays. If that's after the seasonal's
+  // brew date, it would still be fermenting when the seasonal needs the tank.
+  const wouldKegAfter = addDays(brewSat, tankDays);
+  return wouldKegAfter > next.brewSat;
+}
+
 for (const slot of slots) {
   if (slot.flags && slot.flags.skipped) continue;
 
@@ -5752,29 +5795,29 @@ for (const slot of slots) {
   const sat = slot.sat;
   const weekKegDates = [];
 
-  // Advance T01/T02/T03 free dates for any seasonal brews placed
-  // in earlier slots of this loop that affect occupancy going forward
-  // (assignTank already advances tank.free, so isFree() is always current)
+  // Check what's currently free AND won't block an upcoming seasonal
+  const nextIPA    = ipaCore[ipaIdx % ipaCore.length];
+  const nextLager  = lagers[lagerIdx % lagers.length];
+  const nextFiller = fillers[fillerIdx % fillers.length];
 
-  // Check what's currently occupied on this Saturday
-  const t01Free = isFree(T01, sat);
-  const t02Free = isFree(T02, sat);
-  const t03Free = isFree(T03, sat);
+  const t01Free = isFree(T01, sat) && !(nextIPA   && wouldBlockSeasonal(T01, sat, nextIPA.t));
+  const t02Free = isFree(T02, sat) && !(nextLager  && wouldBlockSeasonal(T02, sat, nextLager.t));
+  const t03Free = isFree(T03, sat) && !(nextFiller && wouldBlockSeasonal(T03, sat, (nextFiller||{}).t||21));
 
   // PRIORITY WATERFALL — one brew per Saturday, highest priority first
   if (ipaCore.length && t01Free) {
-    // T01 is free → brew next core IPA
+    // T01 is free and won't block a seasonal → brew next core IPA
     slot.brews.push(assignTank(T01, ipaCore[ipaIdx++ % ipaCore.length], sat, weekKegDates));
 
   } else if (lagers.length && t02Free) {
-    // T02 is free → brew next core Lager
+    // T02 is free and won't block a seasonal → brew next core Lager
     slot.brews.push(assignTank(T02, lagers[lagerIdx++ % lagers.length], sat, weekKegDates));
 
-  } else if (fillers.length && t03Free && !t01Free && !t02Free) {
+  } else if (fillers.length && t03Free && !isFree(T01, sat) && !isFree(T02, sat)) {
     // T03 free AND both core lanes currently occupied → brew filler
     slot.brews.push(assignTank(T03, fillers[fillerIdx++ % fillers.length], sat, weekKegDates));
   }
-  // All occupied or no eligible beer → no brew this Saturday
+  // All occupied or conflict with upcoming seasonal → no brew this Saturday
 }
 
 console.log('[PASS4 DONE] First 10 scheduled:',
