@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.10-20260919",
-  "savedAt": "2026-09-19T23:48:45.564Z",
+  "savedAt": "2026-09-20T00:14:03.159Z",
   "beers": [
     {
       "id": 1,
@@ -2003,17 +2003,13 @@
       "bfStatus": "Fermenting"
     },
     {
-      "batch": 570,
       "name": "Czech Mate",
-      "beerId": 4,
-      "seq": 12,
+      "batch": 570,
+      "seq": 10,
       "date": "2026-09-26",
       "kegDate": "2026-10-13",
       "tank": "Tank 02",
-      "dateTapped": "",
-      "dateKicked": "",
-      "notes": "",
-      "bfStatus": "Planning"
+      "notes": ""
     },
     {
       "batch": 571,
