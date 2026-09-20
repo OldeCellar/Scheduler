@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.12d-20260920",
-  "savedAt": "2026-09-20T19:22:18.057Z",
+  "savedAt": "2026-09-20T19:23:53.943Z",
   "beers": [
     {
       "id": 1,
@@ -290,16 +290,16 @@
       "lane": "flex",
       "rotationOrder": null,
       "target": [
-        12,
-        1
+        11,
+        10
       ],
       "note": "Serve first week of Dec",
       "seqStart": 1,
       "enabled": true,
       "targets": [
         [
-          12,
-          1
+          11,
+          10
         ]
       ]
     },
