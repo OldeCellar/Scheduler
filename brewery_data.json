@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.10-20260919",
-  "savedAt": "2026-09-20T06:09:08.786Z",
+  "savedAt": "2026-09-20T06:11:52.240Z",
   "beers": [
     {
       "id": 1,
@@ -264,12 +264,18 @@
       "lane": "flex",
       "rotationOrder": null,
       "target": [
-        12,
-        1
+        11,
+        17
       ],
       "note": "Serve first week of Dec",
       "seqStart": 1,
-      "enabled": true
+      "enabled": true,
+      "targets": [
+        [
+          11,
+          17
+        ]
+      ]
     },
     {
       "name": "Fiddlers Flame",
@@ -1985,6 +1991,10 @@
       "notes": "",
       "batch": null,
       "seq": null
+    },
+    "2026-10-17": {
+      "skip": true,
+      "reason": "Manual skip"
     }
   },
   "kegSettings": {
