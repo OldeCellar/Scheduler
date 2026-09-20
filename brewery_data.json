@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.10-20260919",
-  "savedAt": "2026-09-20T00:21:32.044Z",
+  "savedAt": "2026-09-20T00:23:09.669Z",
   "beers": [
     {
       "id": 1,
@@ -1952,17 +1952,13 @@
       "bfStatus": "Conditioning"
     },
     {
-      "batch": 566,
       "name": "Golden Dragon",
-      "beerId": 20,
-      "seq": 8,
+      "batch": 566,
+      "seq": 1,
       "date": "2026-08-15",
       "kegDate": "2026-09-23",
       "tank": "Tank 03",
-      "dateTapped": "",
-      "dateKicked": "",
-      "notes": "",
-      "bfStatus": "Fermenting"
+      "notes": ""
     },
     {
       "batch": 567,
