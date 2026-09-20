@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.10-20260919",
-  "savedAt": "2026-09-20T00:57:42.505Z",
+  "savedAt": "2026-09-20T01:09:08.825Z",
   "beers": [
     {
       "id": 1,
@@ -51,7 +51,8 @@
       "target": null,
       "note": "Lager rotation #3",
       "seqStart": 34,
-      "enabled": true
+      "enabled": true,
+      "targets": null
     },
     {
       "id": 4,
@@ -305,7 +306,8 @@
       "seqStart": 22,
       "note": "",
       "enabled": true,
-      "id": 16
+      "id": 16,
+      "targets": null
     },
     {
       "name": "Wheat Vodka",
@@ -2056,6 +2058,13 @@
     "2026-03-21": {
       "skip": true,
       "reason": "No brew"
+    },
+    "2026-11-07": {
+      "beer": "MaiBock",
+      "tank": "Tank 02",
+      "notes": "",
+      "batch": null,
+      "seq": null
     }
   },
   "kegSettings": {
