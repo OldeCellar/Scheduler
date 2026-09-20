@@ -1,6 +1,6 @@
 {
-  "appVersion": "v33.10-20260919",
-  "savedAt": "2026-09-20T06:27:43.581Z",
+  "appVersion": "v33.12-20260920",
+  "savedAt": "2026-09-20T12:17:09.765Z",
   "beers": [
     {
       "id": 1,
@@ -109,18 +109,17 @@
       "name": "Queen Citra",
       "style": "IPA",
       "type": "IPA",
-      "cat": "core brand",
+      "cat": "filler",
       "pri": 3,
       "t": 21,
       "m": 7,
       "total": 28,
-      "lane": "ipa",
+      "lane": "flex",
       "rotationOrder": 3,
       "target": null,
       "note": "Open week filler",
       "seqStart": 1,
-      "enabled": true,
-      "targets": null
+      "enabled": true
     },
     {
       "id": 8,
@@ -264,18 +263,12 @@
       "lane": "flex",
       "rotationOrder": null,
       "target": [
-        11,
-        17
+        12,
+        1
       ],
       "note": "Serve first week of Dec",
       "seqStart": 1,
-      "enabled": true,
-      "targets": [
-        [
-          11,
-          17
-        ]
-      ]
+      "enabled": true
     },
     {
       "name": "Fiddlers Flame",
@@ -1984,10 +1977,6 @@
     "2026-03-21": {
       "skip": true,
       "reason": "No brew"
-    },
-    "2026-10-03": {
-      "skip": true,
-      "reason": "Manual skip"
     }
   },
   "kegSettings": {
