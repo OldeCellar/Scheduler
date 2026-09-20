@@ -4970,7 +4970,7 @@ function calcKegDate(bfBottlingDate, brewDate, tankDays, allKegDates) {
 // ════════════════════════════════════════════════════════
 
 // set APP_VERSION and STORAGE_KEY
-let APP_VERSION = 'v33.12-20260920';
+let APP_VERSION = 'v33.12d-20260920';
 const STORAGE_KEY = 'brewery_scheduler';  // fixed — version-independent
 
 document.title =
@@ -5133,7 +5133,7 @@ function downloadHtmlFile() {
   if (s2 === source) { alert('Could not locate DEFAULT_PACKAGING markers — download aborted.'); return; }
   source = s2;
 
-  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.12-20260920';");
+  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.12d-20260920';");
 
   source = source.replace(/\n<script id="__html_source__">var _HTML_SOURCE_B64_="[A-Za-z0-9+\/=]*";<\/script>\n/, '\n');
 
@@ -5786,9 +5786,17 @@ for (const slot of slots) {
   // This prevents scheduling a filler into T03 the week after a Kolsch
   // (or other seasonal) was placed there, even though tank.free (history-only)
   // doesn't know the seasonal is occupying it.
-  const t03P2Free = !_p2TankFree['Tank 03'] || _p2TankFree['Tank 03'] <= sat;
-  const t03Free = isFree(T03, sat) && t03P2Free &&
-                  !(nextFiller && wouldBlockSeasonal(T03, sat, (nextFiller||{}).t||21));
+  const _p2T03 = _p2TankFree['Tank 03'];
+  const t03P2Free = !_p2T03 || _p2T03 <= sat;
+  const _wbsT03 = !!(nextFiller && wouldBlockSeasonal(T03, sat, (nextFiller||{}).t||21));
+  const t03Free = isFree(T03, sat) && t03P2Free && !_wbsT03;
+  // Debug: log why T03 is blocked in Nov 2026 - Jan 2027
+  if (!t03Free && sat >= new Date('2026-11-01') && sat <= new Date('2027-02-01')) {
+    console.log('[T03 DEBUG]', fmtISO(sat),
+      'isFree:', isFree(T03, sat),
+      'p2Free:', t03P2Free, '(_p2T03='+(_p2T03?fmtISO(_p2T03):'none')+')',
+      'wbs:', _wbsT03);
+  }
 
   // PRIORITY WATERFALL — one brew per Saturday, highest priority first
   if (ipaCore.length && t01Free) {
