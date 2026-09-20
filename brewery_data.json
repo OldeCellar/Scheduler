@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.10-20260919",
-  "savedAt": "2026-09-20T05:59:48.017Z",
+  "savedAt": "2026-09-20T06:06:01.927Z",
   "beers": [
     {
       "id": 1,
@@ -376,42 +376,6 @@
       "note": "",
       "enabled": true,
       "id": 20
-    },
-    {
-      "name": "Rising Sun",
-      "style": "Ale",
-      "type": "Ale",
-      "cat": "filler",
-      "lane": "flex",
-      "pri": 3,
-      "t": 21,
-      "m": 7,
-      "total": 28,
-      "rotationOrder": 1,
-      "target": null,
-      "targets": null,
-      "seqStart": null,
-      "note": "",
-      "enabled": true,
-      "id": 21
-    },
-    {
-      "name": "White Lotus",
-      "style": "Ale",
-      "type": "Ale",
-      "cat": "filler",
-      "lane": "flex",
-      "pri": 3,
-      "t": 21,
-      "m": 14,
-      "total": 35,
-      "rotationOrder": 3,
-      "target": null,
-      "targets": null,
-      "seqStart": null,
-      "note": "",
-      "enabled": true,
-      "id": 22
     }
   ],
   "history": [
@@ -1358,7 +1322,7 @@
       "seq": 1,
       "date": "2025-06-28",
       "kegDate": "2025-07-15",
-      "tank": "Tank 01",
+      "tank": "",
       "dateTapped": "2025-07-23",
       "dateKicked": "2025-09-23",
       "notes": "",
@@ -1371,7 +1335,7 @@
       "seq": 2,
       "date": "2025-07-05",
       "kegDate": "2025-07-23",
-      "tank": "",
+      "tank": "Tank 03",
       "dateTapped": "2025-07-31",
       "dateKicked": "2025-08-07",
       "notes": "",
@@ -1553,7 +1517,7 @@
       "seq": 3,
       "date": "2025-11-22",
       "kegDate": "2025-12-10",
-      "tank": "",
+      "tank": "Tank 03",
       "dateTapped": "2025-12-10",
       "dateKicked": "2026-01-17",
       "notes": "",
@@ -1566,7 +1530,7 @@
       "seq": 4,
       "date": "2025-12-06",
       "kegDate": "2025-12-23",
-      "tank": "Tank 01",
+      "tank": "",
       "dateTapped": "2025-12-23",
       "dateKicked": "2026-03-14",
       "notes": "",
@@ -2014,14 +1978,6 @@
     "2026-03-21": {
       "skip": true,
       "reason": "No brew"
-    },
-    "2026-09-26": {
-      "skip": true,
-      "reason": "Manual skip"
-    },
-    "2026-10-03": {
-      "skip": true,
-      "reason": "Manual skip"
     }
   },
   "kegSettings": {
