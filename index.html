@@ -4970,7 +4970,7 @@ function calcKegDate(bfBottlingDate, brewDate, tankDays, allKegDates) {
 // ════════════════════════════════════════════════════════
 
 // set APP_VERSION and STORAGE_KEY
-let APP_VERSION = 'v33.12d-20260920';
+let APP_VERSION = 'v33.13-20260920';
 const STORAGE_KEY = 'brewery_scheduler';  // fixed — version-independent
 
 document.title =
@@ -5133,7 +5133,7 @@ function downloadHtmlFile() {
   if (s2 === source) { alert('Could not locate DEFAULT_PACKAGING markers — download aborted.'); return; }
   source = s2;
 
-  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.12d-20260920';");
+  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.13-20260920';");
 
   source = source.replace(/\n<script id="__html_source__">var _HTML_SOURCE_B64_="[A-Za-z0-9+\/=]*";<\/script>\n/, '\n');
 
@@ -5786,17 +5786,24 @@ for (const slot of slots) {
   // This prevents scheduling a filler into T03 the week after a Kolsch
   // (or other seasonal) was placed there, even though tank.free (history-only)
   // doesn't know the seasonal is occupying it.
-  const _p2T03 = _p2TankFree['Tank 03'];
-  const t03P2Free = !_p2T03 || _p2T03 <= sat;
-  const _wbsT03 = !!(nextFiller && wouldBlockSeasonal(T03, sat, (nextFiller||{}).t||21));
-  const t03Free = isFree(T03, sat) && t03P2Free && !_wbsT03;
-  // Debug: log why T03 is blocked in Nov 2026 - Jan 2027
-  if (!t03Free && sat >= new Date('2026-11-01') && sat <= new Date('2027-02-01')) {
-    console.log('[T03 DEBUG]', fmtISO(sat),
-      'isFree:', isFree(T03, sat),
-      'p2Free:', t03P2Free, '(_p2T03='+(_p2T03?fmtISO(_p2T03):'none')+')',
-      'wbs:', _wbsT03);
-  }
+  // T03 is free if:
+  // 1. History says tank is free (isFree)
+  // 2. No seasonal brew is currently occupying T03 on this Saturday
+  //    (check slot array directly — avoids _p2TankFree accumulation bug
+  //     where a Nov 2027 seasonal blocks T03 for an entire year)
+  // 3. A filler brew placed now won't still be fermenting when the next
+  //    T03 seasonal needs the tank (wouldBlockSeasonal)
+  const t03SeasonalOccupied = slots.some(s => {
+    if (!s.brews || !s.brews.length) return false;
+    const b = s.brews[0];
+    if (!b || b.tank !== 'Tank 03') return false;
+    const brewSat = s.sat instanceof Date ? s.sat : parseDate(s.sat);
+    if (!brewSat || !b.kegDate) return false;
+    // Is this Saturday within the fermenting window of a T03 brew?
+    return sat > brewSat && sat < b.kegDate;
+  });
+  const t03Free = isFree(T03, sat) && !t03SeasonalOccupied &&
+                  !(nextFiller && wouldBlockSeasonal(T03, sat, (nextFiller||{}).t||21));
 
   // PRIORITY WATERFALL — one brew per Saturday, highest priority first
   if (ipaCore.length && t01Free) {
