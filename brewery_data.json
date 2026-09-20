@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.10-20260919",
-  "savedAt": "2026-09-20T00:20:13.943Z",
+  "savedAt": "2026-09-20T00:21:32.044Z",
   "beers": [
     {
       "id": 1,
@@ -86,7 +86,8 @@
       "target": null,
       "note": "Lager rotation #3",
       "seqStart": 1,
-      "enabled": true
+      "enabled": true,
+      "targets": null
     },
     {
       "id": 6,
@@ -373,7 +374,7 @@
       "rotationOrder": 4,
       "target": null,
       "targets": null,
-      "seqStart": 8,
+      "seqStart": 1,
       "note": "",
       "enabled": true,
       "id": 20
