@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.10-20260919",
-  "savedAt": "2026-09-20T06:11:52.240Z",
+  "savedAt": "2026-09-20T06:14:05.693Z",
   "beers": [
     {
       "id": 1,
@@ -1984,17 +1984,6 @@
     "2026-03-21": {
       "skip": true,
       "reason": "No brew"
-    },
-    "2026-09-26": {
-      "beer": "Dark Side of the Moon",
-      "tank": "Tank 02",
-      "notes": "",
-      "batch": null,
-      "seq": null
-    },
-    "2026-10-17": {
-      "skip": true,
-      "reason": "Manual skip"
     }
   },
   "kegSettings": {
