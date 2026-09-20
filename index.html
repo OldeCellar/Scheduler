@@ -4970,7 +4970,7 @@ function calcKegDate(bfBottlingDate, brewDate, tankDays, allKegDates) {
 // ════════════════════════════════════════════════════════
 
 // set APP_VERSION and STORAGE_KEY
-let APP_VERSION = 'v33.13-20260920';
+let APP_VERSION = 'v33.14-20260920';
 const STORAGE_KEY = 'brewery_scheduler';  // fixed — version-independent
 
 document.title =
@@ -5133,7 +5133,7 @@ function downloadHtmlFile() {
   if (s2 === source) { alert('Could not locate DEFAULT_PACKAGING markers — download aborted.'); return; }
   source = s2;
 
-  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.13-20260920';");
+  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.14-20260920';");
 
   source = source.replace(/\n<script id="__html_source__">var _HTML_SOURCE_B64_="[A-Za-z0-9+\/=]*";<\/script>\n/, '\n');
 
@@ -11053,62 +11053,35 @@ async function pullFromGitHub(manual) {
     // Preserve local credentials — never overwrite from GitHub
     const savedBFCreds = { ...BF_CREDS };
 
-    // Preserve manually entered inventory fields before overwriting PACKAGING.
-    // BF-sourced structure comes from GitHub, but local onHand/minStock/supplier/
-    // sku/purchaseQty/purchaseUnit values always win — they are the source of truth
-    // for what you physically have on hand and where you buy it.
-    const _localInvFields = {};
-    (PACKAGING.inventory || []).forEach(item => {
-      const key = item.bf_id || (item.type + '|' + item.name);
-      _localInvFields[key] = {
-        onHand:       item.onHand,
-        minStock:     item.minStock,
-        supplier:     item.supplier,
-        sku:          item.sku,
-        purchaseQty:  item.purchaseQty,
-        purchaseUnit: item.purchaseUnit,
-      };
-    });
+    // ── SELECTIVE MERGE: only update BF-owned data ─────────────────────────
+    // NEVER overwrite: BEERS, PACKAGING, OVERRIDES, KEG_SETTINGS, KEG_OVERRIDES
+    // These are user-owned and must only change via the app UI.
+    // ALWAYS update: BREW_HISTORY (merge by batch#), BF_BATCH_CACHE, USAGE_LOG
 
-    // Load pulled data into app
-    BEERS          = d.beers;
-    BEERS.forEach(b => {
-      if (!b.lane) {
-        if (b.type === 'IPA')        b.lane = 'ipa';
-        else if (b.type === 'Lager') b.lane = 'lager';
-        else                         b.lane = 'flex';
+    // Merge history by batch number
+    const _pullHistByBatch = {};
+    BREW_HISTORY.forEach(h => { if (h.batch) _pullHistByBatch[h.batch] = h; });
+    (d.history || []).forEach(gh => {
+      if (!gh.batch) return;
+      if (_pullHistByBatch[gh.batch]) {
+        // Update BF-owned fields only
+        const ex = _pullHistByBatch[gh.batch];
+        if (gh.bfStatus) ex.bfStatus = gh.bfStatus;
+        if (gh.kegDate)  ex.kegDate  = gh.kegDate;
+        if (gh.date)     ex.date      = gh.date;
+      } else {
+        BREW_HISTORY.push(gh);
+        _pullHistByBatch[gh.batch] = gh;
       }
     });
-    BREW_HISTORY   = d.history      || [];
-    OVERRIDES      = d.overrides    || {};
-    KEG_SETTINGS   = d.kegSettings  || { ...DEFAULT_KEG };
-    USAGE_LOG      = d.usageLog     || [];
-    PACKAGING      = d.packaging    || JSON.parse(JSON.stringify(DEFAULT_PACKAGING));
-    if (!PACKAGING.inventory)         PACKAGING.inventory = [];
-    if (!PACKAGING.ingredientAliases) PACKAGING.ingredientAliases = [];
+    BREW_HISTORY.sort((a, b) => (a.batch || 0) - (b.batch || 0));
 
-    // Restore manually entered values — these survive a GitHub pull
-    PACKAGING.inventory.forEach(item => {
-      const key = item.bf_id || (item.type + '|' + item.name);
-      const loc = _localInvFields[key];
-      if (!loc) return;
-      if (loc.onHand       != null) item.onHand       = loc.onHand;
-      if (loc.minStock     != null) item.minStock      = loc.minStock;
-      if (loc.supplier     != null) item.supplier      = loc.supplier;
-      if (loc.sku          != null) item.sku           = loc.sku;
-      if (loc.purchaseQty  != null) item.purchaseQty   = loc.purchaseQty;
-      if (loc.purchaseUnit != null) item.purchaseUnit  = loc.purchaseUnit;
-    });
+    BF_BATCH_CACHE = d.bfBatchCache || BF_BATCH_CACHE || {};
+    if (d.usageLog && d.usageLog.length > (USAGE_LOG||[]).length) USAGE_LOG = d.usageLog;
 
-    KEG_OVERRIDES  = d.kegOverrides  || {};
-    BF_BATCH_CACHE = d.bfBatchCache  || {};
-    if (d.appVersion) setAppVersion(d.appVersion);
-
-    // Restore local credentials
     BF_CREDS = savedBFCreds;
-
-    // Write to localStorage as offline cache
     localStorage.setItem(STORAGE_KEY, JSON.stringify(getDataObject()));
+
 
     const ts = new Date().toLocaleTimeString();
     ghLog('✓ Pulled from GitHub — ' + d.history.length + ' history entries, ' +
@@ -11164,49 +11137,52 @@ async function loadDataWithGitHub() {
     // GitHub is newer (or timestamps unavailable) — load from GitHub
     const savedBFCreds = { ...BF_CREDS };
 
-    // Save local inventory manual fields before overwriting
-    const localInvFields = {};
-    (PACKAGING.inventory || []).forEach(item => {
-      const key = item.bf_id || (item.type + '|' + item.name);
-      localInvFields[key] = {
-        onHand: item.onHand, minStock: item.minStock,
-        supplier: item.supplier, sku: item.sku,
-        purchaseQty: item.purchaseQty, purchaseUnit: item.purchaseUnit,
-      };
-    });
+    // ── SELECTIVE MERGE ON STARTUP ─────────────────────────────────────────
+    // First time on this browser (no localStorage): take everything from GitHub.
+    // Returning session: only merge BF-owned data, keep local user-owned data.
+    const _startRaw = localStorage.getItem(STORAGE_KEY);
+    const _hasLocal = !!(_startRaw && JSON.parse(_startRaw || '{}').beers);
 
-    BEERS = d.beers;
-    BEERS.forEach(b => {
-      if (!b.lane) {
-        if (b.type === 'IPA')        b.lane = 'ipa';
-        else if (b.type === 'Lager') b.lane = 'lager';
-        else                         b.lane = 'flex';
-      }
-    });
-    BREW_HISTORY   = d.history      || [];
-    OVERRIDES      = d.overrides    || {};
-    KEG_SETTINGS   = d.kegSettings  || { ...DEFAULT_KEG };
-    USAGE_LOG      = d.usageLog     || [];
-    PACKAGING      = d.packaging    || JSON.parse(JSON.stringify(DEFAULT_PACKAGING));
-    if (!PACKAGING.inventory)         PACKAGING.inventory = [];
-    if (!PACKAGING.ingredientAliases) PACKAGING.ingredientAliases = [];
+    if (!_hasLocal) {
+      // First-time load — take everything from GitHub
+      BEERS = d.beers || BEERS;
+      BEERS.forEach(b => {
+        if (!b.lane) {
+          b.lane = b.type==='IPA' ? 'ipa' : b.type==='Lager' ? 'lager' : 'flex';
+        }
+      });
+      BREW_HISTORY  = d.history      || [];
+      OVERRIDES     = d.overrides    || {};
+      KEG_SETTINGS  = d.kegSettings  || { ...DEFAULT_KEG };
+      USAGE_LOG     = d.usageLog     || [];
+      PACKAGING     = d.packaging    || JSON.parse(JSON.stringify(DEFAULT_PACKAGING));
+      if (!PACKAGING.inventory)         PACKAGING.inventory = [];
+      if (!PACKAGING.ingredientAliases) PACKAGING.ingredientAliases = [];
+      KEG_OVERRIDES  = d.kegOverrides  || {};
+      BF_BATCH_CACHE = d.bfBatchCache  || {};
+      ghLog('Startup: first load on this browser — took all data from GitHub.');
+    } else {
+      // Returning session — merge only BF-owned fields
+      const _sHistByBatch = {};
+      BREW_HISTORY.forEach(h => { if (h.batch) _sHistByBatch[h.batch] = h; });
+      (d.history || []).forEach(gh => {
+        if (!gh.batch) return;
+        if (_sHistByBatch[gh.batch]) {
+          const ex = _sHistByBatch[gh.batch];
+          if (gh.bfStatus) ex.bfStatus = gh.bfStatus;
+          if (gh.kegDate)  ex.kegDate  = gh.kegDate;
+          if (gh.date)     ex.date      = gh.date;
+        } else {
+          BREW_HISTORY.push(gh);
+          _sHistByBatch[gh.batch] = gh;
+        }
+      });
+      BREW_HISTORY.sort((a, b) => (a.batch||0) - (b.batch||0));
+      BF_BATCH_CACHE = d.bfBatchCache || BF_BATCH_CACHE || {};
+      if (d.usageLog && d.usageLog.length > (USAGE_LOG||[]).length) USAGE_LOG = d.usageLog;
+      ghLog('Startup: merged history from GitHub, kept local Beer Catalog + inventory.');
+    }
 
-    // Re-apply locally entered values — these survive a GitHub pull
-    PACKAGING.inventory.forEach(item => {
-      const key = item.bf_id || (item.type + '|' + item.name);
-      const local = localInvFields[key];
-      if (!local) return;
-      if (local.onHand       != null) item.onHand       = local.onHand;
-      if (local.minStock     != null) item.minStock      = local.minStock;
-      if (local.supplier     != null) item.supplier      = local.supplier;
-      if (local.sku          != null) item.sku           = local.sku;
-      if (local.purchaseQty  != null) item.purchaseQty   = local.purchaseQty;
-      if (local.purchaseUnit != null) item.purchaseUnit  = local.purchaseUnit;
-    });
-
-    KEG_OVERRIDES  = d.kegOverrides  || {};
-    BF_BATCH_CACHE = d.bfBatchCache  || {};
-    if (d.appVersion) setAppVersion(d.appVersion);
     BF_CREDS = savedBFCreds;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(getDataObject()));
 
