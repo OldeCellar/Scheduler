@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T05:32:04.437Z",
+  "savedAt": "2026-09-21T05:33:10.331Z",
   "beers": [
     {
       "id": 1,
@@ -31471,11 +31471,11 @@
         "type": "Misc",
         "bf_id": "default-aromazyme",
         "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
+        "supplier": "MoreWinePro",
+        "sku": "AD471",
+        "purchaseQty": 0.1,
         "purchaseUnit": "kg",
-        "notes": "",
+        "notes": "$65.99 Sep 20 2026",
         "_fromBF": true,
         "bf_type": "Flavor",
         "bf_use": "Primary",
