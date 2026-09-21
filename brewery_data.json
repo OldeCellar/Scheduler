@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T05:16:55.528Z",
+  "savedAt": "2026-09-21T05:17:11.369Z",
   "beers": [
     {
       "id": 1,
@@ -31175,8 +31175,8 @@
         "type": "Yeast",
         "bf_id": "default-angely-cn36",
         "minStock": 0,
-        "supplier": "",
-        "sku": "",
+        "supplier": "MoreWinePro",
+        "sku": "DY810B",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
         "notes": "",
