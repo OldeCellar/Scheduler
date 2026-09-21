@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T03:37:24.395Z",
+  "savedAt": "2026-09-21T03:38:27.978Z",
   "beers": [
     {
       "id": 1,
@@ -32014,6 +32014,16 @@
           "ENGLISH  Ale",
           "No members yet — add ingredients below",
           "Wyeast 1084 Irish Ale salvaged"
+        ]
+      },
+      {
+        "name": "Kveik yeast",
+        "category": "Yeast",
+        "bfType": "",
+        "members": [
+          "Hornindal Kveik",
+          "Lutra Kveik slant",
+          "Sigmund Gjernes, Voss Kveik"
         ]
       }
     ],
