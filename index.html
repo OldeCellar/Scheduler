@@ -1443,7 +1443,7 @@ hr.divider{border:none;border-top:1px solid var(--border);margin:16px 0;}
       </div>
       <div class="form-row" style="margin-bottom:12px;">
         <label class="form-label">Personal Access Token — stored in this browser only, never pushed to GitHub</label>
-        <input type="password" class="form-input" id="gh-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" style="width:100%;" oninput="ghDirty()">
+        <input type="password" class="form-input" id="gh-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" style="width:100%;" oninput="ghDirty();_autoSavePAT(this.value)">
         <div style="font-size:11px;color:var(--muted);margin-top:4px;">
           Generate at: GitHub → Settings → Developer Settings → Personal Access Tokens → Tokens (classic) → New token → check <strong>repo</strong> scope.
         </div>
@@ -4970,7 +4970,7 @@ function calcKegDate(bfBottlingDate, brewDate, tankDays, allKegDates) {
 // ════════════════════════════════════════════════════════
 
 // set APP_VERSION and STORAGE_KEY
-let APP_VERSION = 'v33.15-20260920';
+let APP_VERSION = 'v33.16-20260921';
 const STORAGE_KEY = 'brewery_scheduler';  // fixed — version-independent
 
 document.title =
@@ -5133,7 +5133,7 @@ function downloadHtmlFile() {
   if (s2 === source) { alert('Could not locate DEFAULT_PACKAGING markers — download aborted.'); return; }
   source = s2;
 
-  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.15-20260920';");
+  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.16-20260921';");
 
   source = source.replace(/\n<script id="__html_source__">var _HTML_SOURCE_B64_="[A-Za-z0-9+\/=]*";<\/script>\n/, '\n');
 
@@ -8847,7 +8847,7 @@ async function renderIngDemand(el){
   if(!rows.length){ html+=`<div class="alert alert-info">No ingredients match the current filters.</div>`; el.innerHTML=html; return; }
 
   html+=`<table class="sched-table"><thead><tr>
-    ${dTh('type','Type')}${dTh('name','Ingredient')}${dTh('totalAmt','Total Needed')}<th>Unit</th>${dTh('onHand','On Hand')}${dTh('orderQty','Order Qty')}<th>Batches &amp; Brew Dates</th>
+    ${dTh('type','Type')}${dTh('name','Ingredient')}${dTh('totalAmt','Total Needed')}${dTh('onHand','On Hand')}${dTh('orderQty','Order Qty')}<th>Batches &amp; Brew Dates</th>
   </tr></thead><tbody>`;
 
   rows.forEach(r=>{
@@ -10889,6 +10889,19 @@ function ghStatus(msg, color) {
 
 function ghDirty() { _ghDirty = true; }
 
+// Auto-save PAT to localStorage as soon as it's entered — don't wait for Save button
+let _patSaveTimer = null;
+function _autoSavePAT(val) {
+  clearTimeout(_patSaveTimer);
+  _patSaveTimer = setTimeout(() => {
+    const trimmed = (val || '').trim();
+    if (!trimmed.startsWith('ghp_') && !trimmed.startsWith('github_pat_')) return;
+    _ghConfig.token = trimmed;
+    localStorage.setItem(GH_CONFIG_KEY, JSON.stringify(_ghConfig));
+    console.log('GH: PAT auto-saved to localStorage');
+  }, 600);  // 600ms debounce
+}
+
 function loadGHConfig() {
   try {
     const raw = localStorage.getItem(GH_CONFIG_KEY);
@@ -11167,7 +11180,8 @@ async function loadDataWithGitHub() {
       if (!PACKAGING.ingredientAliases) PACKAGING.ingredientAliases = [];
       KEG_OVERRIDES  = d.kegOverrides  || {};
       BF_BATCH_CACHE = d.bfBatchCache  || {};
-      ghLog('Startup: first load on this browser — took all data from GitHub.');
+      ghLog('Startup: first load on this browser — loaded all data from GitHub.');
+      ghLog('Tip: if Beer Catalog looks wrong, use Data → GitHub Sync → Push to GitHub to update it.');
     } else {
       // Returning session — merge only BF-owned fields
       const _sHistByBatch = {};
