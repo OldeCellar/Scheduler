@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T03:36:08.799Z",
+  "savedAt": "2026-09-21T03:37:11.017Z",
   "beers": [
     {
       "id": 1,
@@ -32004,6 +32004,15 @@
           "German Lager Yeast",
           "Pilsner 1 - slant",
           "Pilsner Lager - slant"
+        ]
+      },
+      {
+        "name": "English Ale yeast",
+        "category": "Yeast",
+        "bfType": "",
+        "members": [
+          "ENGLISH  Ale",
+          "No members yet — add ingredients below"
         ]
       }
     ],
