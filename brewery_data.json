@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T00:36:40.150Z",
+  "savedAt": "2026-09-21T00:37:15.201Z",
   "beers": [
     {
       "id": 1,
@@ -30,7 +30,7 @@
       "m": 7,
       "total": 28,
       "lane": "flex",
-      "rotationOrder": 2,
+      "rotationOrder": 3,
       "target": null,
       "note": "",
       "seqStart": 1,
