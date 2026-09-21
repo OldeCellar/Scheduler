@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T05:14:45.957Z",
+  "savedAt": "2026-09-21T05:15:34.180Z",
   "beers": [
     {
       "id": 1,
@@ -31134,10 +31134,10 @@
         "name": "IPA yeast -Lallemand LalBrew Aurora dry yeast (500g)",
         "type": "Yeast",
         "bf_id": "1MukDMQQ12jjXeIvqGsqUvQxiVOego",
-        "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
+        "minStock": 150,
+        "supplier": "MoreWinePro",
+        "sku": "DY68B",
+        "purchaseQty": 500,
         "purchaseUnit": "kg",
         "notes": "",
         "_fromBF": true,
