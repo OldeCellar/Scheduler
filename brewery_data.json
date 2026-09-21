@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T05:25:19.123Z",
+  "savedAt": "2026-09-21T05:27:06.166Z",
   "beers": [
     {
       "id": 1,
@@ -31794,12 +31794,12 @@
         "name": "Brutzyme",
         "type": "Misc",
         "bf_id": "uCL5gQPPjT9Z6Gp4zpSRAW3YJFRblU",
-        "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
+        "minStock": 100,
+        "supplier": "MoreWinPro",
+        "sku": "AD107B",
+        "purchaseQty": 0.907,
         "purchaseUnit": "kg",
-        "notes": "",
+        "notes": "32oz bottle",
         "_fromBF": true,
         "bf_type": "Other",
         "bf_use": "Mash",
