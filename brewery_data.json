@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T03:37:11.017Z",
+  "savedAt": "2026-09-21T03:37:24.395Z",
   "beers": [
     {
       "id": 1,
@@ -32012,7 +32012,8 @@
         "bfType": "",
         "members": [
           "ENGLISH  Ale",
-          "No members yet — add ingredients below"
+          "No members yet — add ingredients below",
+          "Wyeast 1084 Irish Ale salvaged"
         ]
       }
     ],
