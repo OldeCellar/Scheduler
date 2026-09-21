@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T00:26:25.433Z",
+  "savedAt": "2026-09-21T00:26:31.068Z",
   "beers": [
     {
       "id": 1,
@@ -2021,6 +2021,10 @@
       "notes": "",
       "batch": null,
       "seq": null
+    },
+    "2026-10-03": {
+      "skip": true,
+      "reason": "Manual skip"
     }
   },
   "kegSettings": {
