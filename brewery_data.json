@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T03:41:07.480Z",
+  "savedAt": "2026-09-21T03:41:41.062Z",
   "beers": [
     {
       "id": 1,
@@ -32053,6 +32053,15 @@
         "members": [
           "Maris Otter",
           "No members yet — add ingredients below"
+        ]
+      },
+      {
+        "name": "Lager malt",
+        "category": "Fermentable",
+        "bfType": "",
+        "members": [
+          "No members yet — add ingredients below",
+          "Pilsner Malt"
         ]
       }
     ],
