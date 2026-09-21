@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T00:24:25.123Z",
+  "savedAt": "2026-09-21T00:25:05.798Z",
   "beers": [
     {
       "id": 1,
@@ -2014,6 +2014,14 @@
     "2026-03-21": {
       "skip": true,
       "reason": "No brew"
+    },
+    "2026-09-26": {
+      "skip": true,
+      "reason": "Manual skip"
+    },
+    "2026-10-03": {
+      "skip": true,
+      "reason": "Manual skip"
     }
   },
   "kegSettings": {
