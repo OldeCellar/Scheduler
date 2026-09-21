@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T05:23:16.615Z",
+  "savedAt": "2026-09-21T05:25:19.123Z",
   "beers": [
     {
       "id": 1,
@@ -31275,8 +31275,8 @@
         "type": "Yeast",
         "bf_id": "default-ow3yfIwJKFl0nQ5COjZxbYoIm8dABS",
         "minStock": 0,
-        "supplier": "",
-        "sku": "",
+        "supplier": "MoreWinePro",
+        "sku": "DY121",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
         "notes": "",
