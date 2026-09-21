@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T05:29:55.934Z",
+  "savedAt": "2026-09-21T05:32:04.437Z",
   "beers": [
     {
       "id": 1,
@@ -31434,12 +31434,12 @@
         "name": "Fermcap-S",
         "type": "Misc",
         "bf_id": "default-c70fea",
-        "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
+        "minStock": 1,
+        "supplier": "MoreWinePro",
+        "sku": "AD290",
+        "purchaseQty": 0.028,
         "purchaseUnit": "kg",
-        "notes": "",
+        "notes": "1oz $3.99 Sep 20 2026",
         "_fromBF": true,
         "bf_type": "Water Agent",
         "bf_use": "Primary",
