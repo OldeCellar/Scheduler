@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T05:22:58.296Z",
+  "savedAt": "2026-09-21T05:23:10.779Z",
   "beers": [
     {
       "id": 1,
@@ -31096,7 +31096,7 @@
         "bf_id": "p9G0kesAMwq7kXM1CFvqAe20Hjbrb3",
         "minStock": 2,
         "supplier": "home made",
-        "sku": "",
+        "sku": "slants",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
         "notes": "",
@@ -31116,7 +31116,7 @@
         "bf_id": "default-ac6944",
         "minStock": 2,
         "supplier": "Home made",
-        "sku": "",
+        "sku": "slants",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
         "notes": "",
