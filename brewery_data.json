@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T03:39:51.767Z",
+  "savedAt": "2026-09-21T03:41:07.480Z",
   "beers": [
     {
       "id": 1,
@@ -32044,6 +32044,15 @@
         "members": [
           "IPA yeast -Lallemand LalBrew Aurora dry yeast (500g)",
           "West Coast"
+        ]
+      },
+      {
+        "name": "Pale Ale base malt",
+        "category": "Fermentable",
+        "bfType": "",
+        "members": [
+          "Maris Otter",
+          "No members yet — add ingredients below"
         ]
       }
     ],
