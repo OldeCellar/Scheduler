@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T05:19:08.994Z",
+  "savedAt": "2026-09-21T05:19:40.467Z",
   "beers": [
     {
       "id": 1,
@@ -31034,9 +31034,9 @@
         "name": "Lutra Kveik slant",
         "type": "Yeast",
         "bf_id": "default-duOYyoZ2UAfdqzfKFMJnWgQ76uDvhT",
-        "minStock": 0,
-        "supplier": "",
-        "sku": "",
+        "minStock": 2,
+        "supplier": "home made",
+        "sku": "slants",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
         "notes": "",
