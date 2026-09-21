@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T03:47:02.386Z",
+  "savedAt": "2026-09-21T03:50:26.594Z",
   "beers": [
     {
       "id": 1,
@@ -32079,6 +32079,14 @@
         "bfType": "",
         "members": [
           "Maturex PRO lot 02"
+        ]
+      },
+      {
+        "name": "Lautering enzyme",
+        "category": "Misc",
+        "bfType": "",
+        "members": [
+          "Glucabuster"
         ]
       }
     ],
