@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T00:23:21.135Z",
+  "savedAt": "2026-09-21T00:24:25.123Z",
   "beers": [
     {
       "id": 1,
@@ -31957,7 +31957,18 @@
         "bf_lotNo": "dose at 0.1762ml/kg of malt"
       }
     ],
-    "ingredientAliases": [],
+    "ingredientAliases": [
+      {
+        "name": "CALI American ale yeast",
+        "category": "Yeast",
+        "bfType": "",
+        "members": [
+          "American Ale Yeast",
+          "CALI American Ale",
+          "US-05 slants"
+        ]
+      }
+    ],
     "orders": []
   },
   "kegOverrides": {},
