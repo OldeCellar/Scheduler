@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T03:39:16.156Z",
+  "savedAt": "2026-09-21T03:39:51.767Z",
   "beers": [
     {
       "id": 1,
@@ -32035,6 +32035,15 @@
           "Kolsch-Style Hybrid Ale",
           "Sigmund Gjernes, Voss Kveik",
           "WLP029 Kolsch from slant"
+        ]
+      },
+      {
+        "name": "IPA yeast",
+        "category": "Yeast",
+        "bfType": "",
+        "members": [
+          "IPA yeast -Lallemand LalBrew Aurora dry yeast (500g)",
+          "West Coast"
         ]
       }
     ],
