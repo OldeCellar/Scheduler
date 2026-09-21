@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T02:06:31.972Z",
+  "savedAt": "2026-09-21T02:11:05.262Z",
   "beers": [
     {
       "id": 1,
@@ -2026,6 +2026,13 @@
       "tank": "Tank 02",
       "notes": "",
       "batch": 22,
+      "seq": null
+    },
+    "2026-10-03": {
+      "beer": "Rising Sun",
+      "tank": "Tank 03",
+      "notes": "",
+      "batch": null,
       "seq": null
     }
   },
