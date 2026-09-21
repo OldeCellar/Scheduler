@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T03:38:27.978Z",
+  "savedAt": "2026-09-21T03:39:16.156Z",
   "beers": [
     {
       "id": 1,
@@ -32024,6 +32024,17 @@
           "Hornindal Kveik",
           "Lutra Kveik slant",
           "Sigmund Gjernes, Voss Kveik"
+        ]
+      },
+      {
+        "name": "Kolsch yeast",
+        "category": "Yeast",
+        "bfType": "",
+        "members": [
+          "Kolsch saved from batch #519",
+          "Kolsch-Style Hybrid Ale",
+          "Sigmund Gjernes, Voss Kveik",
+          "WLP029 Kolsch from slant"
         ]
       }
     ],
