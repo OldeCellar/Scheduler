@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T04:24:20.882Z",
+  "savedAt": "2026-09-21T04:27:58.483Z",
   "beers": [
     {
       "id": 1,
@@ -32138,11 +32138,11 @@
             "type": "Fermentable",
             "qty": 31.947000000000003,
             "unit": "g",
-            "sku": "",
-            "price": 0,
-            "supplier": "",
-            "url": "",
-            "notes": ""
+            "sku": "GS347",
+            "price": 61.99,
+            "supplier": "MoreWinePro",
+            "url": "https://morewinepro.com/products/weyermann-floor-malted-bohemian-pilsner-malt.html",
+            "notes": "Weyermann Floor malted Bohemian Pilsner"
           },
           {
             "name": "Attenuzyme Pro 75%-79%",
@@ -32160,10 +32160,10 @@
             "type": "Misc",
             "qty": 62,
             "unit": "g",
-            "sku": "",
-            "price": 0,
-            "supplier": "",
-            "url": "",
+            "sku": "AJ80LB",
+            "price": 8.39,
+            "supplier": "MoreWinePro",
+            "url": "https://morewinepro.com/products/coriander-seed.html",
             "notes": ""
           },
           {
@@ -32226,11 +32226,11 @@
             "type": "Yeast",
             "qty": 363,
             "unit": "g",
-            "sku": "",
-            "price": 0,
-            "supplier": "",
-            "url": "",
-            "notes": ""
+            "sku": "DY106",
+            "price": 69.99,
+            "supplier": "MoreWinePro",
+            "url": "https://morewinepro.com/products/cellarscience-dry-yeast-monk-placeholder.html",
+            "notes": "CellarScience MONK Dry Yeast Belgian Abbey Ale"
           }
         ]
       }
