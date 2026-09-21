@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T05:21:47.040Z",
+  "savedAt": "2026-09-21T05:22:37.746Z",
   "beers": [
     {
       "id": 1,
@@ -31354,10 +31354,10 @@
         "name": "TurboShine Distiller's Yeast",
         "type": "Yeast",
         "bf_id": "jnDIKPJQ6UBhlKPuNZdMczgsLvQznS",
-        "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
+        "minStock": 250,
+        "supplier": "MoreWinePro",
+        "sku": "DY150B",
+        "purchaseQty": 1,
         "purchaseUnit": "kg",
         "notes": "",
         "_fromBF": true,
