@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T05:28:16.650Z",
+  "savedAt": "2026-09-21T05:28:47.098Z",
   "beers": [
     {
       "id": 1,
@@ -31619,7 +31619,7 @@
         "sku": "WM40LB",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
-        "notes": "",
+        "notes": "$2.49 Sep 20 2026",
         "_fromBF": true,
         "bf_type": "Water Agent",
         "bf_use": "Mash",
