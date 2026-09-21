@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.12d-20260920",
-  "savedAt": "2026-09-21T00:10:36.120Z",
+  "savedAt": "2026-09-21T00:10:50.184Z",
   "beers": [
     {
       "id": 1,
@@ -31154,7 +31154,7 @@
         "bf_form": "Dry",
         "bf_laboratory": "Lallemand (LalBrew)",
         "bf_productId": "DY68B",
-        "onHand": 200,
+        "onHand": 88,
         "unit": "g",
         "bf_cost": 0.36,
         "bf_lotNo": ""
@@ -31174,7 +31174,7 @@
         "bf_form": "Dry",
         "bf_laboratory": "CellarScience",
         "bf_productId": "English",
-        "onHand": 290,
+        "onHand": 156,
         "unit": "g",
         "bf_cost": 0.11998,
         "bf_lotNo": ""
@@ -31294,7 +31294,7 @@
         "bf_form": "Dry",
         "bf_laboratory": "CellarScience",
         "bf_productId": "DY121",
-        "onHand": 500,
+        "onHand": 251,
         "unit": "g",
         "bf_cost": 0.1081,
         "bf_lotNo": ""
@@ -31354,7 +31354,7 @@
         "bf_form": "Dry",
         "bf_laboratory": "Cellar Science",
         "bf_productId": "DY105",
-        "onHand": 805,
+        "onHand": 603,
         "unit": "g",
         "bf_cost": 0.151,
         "bf_lotNo": ""
@@ -31374,7 +31374,7 @@
         "bf_form": "Dry",
         "bf_laboratory": "Cellar Science",
         "bf_productId": "TurboShine ",
-        "onHand": 1000,
+        "onHand": 775,
         "unit": "g",
         "bf_cost": 0.02049,
         "bf_lotNo": ""
@@ -31394,7 +31394,7 @@
         "bf_form": "Dry",
         "bf_laboratory": "Cellar Science",
         "bf_productId": "Cali",
-        "onHand": 1210,
+        "onHand": 1047,
         "unit": "g",
         "bf_cost": 0.13,
         "bf_lotNo": ""
