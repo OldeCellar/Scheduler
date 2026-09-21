@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T04:23:34.302Z",
+  "savedAt": "2026-09-21T04:24:20.882Z",
   "beers": [
     {
       "id": 1,
@@ -32127,10 +32127,10 @@
             "type": "Fermentable",
             "qty": 0.3571,
             "unit": "g",
-            "sku": "",
-            "price": 0,
-            "supplier": "",
-            "url": "",
+            "sku": "AJ35E",
+            "price": 9.74,
+            "supplier": "MoreWinePro",
+            "url": "https://morewinepro.com/products/flaked-oats-maltwerks-premium-ingredients.html",
             "notes": ""
           },
           {
