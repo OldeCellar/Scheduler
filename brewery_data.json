@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T00:41:03.633Z",
+  "savedAt": "2026-09-21T00:41:22.110Z",
   "beers": [
     {
       "id": 1,
@@ -303,12 +303,13 @@
       "t": 28,
       "m": 56,
       "total": 84,
-      "rotationOrder": 2,
+      "rotationOrder": 4,
       "target": null,
       "seqStart": 22,
       "note": "",
       "enabled": true,
-      "id": 16
+      "id": 16,
+      "targets": null
     },
     {
       "name": "Wheat Vodka",
