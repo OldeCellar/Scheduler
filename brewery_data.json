@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T00:20:26.375Z",
+  "savedAt": "2026-09-21T00:20:55.824Z",
   "beers": [
     {
       "id": 1,
@@ -109,17 +109,18 @@
       "name": "Queen Citra",
       "style": "IPA",
       "type": "IPA",
-      "cat": "filler",
-      "pri": 3,
+      "cat": "core brand",
+      "pri": 1,
       "t": 21,
       "m": 7,
       "total": 28,
-      "lane": "flex",
+      "lane": "ipa",
       "rotationOrder": 3,
       "target": null,
       "note": "Open week filler",
       "seqStart": 1,
-      "enabled": true
+      "enabled": true,
+      "targets": null
     },
     {
       "id": 8,
