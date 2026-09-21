@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T05:27:06.166Z",
+  "savedAt": "2026-09-21T05:28:16.650Z",
   "beers": [
     {
       "id": 1,
@@ -31614,9 +31614,9 @@
         "name": "Calcium Chloride (CaCl2)",
         "type": "Misc",
         "bf_id": "default-3b1827",
-        "minStock": 0,
-        "supplier": "",
-        "sku": "",
+        "minStock": 50,
+        "supplier": "MoreWinePro",
+        "sku": "WM40LB",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
         "notes": "",
