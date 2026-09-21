@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T05:20:05.875Z",
+  "savedAt": "2026-09-21T05:21:47.040Z",
   "beers": [
     {
       "id": 1,
@@ -31014,10 +31014,10 @@
         "name": "Wyeast 1084 Irish Ale",
         "type": "Yeast",
         "bf_id": "default-c4977c",
-        "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
+        "minStock": 1,
+        "supplier": "MoreWinePro",
+        "sku": "WY1084",
+        "purchaseQty": 0.375,
         "purchaseUnit": "kg",
         "notes": "",
         "_fromBF": true,
@@ -31415,7 +31415,7 @@
         "type": "Yeast",
         "bf_id": "vIaszORoDsTC88xNOg6KRiGJguR04r",
         "minStock": 0,
-        "supplier": "",
+        "supplier": "home made",
         "sku": "",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
