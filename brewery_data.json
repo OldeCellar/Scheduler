@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T05:39:05.256Z",
+  "savedAt": "2026-09-21T05:40:41.490Z",
   "beers": [
     {
       "id": 1,
@@ -31686,12 +31686,12 @@
         "name": "Supermoss HB Five Star",
         "type": "Misc",
         "bf_id": "default-aOzf3Xdj9AWQWZD9pV86qkcRSh7Rn2",
-        "minStock": 0,
-        "supplier": "",
-        "sku": "",
+        "minStock": 100,
+        "supplier": "MoreWinePro",
+        "sku": "FIN21A",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
-        "notes": "",
+        "notes": "$56.99 Sep 20 2026",
         "_fromBF": true,
         "bf_type": "Fining",
         "bf_use": "Boil",
