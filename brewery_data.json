@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.12d-20260920",
-  "savedAt": "2026-09-21T00:10:20.248Z",
+  "savedAt": "2026-09-21T00:10:36.120Z",
   "beers": [
     {
       "id": 1,
@@ -30494,7 +30494,7 @@
         "bf_use": "Boil",
         "bf_alpha": 13.9,
         "bf_year": "2024",
-        "onHand": 1019.3,
+        "onHand": 825.3,
         "unit": "g",
         "bf_cost": 0.0528,
         "bf_lotNo": "order  306274\nThe aroma/flavor descriptors for the wildly popular Mosaic hop commonly include fruity (blueberry), citrus (tangerine, grapefruit), tropical (mango, guava), floral, and earthy. The combination of these aroma/flavor descriptors with the relatively high alpha-acid levels allows this hop to serve a dual purpose, as both a bittering and flavor/aroma hop in the brewing process. Ultimately, Mosaic provides flavor and aroma profiles in beer that simply cannot be accomplished with other hop cultivars."
@@ -30514,7 +30514,7 @@
         "bf_use": "Boil",
         "bf_alpha": 11.7,
         "bf_year": "2024",
-        "onHand": 1090,
+        "onHand": 995,
         "unit": "g",
         "bf_cost": 0.0155,
         "bf_lotNo": "gerine"
@@ -30574,7 +30574,7 @@
         "bf_use": "Boil",
         "bf_alpha": 12.5,
         "bf_year": "2022",
-        "onHand": 1479.6,
+        "onHand": 238,
         "unit": "g",
         "bf_cost": 0.0176,
         "bf_lotNo": ""
@@ -30594,7 +30594,7 @@
         "bf_use": "Boil",
         "bf_alpha": 4.6,
         "bf_year": "2024",
-        "onHand": 454,
+        "onHand": 126.1,
         "unit": "g",
         "bf_cost": 0.01991,
         "bf_lotNo": "Saaz hops are the famous landrace variety from the Czechia region, but this is specifically US Saaz, grown by our friends at Virgil Gamache Farms in Toppenish, WA. US Saaz caries some of the same floral and spicy elements as Czech Saaz, but this American-grown lot presents with brighter citrus and a hint of cherry. US Saaz hops work well in classic European styles and lagers, but also fits perfectly in new twists on those styles. Aroma: Classic noble aromas. Floral, citrus, and spice. Typical Analytical Range Alpha: 3.0-5.0% Beta: 4.0-6.0% Total Oil: 0.3-1.0 ml/100g US SAAZ HOP SUBSTITUTIONS US Saaz is the obvious choice to replace the scarce Czech grown Saaz. US Saaz hops carry similar characteristics and flavor profiles as East Kent Golding, US Golding, and Hallertau Mittlefrüh making these hops an excellent substitution in your next light lager."
@@ -30614,7 +30614,7 @@
         "bf_use": "Boil",
         "bf_alpha": 11.5,
         "bf_year": "2022",
-        "onHand": 1684,
+        "onHand": 1451,
         "unit": "g",
         "bf_cost": 0.032,
         "bf_lotNo": "order 60352\nThe aroma/flavor descriptors for the wildly popular Mosaic hop commonly include fruity (blueberry), citrus (tangerine, grapefruit), tropical (mango, guava), floral, and earthy. The combination of these aroma/flavor descriptors with the relatively high alpha-acid levels allows this hop to serve a dual purpose, as both a bittering and flavor/aroma hop in the brewing process. Ultimately, Mosaic provides flavor and aroma profiles in beer that simply cannot be accomplished with other hop cultivars."
@@ -30634,7 +30634,7 @@
         "bf_use": "Boil",
         "bf_alpha": 13.1,
         "bf_year": "2022",
-        "onHand": 1730,
+        "onHand": 1460,
         "unit": "g",
         "bf_cost": 0.0254,
         "bf_lotNo": "Lot # 55126"
@@ -30674,7 +30674,7 @@
         "bf_use": "Boil",
         "bf_alpha": 14.6,
         "bf_year": "2024",
-        "onHand": 2766,
+        "onHand": 2251,
         "unit": "g",
         "bf_cost": 0.02858,
         "bf_lotNo": ""
@@ -30694,7 +30694,7 @@
         "bf_use": "Boil",
         "bf_alpha": 8,
         "bf_year": "2023",
-        "onHand": 2896,
+        "onHand": 2746,
         "unit": "g",
         "bf_cost": 0.023,
         "bf_lotNo": "Discovered by Virgil Gamache Farms, Amarillo® Brand VGXP01 is one of the top ten aroma varieties utilized by craft brewers. It features relatively high alpha acids along with extremely high levels of myrcene for citrus and grapefruit flavors. Aroma Profile: Citrus, Herbal, Spicy, Stone Fruit, Woody"
@@ -30734,7 +30734,7 @@
         "bf_use": "Boil",
         "bf_alpha": 10.6,
         "bf_year": "2024",
-        "onHand": 3450,
+        "onHand": 3260,
         "unit": "g",
         "bf_cost": 0.023,
         "bf_lotNo": "Discovered by Virgil Gamache Farms, Amarillo® Brand VGXP01 is one of the top ten aroma varieties utilized by craft brewers. It features relatively high alpha acids along with extremely high levels of myrcene for citrus and grapefruit flavors. Aroma Profile: Citrus, Herbal, Spicy, Stone Fruit, Woody"
@@ -30754,7 +30754,7 @@
         "bf_use": "Boil",
         "bf_alpha": 6.4,
         "bf_year": "2023",
-        "onHand": 3480,
+        "onHand": 3355,
         "unit": "g",
         "bf_cost": 0.016,
         "bf_lotNo": ""
@@ -30774,7 +30774,7 @@
         "bf_use": "Boil",
         "bf_alpha": 12.7,
         "bf_year": "2024",
-        "onHand": 3505,
+        "onHand": 3198,
         "unit": "g",
         "bf_cost": 0.0254,
         "bf_lotNo": ""
@@ -30794,7 +30794,7 @@
         "bf_use": "Boil",
         "bf_alpha": 18.1,
         "bf_year": "2023",
-        "onHand": 3544.6,
+        "onHand": 3457.9,
         "unit": "g",
         "bf_cost": 0.0214,
         "bf_lotNo": "Pekko is a dual-purpose hop that can be used in all hop additions throughout the brewing process.\n\nThe Pekko hop is an intriguing mix of flavors like mint, pear, citrus, cucumber and floral aspects. Pekko's complex and clean characteristics of floral, citrus, and mint lend itself to many styles of beer."
@@ -30874,7 +30874,7 @@
         "bf_use": "Boil",
         "bf_alpha": 12.9,
         "bf_year": "2024",
-        "onHand": 4069,
+        "onHand": 3969,
         "unit": "g",
         "bf_cost": 0.0254,
         "bf_lotNo": "Lot # 55126"
@@ -30934,7 +30934,7 @@
         "bf_use": "Boil",
         "bf_alpha": 14.3,
         "bf_year": "2024",
-        "onHand": 4532,
+        "onHand": 2865.2,
         "unit": "g",
         "bf_cost": 0.027,
         "bf_lotNo": ""
@@ -30954,7 +30954,7 @@
         "bf_use": "Boil",
         "bf_alpha": 4.6,
         "bf_year": "2025",
-        "onHand": 4578.2,
+        "onHand": 4328.2,
         "unit": "g",
         "bf_cost": 0.022,
         "bf_lotNo": "Saaz hops are the famous landrace variety from the Czechia region, but this is specifically US Saaz, grown by our friends at Virgil Gamache Farms in Toppenish, WA. US Saaz caries some of the same floral and spicy elements as Czech Saaz, but this American-grown lot presents with brighter citrus and a hint of cherry. US Saaz hops work well in classic European styles and lagers, but also fits perfectly in new twists on those styles. Aroma: Classic noble aromas. Floral, citrus, and spice. Typical Analytical Range Alpha: 3.0-5.0% Beta: 4.0-6.0% Total Oil: 0.3-1.0 ml/100g US SAAZ HOP SUBSTITUTIONS US Saaz is the obvious choice to replace the scarce Czech grown Saaz. US Saaz hops carry similar characteristics and flavor profiles as East Kent Golding, US Golding, and Hallertau Mittlefrüh making these hops an excellent substitution in your next light lager."
@@ -30974,7 +30974,7 @@
         "bf_use": "Boil",
         "bf_alpha": 16.1,
         "bf_year": "2025",
-        "onHand": 4906,
+        "onHand": 4859,
         "unit": "g",
         "bf_cost": 0.013,
         "bf_lotNo": "CTZ is a trio blend of similar hops including Columbus, Tomahawk and Zeus. A descendant of Nugget, it is the first super high alpha variety and is primarily used for bittering purposes. Aroma Profile: Citrus, Dank, Earthy, Woody"
@@ -30994,7 +30994,7 @@
         "bf_use": "Boil",
         "bf_alpha": 13,
         "bf_year": "2024",
-        "onHand": 6552,
+        "onHand": 6007,
         "unit": "g",
         "bf_cost": 0.026,
         "bf_lotNo": ""
@@ -31014,7 +31014,7 @@
         "bf_use": "Boil",
         "bf_alpha": 12.1,
         "bf_year": "2024",
-        "onHand": 7138.3,
+        "onHand": 7055.3,
         "unit": "g",
         "bf_cost": 0.0199,
         "bf_lotNo": ""
