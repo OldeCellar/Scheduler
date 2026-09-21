@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T04:58:12.279Z",
+  "savedAt": "2026-09-21T04:59:15.111Z",
   "beers": [
     {
       "id": 1,
@@ -31154,10 +31154,10 @@
         "name": "ENGLISH  Ale",
         "type": "Yeast",
         "bf_id": "default-3JAtrIUM7wCCMCaNNtRtxjkXcBIrP6",
-        "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
+        "minStock": 150,
+        "supplier": "MoreWnePro",
+        "sku": "DY102",
+        "purchaseQty": 0.5,
         "purchaseUnit": "kg",
         "notes": "",
         "_fromBF": true,
@@ -31235,7 +31235,7 @@
         "type": "Yeast",
         "bf_id": "8UFZeubIXKqSaGsfPOi9SSUXT9MZLv",
         "minStock": 0,
-        "supplier": "",
+        "supplier": "Stores",
         "sku": "",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
