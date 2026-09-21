@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T03:44:16.845Z",
+  "savedAt": "2026-09-21T03:47:02.386Z",
   "beers": [
     {
       "id": 1,
@@ -32071,6 +32071,14 @@
         "members": [
           "Wheat Malt",
           "White Wheat Malt"
+        ]
+      },
+      {
+        "name": "ALDC enzyme",
+        "category": "Misc",
+        "bfType": "",
+        "members": [
+          "Maturex PRO lot 02"
         ]
       }
     ],
