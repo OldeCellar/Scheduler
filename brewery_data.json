@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T05:15:34.180Z",
+  "savedAt": "2026-09-21T05:16:55.528Z",
   "beers": [
     {
       "id": 1,
@@ -31054,9 +31054,9 @@
         "name": "WLP029 Kolsch from slant",
         "type": "Yeast",
         "bf_id": "wPDYp7YS4Cnh3SH4cPqovTRMDO2x40",
-        "minStock": 0,
-        "supplier": "",
-        "sku": "",
+        "minStock": 2,
+        "supplier": "home made",
+        "sku": "slants",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
         "notes": "",
@@ -31315,7 +31315,7 @@
         "type": "Yeast",
         "bf_id": "xe1l8peCuwEQ5KJ8XCT0JuZiUKyFt0",
         "minStock": 0,
-        "supplier": "",
+        "supplier": "home made",
         "sku": "",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
