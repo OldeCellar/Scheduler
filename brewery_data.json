@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T03:42:09.451Z",
+  "savedAt": "2026-09-21T03:44:16.845Z",
   "beers": [
     {
       "id": 1,
@@ -32062,6 +32062,15 @@
         "members": [
           "No members yet — add ingredients below",
           "Pilsner Malt"
+        ]
+      },
+      {
+        "name": "Wheat malt",
+        "category": "Fermentable",
+        "bfType": "",
+        "members": [
+          "Wheat Malt",
+          "White Wheat Malt"
         ]
       }
     ],
