@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T05:34:30.501Z",
+  "savedAt": "2026-09-21T05:38:36.751Z",
   "beers": [
     {
       "id": 1,
@@ -31723,9 +31723,9 @@
         "type": "Misc",
         "bf_id": "3MAyOfxrVWJ9JXe7cSTn6hZv2PCIks",
         "minStock": 0,
-        "supplier": "",
+        "supplier": "NatuerFlavors",
         "sku": "",
-        "purchaseQty": 0,
+        "purchaseQty": 3.785,
         "purchaseUnit": "kg",
         "notes": "",
         "_fromBF": true,
