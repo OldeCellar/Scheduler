@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-21T00:38:03.400Z",
+  "savedAt": "2026-09-21T00:40:23.425Z",
   "beers": [
     {
       "id": 1,
@@ -76,13 +76,13 @@
       "name": "Equinox",
       "style": "Lager",
       "type": "Lager",
-      "cat": "filler",
-      "pri": 3,
+      "cat": "core brand",
+      "pri": 2,
       "t": 28,
       "m": 42,
       "total": 70,
-      "lane": "flex",
-      "rotationOrder": 6,
+      "lane": "lager",
+      "rotationOrder": 3,
       "target": null,
       "note": "Lager rotation #3",
       "seqStart": 1,
