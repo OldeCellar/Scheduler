@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-22T12:02:00.795Z",
+  "savedAt": "2026-09-22T12:28:14.963Z",
   "beers": [
     {
       "id": 1,
@@ -31896,10 +31896,10 @@
         "bf_type": "Grain",
         "bf_category": "Roasted",
         "bf_color": 456.852792,
-        "onHand": 2.26,
+        "onHand": 2.268,
         "unit": "kg",
-        "bf_cost": 6.53,
-        "bf_lotNo": ""
+        "bf_cost": 6.036,
+        "bf_lotNo": "9717961"
       },
       {
         "name": "Rice, Flaked",
