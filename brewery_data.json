@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-22T10:08:37.342Z",
+  "savedAt": "2026-09-22T10:12:25.946Z",
   "beers": [
     {
       "id": 1,
@@ -31996,6 +31996,26 @@
         "unit": "g",
         "bf_cost": 0.04,
         "bf_lotNo": "GSPWP-KG"
+      },
+      {
+        "name": "MONK Belgian Abbey Ale",
+        "type": "Yeast",
+        "bf_id": "default-5ZzjdYo0telPNgJ9AxobXNAivEXPqx",
+        "minStock": 0,
+        "supplier": "",
+        "sku": "",
+        "purchaseQty": 0,
+        "purchaseUnit": "kg",
+        "notes": "",
+        "_fromBF": true,
+        "bf_type": "Ale",
+        "bf_form": "Dry",
+        "bf_laboratory": "CellarScience",
+        "bf_productId": "DY106",
+        "onHand": 500,
+        "unit": "g",
+        "bf_cost": 0.13998,
+        "bf_lotNo": ""
       }
     ],
     "ingredientAliases": [
