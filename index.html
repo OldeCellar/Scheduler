@@ -1497,6 +1497,11 @@ hr.divider{border:none;border-top:1px solid var(--border);margin:16px 0;}
 
 <!-- ═══════════════════ INGREDIENTS ═══════════════════ -->
 <div class="page" id="page-ingredients">
+  <div id="ing-sync-bar" style="display:flex;align-items:center;gap:16px;padding:6px 0 10px 0;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);flex-wrap:wrap;">
+    <span>⚙ GitHub BF auto-sync: <strong id="ing-bf-sync-ts" style="color:var(--text2);">—</strong></span>
+    <span style="color:var(--border2);">|</span>
+    <span>Ingredients last refreshed: <strong id="ing-browser-sync-ts" style="color:var(--text2);">—</strong></span>
+  </div>
   <div class="tabs">
     <button class="tab-btn active" onclick="showIngTab('ing-demand',this)">📊 Demand by Period</button>
     <button class="tab-btn" onclick="showIngTab('ing-fermentables',this)">🌾 Fermentables</button>
@@ -4970,7 +4975,7 @@ function calcKegDate(bfBottlingDate, brewDate, tankDays, allKegDates) {
 // ════════════════════════════════════════════════════════
 
 // set APP_VERSION and STORAGE_KEY
-let APP_VERSION = 'v33.16-20260921';
+let APP_VERSION = 'v33.17-20260922';
 const STORAGE_KEY = 'brewery_scheduler';  // fixed — version-independent
 
 document.title =
@@ -5133,7 +5138,7 @@ function downloadHtmlFile() {
   if (s2 === source) { alert('Could not locate DEFAULT_PACKAGING markers — download aborted.'); return; }
   source = s2;
 
-  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.16-20260921';");
+  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.17-20260922';");
 
   source = source.replace(/\n<script id="__html_source__">var _HTML_SOURCE_B64_="[A-Za-z0-9+\/=]*";<\/script>\n/, '\n');
 
@@ -7061,7 +7066,8 @@ function saveSkipWeek(){
 // ════════════════════════════════════════════════════════
 // Cache: batchNum (number) → { status, kegDate, measuredOG, measuredFG, abv, notes }
 let BF_BATCH_CACHE = {};  // populated by syncBFBatches()
-let _bfSyncTime      = null;   // Date of last successful BF sync
+let _bfSyncTime          = null;   // Date of last successful BF sync (manual or workflow)
+let _lastIngredientRefresh = null;  // Date when ingredient tabs were last auto-refreshed from BF workflow
 let _schedBuildTime  = null;   // Date of last auto-schedule rebuild
 
 // ── BF FIELD DIAGNOSTIC ───────────────────────────────────────────────────────
@@ -7360,6 +7366,17 @@ async function syncBFBatches(){
       badge.className = 'bf-status bf-ok';
       badge.textContent = '✓ BF synced · ' + allBatches.length + ' batches';
       _bfSyncTime = new Date();
+      _lastIngredientRefresh = new Date();
+      updateIngSyncBar();
+      // Refresh the active ingredient tab to show latest BF data
+      setTimeout(() => {
+        const el = document.getElementById('ing-content');
+        const activeTab = document.querySelector('#page-ingredients .tab-btn.active');
+        if (el && activeTab) {
+          const tabId = (activeTab.getAttribute('onclick')||'').match(/'([^']+)'/)?.[1];
+          if (tabId) showIngTab(tabId);
+        }
+      }, 200);
     }
     // Update next batch display
     const nbd = document.getElementById('next-batch-display');
@@ -9642,6 +9659,23 @@ function demandSort(col){
 
 
 
+function updateIngSyncBar() {
+  const ghTs = document.getElementById('ing-bf-sync-ts');
+  const brTs = document.getElementById('ing-browser-sync-ts');
+  if (ghTs) {
+    // Shows the bfSyncTime from the GitHub workflow (auto-sync) or manual BF sync
+    ghTs.textContent = _bfSyncTime ? _bfSyncTime.toLocaleString() : 'Not yet synced';
+    ghTs.style.color = _bfSyncTime ? 'var(--hops2)' : 'var(--red2)';
+  }
+  if (brTs) {
+    // Shows when ingredient tabs were last auto-refreshed in this session
+    brTs.textContent = _lastIngredientRefresh
+      ? _lastIngredientRefresh.toLocaleString()
+      : 'Not yet refreshed this session';
+    brTs.style.color = _lastIngredientRefresh ? 'var(--text2)' : 'var(--muted)';
+  }
+}
+
 function showIngTab(id, btn){
   document.querySelectorAll('#page-ingredients .tab-btn').forEach(b=>b.classList.remove('active'));
   if(btn) btn.classList.add('active');
@@ -10546,7 +10580,7 @@ function renderIngOrder(el){
     <span style="font-size:11px;color:var(--muted);margin-left:10px;">Items where demand exceeds stock</span>
   </div>
   <table class="sched-table"><thead><tr>
-    <th>Type</th><th>Ingredient</th><th>Needed</th><th>On Hand</th><th>Order Qty</th><th>Unit</th>
+    <th>Type</th><th>Ingredient</th><th>Needed</th><th>On Hand</th><th>Order Qty</th>
   </tr></thead><tbody>`;
   const orderItems=[];
   const _normOL = s => (s||'').toLowerCase().trim().replace(/\s+/g,' ');
@@ -11098,6 +11132,23 @@ async function pullFromGitHub(manual) {
 
     BF_BATCH_CACHE = d.bfBatchCache || BF_BATCH_CACHE || {};
     if (d.usageLog && d.usageLog.length > (USAGE_LOG||[]).length) USAGE_LOG = d.usageLog;
+    if (d.bfSyncTime) {
+      const newSyncTime = new Date(d.bfSyncTime);
+      const isNewerSync = !_bfSyncTime || newSyncTime > _bfSyncTime;
+      _bfSyncTime = newSyncTime;
+      updateIngSyncBar();
+      // If the workflow ran a fresher sync than we last knew about,
+      // auto-refresh the ingredient tabs so inventory is current
+      if (isNewerSync) {
+        _lastIngredientRefresh = new Date();
+        const el = document.getElementById('ing-content');
+        const activeTab = document.querySelector('#page-ingredients .tab-btn.active');
+        if (el && activeTab) {
+          const tabId = (activeTab.getAttribute('onclick')||'').match(/'([^']+)'/)?.[1];
+          if (tabId) setTimeout(() => showIngTab(tabId), 100);
+        }
+      }
+    }
 
     BF_CREDS = savedBFCreds;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(getDataObject()));
@@ -11180,6 +11231,7 @@ async function loadDataWithGitHub() {
       if (!PACKAGING.ingredientAliases) PACKAGING.ingredientAliases = [];
       KEG_OVERRIDES  = d.kegOverrides  || {};
       BF_BATCH_CACHE = d.bfBatchCache  || {};
+      if (d.bfSyncTime) _bfSyncTime = new Date(d.bfSyncTime);
       ghLog('Startup: first load on this browser — loaded all data from GitHub.');
       ghLog('Tip: if Beer Catalog looks wrong, use Data → GitHub Sync → Push to GitHub to update it.');
     } else {
@@ -11201,6 +11253,7 @@ async function loadDataWithGitHub() {
       BREW_HISTORY.sort((a, b) => (a.batch||0) - (b.batch||0));
       BF_BATCH_CACHE = d.bfBatchCache || BF_BATCH_CACHE || {};
       if (d.usageLog && d.usageLog.length > (USAGE_LOG||[]).length) USAGE_LOG = d.usageLog;
+      if (d.bfSyncTime) _bfSyncTime = new Date(d.bfSyncTime);
       ghLog('Startup: merged history from GitHub, kept local Beer Catalog + inventory.');
     }
 
