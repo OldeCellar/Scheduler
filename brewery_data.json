@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-22T10:47:33.836Z",
+  "savedAt": "2026-09-22T11:28:14.885Z",
   "beers": [
     {
       "id": 1,
@@ -32015,6 +32015,27 @@
         "onHand": 500,
         "unit": "g",
         "bf_cost": 0.13998,
+        "bf_lotNo": ""
+      },
+      {
+        "name": "Flaked Corn (Yellow)",
+        "type": "Fermentable",
+        "bf_id": "default-4232b53",
+        "minStock": 0,
+        "supplier": "",
+        "sku": "",
+        "purchaseQty": 0,
+        "purchaseUnit": "kg",
+        "notes": "",
+        "_fromBF": true,
+        "bf_supplier": "Briess",
+        "bf_origin": "US",
+        "bf_type": "Grain",
+        "bf_category": "Base",
+        "bf_color": 1.3,
+        "onHand": 9.07,
+        "unit": "kg",
+        "bf_cost": 4.1278,
         "bf_lotNo": ""
       }
     ],
