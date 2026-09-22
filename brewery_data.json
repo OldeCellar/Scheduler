@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-22T12:28:14.963Z",
+  "savedAt": "2026-09-22T15:45:57.797Z",
   "beers": [
     {
       "id": 1,
@@ -174,7 +174,7 @@
           1
         ]
       ],
-      "note": "Serve Jun\u2013Aug (3 brews: Jun 1, Jul 1, Aug 1)",
+      "note": "Serve Jun–Aug (3 brews: Jun 1, Jul 1, Aug 1)",
       "seqStart": 1,
       "enabled": true
     },
@@ -29408,6 +29408,10 @@
       "notes": "CSV #471"
     }
   ],
+  "bfCreds": {
+    "userId": "",
+    "apiKey": ""
+  },
   "packaging": {
     "inventory": [
       {
@@ -29429,8 +29433,7 @@
         "onHand": 0.468,
         "unit": "kg",
         "bf_cost": 6.06,
-        "bf_lotNo": "9625389",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00"
+        "bf_lotNo": "9625389"
       },
       {
         "name": "Caramel 60L",
@@ -29451,8 +29454,7 @@
         "onHand": 3.78,
         "unit": "kg",
         "bf_cost": 4.17,
-        "bf_lotNo": "",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00"
+        "bf_lotNo": ""
       },
       {
         "name": "Special B",
@@ -29599,11 +29601,10 @@
         "onHand": 1.8031,
         "unit": "kg",
         "bf_cost": 4.76,
-        "bf_lotNo": "",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00"
+        "bf_lotNo": ""
       },
       {
-        "name": "Roasted Barley 600",
+        "name": "Roasted Barley 300",
         "type": "Fermentable",
         "bf_id": "default-9a06033",
         "minStock": 0,
@@ -29642,8 +29643,7 @@
         "onHand": 3.08,
         "unit": "kg",
         "bf_cost": 6.06,
-        "bf_lotNo": "9468869",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00"
+        "bf_lotNo": "9468869"
       },
       {
         "name": "Carafa Special III",
@@ -29664,8 +29664,7 @@
         "onHand": 3.9927,
         "unit": "kg",
         "bf_cost": 4.76,
-        "bf_lotNo": "",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00"
+        "bf_lotNo": "8949182"
       },
       {
         "name": "Honey Malt",
@@ -29707,8 +29706,7 @@
         "onHand": 4.6,
         "unit": "kg",
         "bf_cost": 3.69,
-        "bf_lotNo": "1919B",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00"
+        "bf_lotNo": "1919B"
       },
       {
         "name": "Peated Malt",
@@ -29771,8 +29769,7 @@
         "onHand": 6.1114,
         "unit": "kg",
         "bf_cost": 4.63,
-        "bf_lotNo": "",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00"
+        "bf_lotNo": ""
       },
       {
         "name": "Biscuit Malt",
@@ -29793,8 +29790,7 @@
         "onHand": 6.78,
         "unit": "kg",
         "bf_cost": 5.29,
-        "bf_lotNo": "9468869",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00"
+        "bf_lotNo": "9468869"
       },
       {
         "name": "Roasted Barley 1500",
@@ -30212,7 +30208,7 @@
         "onHand": 50,
         "unit": "g",
         "bf_cost": 0.032,
-        "bf_lotNo": "Passion fruit, Grapefruit, Strawberry, Dank. Strata, formerly known as X-331, is Indie Hop\u2019s first hop variety to be released out of the Oregon State Aroma Hop Breeding Program in Corvallis, Oregon. Born in 2009, Strata is the progeny of an open pollinated Perle located in an Oregon State experimental field at Corvallis, Oregon. From the get-go, this hop was out to impress. Between its strong disease resistance, vigorous growing habit, and complex layers of aroma, x331 rose to the top of an impressive group of competitors."
+        "bf_lotNo": "Passion fruit, Grapefruit, Strawberry, Dank. Strata, formerly known as X-331, is Indie Hop’s first hop variety to be released out of the Oregon State Aroma Hop Breeding Program in Corvallis, Oregon. Born in 2009, Strata is the progeny of an open pollinated Perle located in an Oregon State experimental field at Corvallis, Oregon. From the get-go, this hop was out to impress. Between its strong disease resistance, vigorous growing habit, and complex layers of aroma, x331 rose to the top of an impressive group of competitors."
       },
       {
         "name": "Strata - STT Quantum Series",
@@ -30292,7 +30288,7 @@
         "onHand": 280,
         "unit": "g",
         "bf_cost": 0.0275,
-        "bf_lotNo": "Passion fruit, Grapefruit, Strawberry, Dank. Strata, formerly known as X-331, is Indie Hop\u2019s first hop variety to be released out of the Oregon State Aroma Hop Breeding Program in Corvallis, Oregon. Born in 2009, Strata is the progeny of an open pollinated Perle located in an Oregon State experimental field at Corvallis, Oregon. From the get-go, this hop was out to impress. Between its strong disease resistance, vigorous growing habit, and complex layers of aroma, x331 rose to the top of an impressive group of competitors."
+        "bf_lotNo": "Passion fruit, Grapefruit, Strawberry, Dank. Strata, formerly known as X-331, is Indie Hop’s first hop variety to be released out of the Oregon State Aroma Hop Breeding Program in Corvallis, Oregon. Born in 2009, Strata is the progeny of an open pollinated Perle located in an Oregon State experimental field at Corvallis, Oregon. From the get-go, this hop was out to impress. Between its strong disease resistance, vigorous growing habit, and complex layers of aroma, x331 rose to the top of an impressive group of competitors."
       },
       {
         "name": "Columbus",
@@ -30472,7 +30468,7 @@
         "onHand": 528,
         "unit": "g",
         "bf_cost": 0.032,
-        "bf_lotNo": "Passion fruit, Grapefruit, Strawberry, Dank. Strata, formerly known as X-331, is Indie Hop\u2019s first hop variety to be released out of the Oregon State Aroma Hop Breeding Program in Corvallis, Oregon. Born in 2009, Strata is the progeny of an open pollinated Perle located in an Oregon State experimental field at Corvallis, Oregon. From the get-go, this hop was out to impress. Between its strong disease resistance, vigorous growing habit, and complex layers of aroma, x331 rose to the top of an impressive group of competitors."
+        "bf_lotNo": "Passion fruit, Grapefruit, Strawberry, Dank. Strata, formerly known as X-331, is Indie Hop’s first hop variety to be released out of the Oregon State Aroma Hop Breeding Program in Corvallis, Oregon. Born in 2009, Strata is the progeny of an open pollinated Perle located in an Oregon State experimental field at Corvallis, Oregon. From the get-go, this hop was out to impress. Between its strong disease resistance, vigorous growing habit, and complex layers of aroma, x331 rose to the top of an impressive group of competitors."
       },
       {
         "name": "Mosaic",
@@ -30552,9 +30548,7 @@
         "onHand": 1217,
         "unit": "g",
         "bf_cost": 0.025,
-        "bf_lotNo": "",
-        "bf_supplier": "",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00"
+        "bf_lotNo": ""
       },
       {
         "name": "Citra",
@@ -30594,7 +30588,7 @@
         "onHand": 126.1,
         "unit": "g",
         "bf_cost": 0.01991,
-        "bf_lotNo": "Saaz hops are the famous landrace variety from the Czechia region, but this is specifically US Saaz, grown by our friends at Virgil Gamache Farms in Toppenish, WA. US Saaz caries some of the same floral and spicy elements as Czech Saaz, but this American-grown lot presents with brighter citrus and a hint of cherry. US Saaz hops work well in classic European styles and lagers, but also fits perfectly in new twists on those styles. Aroma: Classic noble aromas. Floral, citrus, and spice. Typical Analytical Range Alpha: 3.0-5.0% Beta: 4.0-6.0% Total Oil: 0.3-1.0 ml/100g US SAAZ HOP SUBSTITUTIONS US Saaz is the obvious choice to replace the scarce Czech grown Saaz. US Saaz hops carry similar characteristics and flavor profiles as East Kent Golding, US Golding, and Hallertau Mittlefr\u00fch making these hops an excellent substitution in your next light lager."
+        "bf_lotNo": "Saaz hops are the famous landrace variety from the Czechia region, but this is specifically US Saaz, grown by our friends at Virgil Gamache Farms in Toppenish, WA. US Saaz caries some of the same floral and spicy elements as Czech Saaz, but this American-grown lot presents with brighter citrus and a hint of cherry. US Saaz hops work well in classic European styles and lagers, but also fits perfectly in new twists on those styles. Aroma: Classic noble aromas. Floral, citrus, and spice. Typical Analytical Range Alpha: 3.0-5.0% Beta: 4.0-6.0% Total Oil: 0.3-1.0 ml/100g US SAAZ HOP SUBSTITUTIONS US Saaz is the obvious choice to replace the scarce Czech grown Saaz. US Saaz hops carry similar characteristics and flavor profiles as East Kent Golding, US Golding, and Hallertau Mittlefrüh making these hops an excellent substitution in your next light lager."
       },
       {
         "name": "Mosaic",
@@ -30694,9 +30688,7 @@
         "onHand": 2746,
         "unit": "g",
         "bf_cost": 0.023,
-        "bf_lotNo": "Discovered by Virgil Gamache Farms, Amarillo\u00ae Brand VGXP01 is one of the top ten aroma varieties utilized by craft brewers. It features relatively high alpha acids along with extremely high levels of myrcene for citrus and grapefruit flavors. Aroma Profile: Citrus, Herbal, Spicy, Stone Fruit, Woody",
-        "bf_supplier": "",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00"
+        "bf_lotNo": "Discovered by Virgil Gamache Farms, Amarillo® Brand VGXP01 is one of the top ten aroma varieties utilized by craft brewers. It features relatively high alpha acids along with extremely high levels of myrcene for citrus and grapefruit flavors. Aroma Profile: Citrus, Herbal, Spicy, Stone Fruit, Woody"
       },
       {
         "name": "Belma",
@@ -30716,9 +30708,7 @@
         "onHand": 2968.9,
         "unit": "g",
         "bf_cost": 0.0177,
-        "bf_lotNo": "test",
-        "bf_supplier": "",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00"
+        "bf_lotNo": "test"
       },
       {
         "name": "Amarillo",
@@ -30738,9 +30728,7 @@
         "onHand": 3260,
         "unit": "g",
         "bf_cost": 0.023,
-        "bf_lotNo": "Discovered by Virgil Gamache Farms, Amarillo\u00ae Brand VGXP01 is one of the top ten aroma varieties utilized by craft brewers. It features relatively high alpha acids along with extremely high levels of myrcene for citrus and grapefruit flavors. Aroma Profile: Citrus, Herbal, Spicy, Stone Fruit, Woody",
-        "bf_supplier": "",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00"
+        "bf_lotNo": "Discovered by Virgil Gamache Farms, Amarillo® Brand VGXP01 is one of the top ten aroma varieties utilized by craft brewers. It features relatively high alpha acids along with extremely high levels of myrcene for citrus and grapefruit flavors. Aroma Profile: Citrus, Herbal, Spicy, Stone Fruit, Woody"
       },
       {
         "name": "Cascade",
@@ -30820,7 +30808,7 @@
         "onHand": 3110,
         "unit": "g",
         "bf_cost": 0.01409,
-        "bf_lotNo": "Passion fruit, Grapefruit, Strawberry, Dank. Strata, formerly known as X-331, is Indie Hop\u2019s first hop variety to be released out of the Oregon State Aroma Hop Breeding Program in Corvallis, Oregon. Born in 2009, Strata is the progeny of an open pollinated Perle located in an Oregon State experimental field at Corvallis, Oregon. From the get-go, this hop was out to impress. Between its strong disease resistance, vigorous growing habit, and complex layers of aroma, x331 rose to the top of an impressive group of competitors."
+        "bf_lotNo": "Passion fruit, Grapefruit, Strawberry, Dank. Strata, formerly known as X-331, is Indie Hop’s first hop variety to be released out of the Oregon State Aroma Hop Breeding Program in Corvallis, Oregon. Born in 2009, Strata is the progeny of an open pollinated Perle located in an Oregon State experimental field at Corvallis, Oregon. From the get-go, this hop was out to impress. Between its strong disease resistance, vigorous growing habit, and complex layers of aroma, x331 rose to the top of an impressive group of competitors."
       },
       {
         "name": "Talus",
@@ -30860,7 +30848,7 @@
         "onHand": 4033.6,
         "unit": "g",
         "bf_cost": 0.0209,
-        "bf_lotNo": "Saaz hops are the famous landrace variety from the Czechia region, but this is specifically US Saaz, grown by our friends at Virgil Gamache Farms in Toppenish, WA. US Saaz caries some of the same floral and spicy elements as Czech Saaz, but this American-grown lot presents with brighter citrus and a hint of cherry. US Saaz hops work well in classic European styles and lagers, but also fits perfectly in new twists on those styles. Aroma: Classic noble aromas. Floral, citrus, and spice. Typical Analytical Range Alpha: 3.0-5.0% Beta: 4.0-6.0% Total Oil: 0.3-1.0 ml/100g US SAAZ HOP SUBSTITUTIONS US Saaz is the obvious choice to replace the scarce Czech grown Saaz. US Saaz hops carry similar characteristics and flavor profiles as East Kent Golding, US Golding, and Hallertau Mittlefr\u00fch making these hops an excellent substitution in your next light lager."
+        "bf_lotNo": "Saaz hops are the famous landrace variety from the Czechia region, but this is specifically US Saaz, grown by our friends at Virgil Gamache Farms in Toppenish, WA. US Saaz caries some of the same floral and spicy elements as Czech Saaz, but this American-grown lot presents with brighter citrus and a hint of cherry. US Saaz hops work well in classic European styles and lagers, but also fits perfectly in new twists on those styles. Aroma: Classic noble aromas. Floral, citrus, and spice. Typical Analytical Range Alpha: 3.0-5.0% Beta: 4.0-6.0% Total Oil: 0.3-1.0 ml/100g US SAAZ HOP SUBSTITUTIONS US Saaz is the obvious choice to replace the scarce Czech grown Saaz. US Saaz hops carry similar characteristics and flavor profiles as East Kent Golding, US Golding, and Hallertau Mittlefrüh making these hops an excellent substitution in your next light lager."
       },
       {
         "name": "Idaho 7",
@@ -30920,9 +30908,7 @@
         "onHand": 4455.6,
         "unit": "g",
         "bf_cost": 0.019,
-        "bf_lotNo": "CTZ is a trio blend of similar hops including Columbus, Tomahawk and Zeus. A descendant of Nugget, it is the first super high alpha variety and is primarily used for bittering purposes. Aroma Profile: Citrus, Dank, Earthy, Woody",
-        "bf_supplier": "",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00"
+        "bf_lotNo": "CTZ is a trio blend of similar hops including Columbus, Tomahawk and Zeus. A descendant of Nugget, it is the first super high alpha variety and is primarily used for bittering purposes. Aroma Profile: Citrus, Dank, Earthy, Woody"
       },
       {
         "name": "Citra",
@@ -30962,7 +30948,7 @@
         "onHand": 4328.2,
         "unit": "g",
         "bf_cost": 0.022,
-        "bf_lotNo": "Saaz hops are the famous landrace variety from the Czechia region, but this is specifically US Saaz, grown by our friends at Virgil Gamache Farms in Toppenish, WA. US Saaz caries some of the same floral and spicy elements as Czech Saaz, but this American-grown lot presents with brighter citrus and a hint of cherry. US Saaz hops work well in classic European styles and lagers, but also fits perfectly in new twists on those styles. Aroma: Classic noble aromas. Floral, citrus, and spice. Typical Analytical Range Alpha: 3.0-5.0% Beta: 4.0-6.0% Total Oil: 0.3-1.0 ml/100g US SAAZ HOP SUBSTITUTIONS US Saaz is the obvious choice to replace the scarce Czech grown Saaz. US Saaz hops carry similar characteristics and flavor profiles as East Kent Golding, US Golding, and Hallertau Mittlefr\u00fch making these hops an excellent substitution in your next light lager."
+        "bf_lotNo": "Saaz hops are the famous landrace variety from the Czechia region, but this is specifically US Saaz, grown by our friends at Virgil Gamache Farms in Toppenish, WA. US Saaz caries some of the same floral and spicy elements as Czech Saaz, but this American-grown lot presents with brighter citrus and a hint of cherry. US Saaz hops work well in classic European styles and lagers, but also fits perfectly in new twists on those styles. Aroma: Classic noble aromas. Floral, citrus, and spice. Typical Analytical Range Alpha: 3.0-5.0% Beta: 4.0-6.0% Total Oil: 0.3-1.0 ml/100g US SAAZ HOP SUBSTITUTIONS US Saaz is the obvious choice to replace the scarce Czech grown Saaz. US Saaz hops carry similar characteristics and flavor profiles as East Kent Golding, US Golding, and Hallertau Mittlefrüh making these hops an excellent substitution in your next light lager."
       },
       {
         "name": "CTZ",
@@ -31262,9 +31248,7 @@
         "onHand": 500,
         "unit": "g",
         "bf_cost": 0,
-        "bf_lotNo": "",
-        "bf_supplier": "",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00"
+        "bf_lotNo": ""
       },
       {
         "name": "American Ale Yeast",
@@ -31284,9 +31268,7 @@
         "onHand": 500,
         "unit": "g",
         "bf_cost": 0.897,
-        "bf_lotNo": "",
-        "bf_supplier": "",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00"
+        "bf_lotNo": ""
       },
       {
         "name": "West Coast",
@@ -31366,9 +31348,7 @@
         "onHand": 603,
         "unit": "g",
         "bf_cost": 0.151,
-        "bf_lotNo": "",
-        "bf_supplier": "",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00"
+        "bf_lotNo": ""
       },
       {
         "name": "TurboShine Distiller's Yeast",
@@ -31408,9 +31388,7 @@
         "onHand": 1047,
         "unit": "g",
         "bf_cost": 0.13,
-        "bf_lotNo": "",
-        "bf_supplier": "",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00"
+        "bf_lotNo": ""
       },
       {
         "name": "German Lager Yeast",
@@ -31468,7 +31446,7 @@
         "onHand": 61.69,
         "unit": "g",
         "bf_cost": null,
-        "bf_lotNo": "1\u20133 mL per hectoliter (hL)\nWhich works out to:\n0.01\u20130.03 mL per liter = 0.01\u20130.03 g/L"
+        "bf_lotNo": "1–3 mL per hectoliter (hL)\nWhich works out to:\n0.01–0.03 mL per liter = 0.01–0.03 g/L"
       },
       {
         "name": "Servomyces",
@@ -31486,7 +31464,7 @@
         "onHand": 22.45,
         "unit": "g",
         "bf_cost": 0,
-        "bf_lotNo": "Servomyces stands out as the best yeast nutrient containing zinc for beer yeasts.\nWhy Servomyces?\n\nIt's a zinc-enriched inactive yeast (Lallemand product) providing bioavailable zinc (0.15-0.5 ppm target in wort) bound in yeast hulls, protecting it from wort chelation\u2014unlike plain zinc salts. This speeds fermentation, prevents stuck ferments, boosts yeast health/growth, and improves beer quality in high-gravity or stressful conditions.\nKey Benefits for Beer\n\n    Dramatically faster starts and healthier yeast metabolism vs. inorganic zinc.\n\n    Supports all beer styles, especially lagers/high-ABV/adjunct-heavy.\n\n    Adds trace minerals (magnesium too) beyond just zinc.\n\nDosage: 1g per 100L wort (10 ppm), added to boil or cold side. Pairs well with other nutrients."
+        "bf_lotNo": "Servomyces stands out as the best yeast nutrient containing zinc for beer yeasts.\nWhy Servomyces?\n\nIt's a zinc-enriched inactive yeast (Lallemand product) providing bioavailable zinc (0.15-0.5 ppm target in wort) bound in yeast hulls, protecting it from wort chelation—unlike plain zinc salts. This speeds fermentation, prevents stuck ferments, boosts yeast health/growth, and improves beer quality in high-gravity or stressful conditions.\nKey Benefits for Beer\n\n    Dramatically faster starts and healthier yeast metabolism vs. inorganic zinc.\n\n    Supports all beer styles, especially lagers/high-ABV/adjunct-heavy.\n\n    Adds trace minerals (magnesium too) beyond just zinc.\n\nDosage: 1g per 100L wort (10 ppm), added to boil or cold side. Pairs well with other nutrients."
       },
       {
         "name": "Aromazyme",
@@ -31504,9 +31482,7 @@
         "onHand": 38.25,
         "unit": "g",
         "bf_cost": 0.4999,
-        "bf_lotNo": "",
-        "bf_supplier": "",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00"
+        "bf_lotNo": ""
       },
       {
         "name": "Wyeast Beer Nutrient Blend",
@@ -31632,7 +31608,7 @@
         "onHand": 196.545,
         "unit": "g",
         "bf_cost": 0.049,
-        "bf_lotNo": "Dose at 0.2003g/kg\nUltraflo\u00ae Max is a high-performing blend of \u03b2-glucanase and an arabinoxylanase that makes it possible to degrade both major cell wall components to ensure minimum viscosity and get the best wort separation and beer filtration. This enzyme blend will break down \u03b2-glucans and arabinoxylans into non-viscous polysaccharides and thus increasing extract run off of a more concentrated wort.\n\nhttps://biosolutions.novozymes.com/en/products/craft-brewing/ultraflo-max-faster-filtration"
+        "bf_lotNo": "Dose at 0.2003g/kg\nUltraflo® Max is a high-performing blend of β-glucanase and an arabinoxylanase that makes it possible to degrade both major cell wall components to ensure minimum viscosity and get the best wort separation and beer filtration. This enzyme blend will break down β-glucans and arabinoxylans into non-viscous polysaccharides and thus increasing extract run off of a more concentrated wort.\n\nhttps://biosolutions.novozymes.com/en/products/craft-brewing/ultraflo-max-faster-filtration"
       },
       {
         "name": "Calcium Chloride (CaCl2)",
@@ -31650,9 +31626,7 @@
         "onHand": 1271.53,
         "unit": "g",
         "bf_cost": 0.0088,
-        "bf_lotNo": "\"https://labelpeelers.com/beer-making/beer-brewing-additives/calcium-chloride-1-lb/\n\"\n",
-        "bf_supplier": "",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00"
+        "bf_lotNo": "\"https://labelpeelers.com/beer-making/beer-brewing-additives/calcium-chloride-1-lb/\n\"\n"
       },
       {
         "name": "Baking Soda (NaHCO3)",
@@ -31670,9 +31644,7 @@
         "onHand": 392.628,
         "unit": "g",
         "bf_cost": null,
-        "bf_lotNo": "",
-        "bf_supplier": "",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00"
+        "bf_lotNo": ""
       },
       {
         "name": "Phantasm Powder",
@@ -31690,7 +31662,7 @@
         "onHand": 424,
         "unit": "g",
         "bf_cost": 0.101,
-        "bf_lotNo": "dose rate 20-40g/hL \n\nAdd Phantasm during the whirlpool at rates of 1 \u2013 2 lbs per bbl (1 \u2013 2.5 oz per 5-gallon batch) and ferment with a thiolized yeast strain. Can also use at high krausen.\n\nPhantasm will bring a touch of fermentables to your beer, around 0.3\u00b0P (1.0012 SG) alongside a slight pH drop.\n\nIngredients: Marlborough Sauvignon Blanc Grapes\nCountry of Origin: New Zealand"
+        "bf_lotNo": "dose rate 20-40g/hL \n\nAdd Phantasm during the whirlpool at rates of 1 – 2 lbs per bbl (1 – 2.5 oz per 5-gallon batch) and ferment with a thiolized yeast strain. Can also use at high krausen.\n\nPhantasm will bring a touch of fermentables to your beer, around 0.3°P (1.0012 SG) alongside a slight pH drop.\n\nIngredients: Marlborough Sauvignon Blanc Grapes\nCountry of Origin: New Zealand"
       },
       {
         "name": "Diammonium Phosphate (DAP)",
@@ -31708,7 +31680,7 @@
         "onHand": 454,
         "unit": "g",
         "bf_cost": null,
-        "bf_lotNo": "DAP is sometimes used with beer yeast but isn't typically the first choice for standard all-malt beer fermentations.\nWhen Recommended\n\nMost all-malt worts naturally provide sufficient Yeast Assimilable Nitrogen (YAN, usually >250-300 ppm), so DAP supplementation is rarely needed for healthy beer yeast strains. It's more commonly recommended for challenging beer scenarios like high-gravity worts (>8% ABV), high-adjunct/sugar washes (e.g., seltzers), or nutrient-poor extracts to prevent stuck ferments and off-flavors like H2S.\nBetter Alternatives\n\nBeer brewers often prefer complete yeast nutrients like Fermaid K/O, Wyeast Nutrient, or Servomyces over pure DAP, as these provide a broader nutrient profile (amino acids, vitamins, sterols) beyond just nitrogen. Pure DAP works as a nitrogen boost but lacks these extras, making it more wine/mead/cider-oriented.\nDosage for Beer\n\nIf using DAP, stick to \u00bd tsp (about 1.5g) per 5-gallon batch, added late in the boil\u2014equivalent to roughly 0.13-0.2 g/L. Split additions (50% early, 50% mid-ferment) for high-gravity beers to avoid excess yeast growth"
+        "bf_lotNo": "DAP is sometimes used with beer yeast but isn't typically the first choice for standard all-malt beer fermentations.\nWhen Recommended\n\nMost all-malt worts naturally provide sufficient Yeast Assimilable Nitrogen (YAN, usually >250-300 ppm), so DAP supplementation is rarely needed for healthy beer yeast strains. It's more commonly recommended for challenging beer scenarios like high-gravity worts (>8% ABV), high-adjunct/sugar washes (e.g., seltzers), or nutrient-poor extracts to prevent stuck ferments and off-flavors like H2S.\nBetter Alternatives\n\nBeer brewers often prefer complete yeast nutrients like Fermaid K/O, Wyeast Nutrient, or Servomyces over pure DAP, as these provide a broader nutrient profile (amino acids, vitamins, sterols) beyond just nitrogen. Pure DAP works as a nitrogen boost but lacks these extras, making it more wine/mead/cider-oriented.\nDosage for Beer\n\nIf using DAP, stick to ½ tsp (about 1.5g) per 5-gallon batch, added late in the boil—equivalent to roughly 0.13-0.2 g/L. Split additions (50% early, 50% mid-ferment) for high-gravity beers to avoid excess yeast growth"
       },
       {
         "name": "Supermoss HB Five Star",
@@ -31798,9 +31770,7 @@
         "onHand": 1000,
         "unit": "g",
         "bf_cost": 0,
-        "bf_lotNo": "",
-        "bf_supplier": "",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00"
+        "bf_lotNo": ""
       },
       {
         "name": "Gypsum (CaSO4)",
@@ -31836,9 +31806,7 @@
         "onHand": 1816.86,
         "unit": "ml",
         "bf_cost": 0.057,
-        "bf_lotNo": "",
-        "bf_supplier": "",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00"
+        "bf_lotNo": ""
       },
       {
         "name": "Silafine",
@@ -31892,9 +31860,7 @@
         "onHand": 3392.755,
         "unit": "g",
         "bf_cost": 0,
-        "bf_lotNo": "",
-        "bf_supplier": "",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00"
+        "bf_lotNo": ""
       },
       {
         "name": "Isinglass",
@@ -31933,8 +31899,7 @@
         "onHand": 2.268,
         "unit": "kg",
         "bf_cost": 6.036,
-        "bf_lotNo": "9717961",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00"
+        "bf_lotNo": "9717961"
       },
       {
         "name": "Rice, Flaked",
@@ -32072,262 +32037,6 @@
         "unit": "kg",
         "bf_cost": 4.1278,
         "bf_lotNo": ""
-      },
-      {
-        "bf_id": "default-11ce503",
-        "name": "Brown Sugar, Dark",
-        "type": "Fermentable",
-        "onHand": 0,
-        "bf_supplier": "",
-        "bf_type": "Sugar",
-        "lotNumber": "",
-        "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
-        "purchaseUnit": "kg",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00",
-        "_fromBF": true
-      },
-      {
-        "bf_id": "default-620d1be4",
-        "name": "Amarillo",
-        "type": "Hop",
-        "onHand": 0,
-        "bf_supplier": "",
-        "bf_type": "Pellet",
-        "lotNumber": "",
-        "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
-        "purchaseUnit": "g",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00",
-        "_fromBF": true
-      },
-      {
-        "bf_id": "Bt5qmwpe0uKQbkvys0VbuICsqsvo33",
-        "name": "Amarillo 2023 8%",
-        "type": "Hop",
-        "onHand": 0,
-        "bf_supplier": "",
-        "bf_type": "Pellet",
-        "lotNumber": "",
-        "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
-        "purchaseUnit": "g",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00",
-        "_fromBF": true
-      },
-      {
-        "bf_id": "JlUYM3b2OlKx4fa3vlYh6Ftu75UHWT",
-        "name": "Amarillo Leaf 2024 10.6%",
-        "type": "Hop",
-        "onHand": 0,
-        "bf_supplier": "",
-        "bf_type": "Whole",
-        "lotNumber": "",
-        "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
-        "purchaseUnit": "g",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00",
-        "_fromBF": true
-      },
-      {
-        "bf_id": "sV5G4o6ThsSgybjCuKzFCaSWy5jQ3I",
-        "name": "Amarillo leaf 2024 10.6%",
-        "type": "Hop",
-        "onHand": 0,
-        "bf_supplier": "",
-        "bf_type": "Whole",
-        "lotNumber": "",
-        "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
-        "purchaseUnit": "g",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00",
-        "_fromBF": true
-      },
-      {
-        "bf_id": "default-dc87a10e",
-        "name": "Belma",
-        "type": "Hop",
-        "onHand": 0,
-        "bf_supplier": "",
-        "bf_type": "CO2Extract",
-        "lotNumber": "",
-        "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
-        "purchaseUnit": "g",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00",
-        "_fromBF": true
-      },
-      {
-        "bf_id": "default-930665",
-        "name": " S-189  SafLager German Lager",
-        "type": "Yeast",
-        "onHand": 0,
-        "bf_supplier": "",
-        "bf_type": "Lager",
-        "lotNumber": "",
-        "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
-        "purchaseUnit": "g",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00",
-        "_fromBF": true
-      },
-      {
-        "bf_id": "IKGhSrTGhNBJ5mj4kd28QqZfcoJxmk",
-        "name": "71B",
-        "type": "Yeast",
-        "onHand": 0,
-        "bf_supplier": "",
-        "bf_type": "Champagne",
-        "lotNumber": "",
-        "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
-        "purchaseUnit": "g",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00",
-        "_fromBF": true
-      },
-      {
-        "bf_id": "default-Dl6F8T2MNsNYU6VUX6OckZYCrLb4zq",
-        "name": "BERLIN Lager yeast",
-        "type": "Yeast",
-        "onHand": 0,
-        "bf_supplier": "",
-        "bf_type": "Lager",
-        "lotNumber": "",
-        "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
-        "purchaseUnit": "g",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00",
-        "_fromBF": true
-      },
-      {
-        "bf_id": "w5NP1WbDCetkw1JOgI9TqYphvrNCWw",
-        "name": "BERLIN Lager yeast from Batch #537",
-        "type": "Yeast",
-        "onHand": 0,
-        "bf_supplier": "",
-        "bf_type": "Lager",
-        "lotNumber": "",
-        "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
-        "purchaseUnit": "g",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00",
-        "_fromBF": true
-      },
-      {
-        "bf_id": "default-016efc",
-        "name": "CALI American Ale (500 g)",
-        "type": "Yeast",
-        "onHand": 0,
-        "bf_supplier": "",
-        "bf_type": "Ale",
-        "lotNumber": "",
-        "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
-        "purchaseUnit": "g",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00",
-        "_fromBF": true
-      },
-      {
-        "bf_id": "8TAFThTCSyTzvWnqwT5kTAvWclJIOQ",
-        "name": "Cali",
-        "type": "Yeast",
-        "onHand": 0,
-        "bf_supplier": "",
-        "bf_type": "Lager",
-        "lotNumber": "",
-        "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
-        "purchaseUnit": "g",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00",
-        "_fromBF": true
-      },
-      {
-        "bf_id": "RjIbWMrUFAO8QU9kUMO8oiqqyvZZzk",
-        "name": "Attenuzyme Pro",
-        "type": "Misc",
-        "onHand": 0,
-        "bf_supplier": "",
-        "bf_type": "Other",
-        "lotNumber": "",
-        "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
-        "purchaseUnit": "g",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00",
-        "_fromBF": true
-      },
-      {
-        "bf_id": "6oijVZyISLTOHlRHk41zFOQbkymWRY",
-        "name": "Attenuzyme Pro 75%-79%",
-        "type": "Misc",
-        "onHand": 0,
-        "bf_supplier": "",
-        "bf_type": "Other",
-        "lotNumber": "",
-        "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
-        "purchaseUnit": "g",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00",
-        "_fromBF": true
-      },
-      {
-        "bf_id": "xiqphrH2TRucttRws22tO9zxwZLH4o",
-        "name": "Ceremix Flex",
-        "type": "Misc",
-        "onHand": 0,
-        "bf_supplier": "",
-        "bf_type": "Other",
-        "lotNumber": "",
-        "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
-        "purchaseUnit": "g",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00",
-        "_fromBF": true
-      },
-      {
-        "bf_id": "fVe5fS098owhqjZ5wfZXkxH8eNn54T",
-        "name": "ClearZyme",
-        "type": "Misc",
-        "onHand": -15.62,
-        "bf_supplier": "",
-        "bf_type": "Fining",
-        "lotNumber": "",
-        "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
-        "purchaseUnit": "g",
-        "lastBFSync": "2026-09-22T13:06:33.121983+00:00",
-        "_fromBF": true
       }
     ],
     "ingredientAliases": [
@@ -32358,7 +32067,7 @@
         "bfType": "",
         "members": [
           "ENGLISH  Ale",
-          "No members yet \u2014 add ingredients below",
+          "No members yet — add ingredients below",
           "Wyeast 1084 Irish Ale salvaged"
         ]
       },
@@ -32406,7 +32115,7 @@
         "category": "Fermentable",
         "bfType": "",
         "members": [
-          "No members yet \u2014 add ingredients below",
+          "No members yet — add ingredients below",
           "Pilsner Malt"
         ]
       },
@@ -32581,712 +32290,211 @@
       "status": "Completed",
       "kegDate": "2026-06-16",
       "bfBrewDate": "2026-05-23",
-      "abv": "",
+      "abv": 6.8,
       "og": 1.064,
       "fg": 1.012,
       "keggedVol": 146,
       "tank": "Tank 02",
       "dateTapped": "2026-08-25",
       "dateKicked": null,
-      "recipeName": "MaiBock",
+      "recipeName": "MaiBock 28",
       "bfId": "9cAGFjUQfDOcbjSDSk7VlyERaYGgtS"
     },
     "562": {
       "status": "Conditioning",
       "kegDate": "2026-08-19",
       "bfBrewDate": "2026-07-18",
-      "abv": "",
+      "abv": 5.4,
       "og": 1.05,
       "fg": 1.009,
       "keggedVol": 145,
       "tank": "Tank 02",
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Mellow Yellow",
+      "recipeName": "Mellow Yellow 47",
       "bfId": "PKHTPgAFcqZQ1OipvN7l0gnPRORWBu"
     },
     "565": {
       "status": "Conditioning",
       "kegDate": "2026-08-16",
       "bfBrewDate": "2026-08-04",
-      "abv": "",
+      "abv": 8.7,
       "og": 1.075,
       "fg": 1.009,
       "keggedVol": 21,
       "tank": "Tank 00",
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Olde Cellar Reserve",
+      "recipeName": "Olde Cellar Reserve 01",
       "bfId": "g3jnr7Q8CV18NutCecrksOOxBgt2c7"
     },
     "566": {
       "status": "Fermenting",
       "kegDate": "2026-09-23",
       "bfBrewDate": "2026-08-15",
-      "abv": "",
+      "abv": 4.9,
       "og": 1.044,
       "fg": 1.007,
       "keggedVol": null,
       "tank": "Tank 03",
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Golden Dragon",
+      "recipeName": "Golden Dragon 01",
       "bfId": "tYSKxfwA0CBaNONS1bAfcOaFgZ3Q0W"
     },
     "567": {
       "status": "Conditioning",
       "kegDate": "2026-09-17",
       "bfBrewDate": "2026-08-22",
-      "abv": "",
+      "abv": 6.3,
       "og": 1.055,
       "fg": 1.007,
       "keggedVol": 131,
       "tank": "Tank 02",
       "dateTapped": "2026-09-24",
       "dateKicked": null,
-      "recipeName": "Zephyr",
+      "recipeName": "Zephyr 03",
       "bfId": "dOLqB3pKvZkgsytaxVmAtfad8oJd7a"
     },
     "568": {
       "status": "Conditioning",
       "kegDate": "2026-09-15",
       "bfBrewDate": "2026-08-27",
-      "abv": "",
+      "abv": 6.4,
       "og": 1.061,
       "fg": 1.012,
       "keggedVol": 132,
       "tank": "Tank 01",
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Vanilla Porter",
+      "recipeName": "Vanilla Porter 04",
       "bfId": "hp9gqxgkCXo7JXxtqqExtElXdxKBeW"
     },
     "569": {
       "status": "Fermenting",
       "kegDate": "2026-10-07",
       "bfBrewDate": "2026-09-19",
-      "abv": "",
+      "abv": 5.3,
       "og": 1.05,
-      "fg": "",
+      "fg": null,
       "keggedVol": null,
       "tank": "Tank 01",
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Queen Citra",
+      "recipeName": "Queen Citra 08",
       "bfId": "lz9knzqZPrSTDca0CLdrF1vW9j7NRH"
     },
     "570": {
       "status": "Planning",
       "kegDate": "2026-10-10",
       "bfBrewDate": "2026-09-26",
-      "abv": "",
-      "og": "",
-      "fg": "",
+      "abv": 5.3,
+      "og": null,
+      "fg": null,
       "keggedVol": null,
       "tank": "Tank 02",
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Strata",
+      "recipeName": "Strata 22",
       "bfId": "gneKqrfCcT5BV9eiKxejFWjpQm1D2x"
     },
     "571": {
       "status": "Planning",
       "kegDate": "2026-10-18",
       "bfBrewDate": "2026-10-03",
-      "abv": "",
-      "og": "",
-      "fg": "",
+      "abv": 6.2,
+      "og": null,
+      "fg": null,
       "keggedVol": null,
       "tank": "Tank 03",
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Rising Sun",
+      "recipeName": "Rising Sun 01",
       "bfId": "YGvKivot4RMTviVp0ERUDeZqgh7PmC"
     },
     "572": {
       "status": "Planning",
       "kegDate": "2026-10-29",
       "bfBrewDate": "2026-10-10",
-      "abv": "",
-      "og": "",
-      "fg": "",
+      "abv": 6.2,
+      "og": null,
+      "fg": null,
       "keggedVol": null,
       "tank": "Tank 01",
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Pliny the Elder",
+      "recipeName": "Pliny the Elder 65",
       "bfId": "4WzC0A1OiUvsvWtuEWsjXbshPYQhLg"
     },
     "573": {
       "status": "Planning",
       "kegDate": "2026-10-31",
       "bfBrewDate": "2026-10-17",
-      "abv": "",
-      "og": "",
-      "fg": "",
+      "abv": 5.5,
+      "og": null,
+      "fg": null,
       "keggedVol": null,
       "tank": "Tank 02",
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Dark Side of the Moon",
+      "recipeName": "Dark Side of the Moon 03",
       "bfId": "akp8x5GXMex1qQ9GI4NFmjKpI3BQaV"
     },
     "574": {
       "status": "Planning",
       "kegDate": "2026-11-01",
       "bfBrewDate": "2026-10-24",
-      "abv": "",
-      "og": "",
-      "fg": "",
+      "abv": 6.3,
+      "og": null,
+      "fg": null,
       "keggedVol": null,
       "tank": "Tank 03",
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Poor Richards Spruce Ale",
+      "recipeName": "Poor Richards Spruce Ale 16",
       "bfId": "uPbQ8V4NNcNNQQ2Gk1PMPLkYzes1yI"
     },
     "575": {
       "status": "Planning",
       "kegDate": "2026-11-14",
       "bfBrewDate": "2026-10-31",
-      "abv": "",
-      "og": "",
-      "fg": "",
+      "abv": 5.3,
+      "og": null,
+      "fg": null,
       "keggedVol": null,
       "tank": "Tank 01",
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Strata",
+      "recipeName": "Strata 23",
       "bfId": "3GLPhZXrWpVMQA9c5DNTub1lnhpZII"
     },
     "576": {
       "status": "Planning",
       "kegDate": "2026-11-30",
       "bfBrewDate": "2026-11-07",
-      "abv": "",
-      "og": "",
-      "fg": "",
+      "abv": 5,
+      "og": null,
+      "fg": null,
       "keggedVol": null,
       "tank": "Tank 02",
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Mellow Yellow",
+      "recipeName": "Mellow Yellow 48",
       "bfId": "FY8In2ENemH124K94QIzFap1WjSqmR"
     },
     "577": {
       "status": "Planning",
       "kegDate": "2026-11-29",
       "bfBrewDate": "2026-11-14",
-      "abv": "",
-      "og": "",
-      "fg": "",
+      "abv": 8.1,
+      "og": null,
+      "fg": null,
       "keggedVol": null,
       "tank": null,
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "White Lotus",
+      "recipeName": "White Lotus 01",
       "bfId": "oN5Te27NpXEf3S7mXzhqpaSVOx7Aya"
-    },
-    "475": {
-      "status": "Archived",
-      "bfBrewDate": "2023-12-30",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.05,
-      "fg": 1.01,
-      "recipeName": "Mellow Yellow",
-      "bfId": "07jlmCQtSutHJbJc9R8saC06TUUseZ"
-    },
-    "501": {
-      "status": "Archived",
-      "bfBrewDate": "2024-11-23",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.058,
-      "fg": 1.006,
-      "recipeName": "Pliny the Elder",
-      "bfId": "0RdVb2OMnzBS4ASQjss2v6uUE7nhNT"
-    },
-    "491": {
-      "status": "Archived",
-      "bfBrewDate": "2024-06-15",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.05,
-      "fg": 1.005,
-      "recipeName": "Strata",
-      "bfId": "2AOeCzp7C8c1l8r03TUJt77nkmjXXJ"
-    },
-    "492": {
-      "status": "Archived",
-      "bfBrewDate": "2024-06-29",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.05,
-      "fg": 1.01,
-      "recipeName": "Mellow Yellow",
-      "bfId": "2G9KvtynIp5KQn4Hj1R7RUavLKkyg4"
-    },
-    "553": {
-      "status": "Archived",
-      "bfBrewDate": "2026-04-25",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.05,
-      "fg": 1.008,
-      "recipeName": "Equinox",
-      "bfId": "2UwYVCzWf1AHnRmq1vpbRljPSgPnZF"
-    },
-    "563": {
-      "status": "Archived",
-      "bfBrewDate": "2026-07-25",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.05,
-      "fg": 1.006,
-      "recipeName": "Queen Citra",
-      "bfId": "2kpEDtCnxuBvLAv5geF4kDI2qVmUAr"
-    },
-    "515": {
-      "status": "Archived",
-      "bfBrewDate": "2025-04-26",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.05,
-      "fg": 1.005,
-      "recipeName": "Strata",
-      "bfId": "2m1x6N0cC1cMWNwgjwzUuTlHCxAHvR"
-    },
-    "516": {
-      "status": "Archived",
-      "bfBrewDate": "2025-05-17",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.057,
-      "fg": 1.005,
-      "recipeName": "Pliny the Elder",
-      "bfId": "2nWGJOujOPLihlSarCcd69Os2PFak2"
-    },
-    "479": {
-      "status": "Archived",
-      "bfBrewDate": "2024-02-03",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.052,
-      "fg": 1.002,
-      "recipeName": "Irish Red",
-      "bfId": "3trqXGKIBgPHkX3dLWfNxOtGXkO2E1"
-    },
-    "525": {
-      "status": "Archived",
-      "bfBrewDate": "2025-08-16",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.045,
-      "fg": 1.007,
-      "recipeName": "Czech Mate",
-      "bfId": "4f5nypx8dS7gw9odxY3q44v19BfzMV"
-    },
-    "527": {
-      "status": "Archived",
-      "bfBrewDate": "2025-09-13",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.05,
-      "fg": 1.004,
-      "recipeName": "Strata",
-      "bfId": "4v5WUO41VV2nY833jutRNyACpXAr87"
-    },
-    "469": {
-      "status": "Archived",
-      "bfBrewDate": "2023-10-28",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.061,
-      "fg": 1.01,
-      "recipeName": "Pliny the Elder",
-      "bfId": "52W7VtiFsf4oi1vHZ5XqEttWhO6JBT"
-    },
-    "542": {
-      "status": "Archived",
-      "bfBrewDate": "2026-01-31",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.06,
-      "fg": 1.005,
-      "recipeName": "Pliny the Elder",
-      "bfId": "88yqqb2I5jf1qCrlj8nl0qQFG4ZVIu"
-    },
-    "554": {
-      "status": "Archived",
-      "bfBrewDate": "2026-05-02",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.045,
-      "fg": 1.009,
-      "recipeName": "Olde King Kolsch",
-      "bfId": "9EIYLpFbOj0l6O4dM9NF8T5cjGuMog"
-    },
-    "503": {
-      "status": "Archived",
-      "bfBrewDate": "2024-12-14",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.051,
-      "fg": 1.01,
-      "recipeName": "Strata",
-      "bfId": "ASAEOnjkKyGQTXM0SkD5VCmwOpF9Ak"
-    },
-    "497": {
-      "status": "Archived",
-      "bfBrewDate": "2024-08-15",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.037,
-      "fg": 1.007,
-      "recipeName": "Czech Mate",
-      "bfId": "At9M543fUXSRUFJsdCYZovRQUEwwQk"
-    },
-    "506": {
-      "status": "Archived",
-      "bfBrewDate": "2025-01-11",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.06,
-      "fg": 1.008,
-      "recipeName": "Pliny the Elder",
-      "bfId": "BVDGDvAy9tJSgfenaKuuvoRp9V91kD"
-    },
-    "461": {
-      "status": "Archived",
-      "bfBrewDate": "2023-07-08",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.055,
-      "fg": 1.01,
-      "recipeName": "Aroma Coma",
-      "bfId": "Bv9wuT1plqdryEczpttaNjkyfABajj"
-    },
-    "528": {
-      "status": "Archived",
-      "bfBrewDate": "2025-09-20",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.058,
-      "fg": 1.008,
-      "recipeName": "Poor Richards Spruce Ale",
-      "bfId": "CZl626nsXIWI1YnSo5RLHCLrZbgaTI"
-    },
-    "519": {
-      "status": "Archived",
-      "bfBrewDate": "2025-06-21",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.048,
-      "fg": 1.005,
-      "recipeName": "Olde King Kolsch",
-      "bfId": "Ce5XcyVYe5Ls75A2pj3xCRmvikOjMy"
-    },
-    "512": {
-      "status": "Archived",
-      "bfBrewDate": "2025-03-15",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.047,
-      "fg": 1.007,
-      "recipeName": "Mellow Yellow",
-      "bfId": "DALQcTIDGRysAJJwDHgO2x5GxbUsVk"
-    },
-    "547": {
-      "status": "Archived",
-      "bfBrewDate": "2026-03-07",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.044,
-      "fg": 1.01,
-      "recipeName": "Czech Mate",
-      "bfId": "DQp07HCoaKLlvge3UBloAdZ9houcXv"
-    },
-    "534": {
-      "status": "Archived",
-      "bfBrewDate": "2025-11-15",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.029,
-      "fg": 1.019,
-      "recipeName": "Low Tide IPA",
-      "bfId": "EqOphjSAwsaWxJVGskbedH2y80lQl6"
-    },
-    "495": {
-      "status": "Archived",
-      "bfBrewDate": "2024-07-27",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.051,
-      "fg": 1.003,
-      "recipeName": "Strata",
-      "bfId": "EyVQyJw8itSmNJt55sXKvMT3Bxli2J"
-    },
-    "514": {
-      "status": "Archived",
-      "bfBrewDate": "2025-04-19",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.053,
-      "fg": 1.005,
-      "recipeName": "Strata",
-      "bfId": "FI8Q42YM4EI6LHoAYIRtccIn8Qqhf1"
-    },
-    "458": {
-      "status": "Archived",
-      "bfBrewDate": "2023-06-03",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.046,
-      "fg": 1.011,
-      "recipeName": "Mellow Yellow",
-      "bfId": "FcmORFmzhYfQ9ZFg6Z3uY7M38VRlWK"
-    },
-    "498": {
-      "status": "Archived",
-      "bfBrewDate": "2024-10-12",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.053,
-      "fg": 1.005,
-      "recipeName": "Strata",
-      "bfId": "HfOYn82kaV4lbKGSN7tCExxvG5o5fB"
-    },
-    "540": {
-      "status": "Archived",
-      "bfBrewDate": "2026-01-10",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.058,
-      "fg": 1.009,
-      "recipeName": "MaiBock",
-      "bfId": "Hi4uKPsj5lOLlyj4Hc7xqH6Ntmfk86"
-    },
-    "555": {
-      "status": "Archived",
-      "bfBrewDate": "2026-05-16",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.06,
-      "fg": 1.007,
-      "recipeName": "Zephyr",
-      "bfId": "ICRZFFnScphTHnYCvyZw9O6Im4JPGR"
-    },
-    "451": {
-      "status": "Archived",
-      "bfBrewDate": "2023-03-04",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.05,
-      "fg": 1.008,
-      "recipeName": "Bishops Tipple",
-      "bfId": "IHUsgGWVdIn2jGNLiybZuAvRtfGMmd"
-    },
-    "509": {
-      "status": "Archived",
-      "bfBrewDate": "2025-02-15",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.069,
-      "fg": 1.011,
-      "recipeName": "MaiBock",
-      "bfId": "J3me95hR0w3Rwg1F9TtL3uAG56NOI6"
-    },
-    "489": {
-      "status": "Archived",
-      "bfBrewDate": "2024-05-25",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.042,
-      "fg": 1.006,
-      "recipeName": "Czech Mate",
-      "bfId": "JNwArqHf3Tbox1Ap86JIIMVSDTYqwH"
-    },
-    "467": {
-      "status": "Archived",
-      "bfBrewDate": "2023-09-29",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.061,
-      "fg": 1.01,
-      "recipeName": "Pliny the Elder",
-      "bfId": "KNKX1chTSkrS0cKsw8lUdMuRr192yy"
-    },
-    "3": {
-      "status": "Archived",
-      "bfBrewDate": "2024-06-30",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.05,
-      "fg": 0.996,
-      "recipeName": "Wheat Vodka",
-      "bfId": "KWF5ZjdoyXLDYGgdsc3CF5pnICAsB9"
-    },
-    "548": {
-      "status": "Archived",
-      "bfBrewDate": "2026-03-14",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.046,
-      "fg": 1.01,
-      "recipeName": "Olde King Kolsch",
-      "bfId": "LkUkCwcLyXymjC7zoOFsNbIXwOFUk7"
-    },
-    "464": {
-      "status": "Archived",
-      "bfBrewDate": "2023-08-19",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.054,
-      "fg": 1.01,
-      "recipeName": "Strata",
-      "bfId": "MKctn81YuGqyAmI52BIREg1BN1wXIo"
-    },
-    "482": {
-      "status": "Archived",
-      "bfBrewDate": "2024-03-09",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.05,
-      "fg": 1.005,
-      "recipeName": "Mellow Yellow",
-      "bfId": "MN1pyh77UkdFD9d6NyuRAdtIh2FUg4"
-    },
-    "468": {
-      "status": "Archived",
-      "bfBrewDate": "2023-10-14",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.052,
-      "fg": 1.01,
-      "recipeName": "Mellow Yellow",
-      "bfId": "MhF9NihrO8eIBpCc2CfPbh3g1cl9rF"
-    },
-    "484": {
-      "status": "Archived",
-      "bfBrewDate": "2024-03-23",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.062,
-      "fg": 1.015,
-      "recipeName": "MaiBock",
-      "bfId": "MljE2DqA0SLouZjiPf1l9plXSwe08j"
-    },
-    "560": {
-      "status": "Archived",
-      "bfBrewDate": "2026-06-27",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.05,
-      "fg": 1.012,
-      "recipeName": "Fiddlers Flame",
-      "bfId": "O2z8ozk36uI7sSDvsaZwbTI3tQ7vQx"
-    },
-    "541": {
-      "status": "Archived",
-      "bfBrewDate": "2026-01-17",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.055,
-      "fg": 1.006,
-      "recipeName": "Strata",
-      "bfId": "P0bb4n4xfozzwaiyB6ENFs0znB2JjU"
-    },
-    "510": {
-      "status": "Archived",
-      "bfBrewDate": "2025-02-22",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.062,
-      "fg": 1.004,
-      "recipeName": "MaiBock",
-      "bfId": "PFAGd0LaSwIUB0P5aOSv4XCRT1hVqU"
-    },
-    "466": {
-      "status": "Archived",
-      "bfBrewDate": "2023-09-16",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.059,
-      "fg": 1.004,
-      "recipeName": "Pliny the Elder",
-      "bfId": "PkzQPUexzRYLEBosk3pCatXSLJaI2p"
-    },
-    "543": {
-      "status": "Archived",
-      "bfBrewDate": "2026-02-03",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.052,
-      "fg": 1.012,
-      "recipeName": "Mellow Yellow",
-      "bfId": "QCMvR4Maucg75YrXCPUJ1uhchOtLLJ"
-    },
-    "487": {
-      "status": "Archived",
-      "bfBrewDate": "2024-05-11",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.06,
-      "fg": 1.007,
-      "recipeName": "Pliny the Elder",
-      "bfId": "R8uXFl0lc1GCBA5zwH6XJ00eeY5VnN"
-    },
-    "465": {
-      "status": "Archived",
-      "bfBrewDate": "2023-09-02",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.056,
-      "fg": 1.014,
-      "recipeName": "Bourbon Porter",
-      "bfId": "RJnvICmuaBuNXSUieIULEZLDvrLH4s"
-    },
-    "471": {
-      "status": "Archived",
-      "bfBrewDate": "2023-11-25",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.07,
-      "fg": 1.01,
-      "recipeName": "MaiBock",
-      "bfId": "RNa1Zq3cz9uGjxT4Yvw8nuLpt2a2sW"
-    },
-    "557": {
-      "status": "Archived",
-      "bfBrewDate": "2026-05-30",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.05,
-      "fg": 1.007,
-      "recipeName": "Strata",
-      "bfId": "S7XqakqOpfopQNUjWWgcnSfvyfM8Kd"
-    },
-    "524": {
-      "status": "Archived",
-      "bfBrewDate": "2025-08-09",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.044,
-      "fg": 1.008,
-      "recipeName": "Czech Mate",
-      "bfId": "SIGXdPH1q33Gn5ocjtIo1NYVPvXtt3"
-    },
-    "546": {
-      "status": "Archived",
-      "bfBrewDate": "2026-02-28",
-      "kegDate": "",
-      "abv": "",
-      "og": 1.064,
-      "fg": 1.005,
-      "recipeName": "Zephyr",
-      "bfId": "Sh8e8zVm1bAMTZ1dF7Cd4FWhPigNs7"
     }
-  },
-  "bfSyncTime": "2026-09-22T13:06:33.121983+00:00"
+  }
 }
