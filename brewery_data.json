@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-22T11:53:55.160Z",
+  "savedAt": "2026-09-22T11:59:03.046Z",
   "beers": [
     {
       "id": 1,
@@ -29433,7 +29433,7 @@
         "onHand": 0.468,
         "unit": "kg",
         "bf_cost": 6.06,
-        "bf_lotNo": ""
+        "bf_lotNo": "9625389"
       },
       {
         "name": "Caramel 60L",
@@ -29643,7 +29643,7 @@
         "onHand": 3.08,
         "unit": "kg",
         "bf_cost": 6.06,
-        "bf_lotNo": ""
+        "bf_lotNo": "9468869"
       },
       {
         "name": "Carafa Special III",
