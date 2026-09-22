@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-22T10:41:17.704Z",
+  "savedAt": "2026-09-22T10:41:30.120Z",
   "beers": [
     {
       "id": 1,
@@ -30674,7 +30674,7 @@
         "name": "Amarillo",
         "type": "Hop",
         "bf_id": "JogqoGReaX4KacZcaYGzb885eLQIbC",
-        "minStock": 100,
+        "minStock": 0,
         "supplier": "",
         "sku": "",
         "purchaseQty": 0,
