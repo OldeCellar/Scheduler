@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-22T11:59:03.046Z",
+  "savedAt": "2026-09-22T12:02:00.795Z",
   "beers": [
     {
       "id": 1,
@@ -29790,7 +29790,7 @@
         "onHand": 6.78,
         "unit": "kg",
         "bf_cost": 5.29,
-        "bf_lotNo": "GR331E"
+        "bf_lotNo": "9468869"
       },
       {
         "name": "Roasted Barley 1500",
