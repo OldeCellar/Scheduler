@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-22T10:14:36.172Z",
+  "savedAt": "2026-09-22T10:16:06.836Z",
   "beers": [
     {
       "id": 1,
@@ -32001,10 +32001,10 @@
         "name": "MONK Belgian Abbey Ale",
         "type": "Yeast",
         "bf_id": "default-5ZzjdYo0telPNgJ9AxobXNAivEXPqx",
-        "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
+        "minStock": 150,
+        "supplier": "MoreWinePro",
+        "sku": "DY106",
+        "purchaseQty": 500,
         "purchaseUnit": "kg",
         "notes": "",
         "_fromBF": true,
