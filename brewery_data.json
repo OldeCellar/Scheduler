@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-25T14:56:35.726Z",
+  "savedAt": "2026-09-25T14:57:12.166Z",
   "beers": [
     {
       "id": 1,
@@ -2034,6 +2034,13 @@
     "2026-10-10": {
       "beer": "Pliny the Elder",
       "tank": "Tank 01",
+      "notes": "",
+      "batch": null,
+      "seq": null
+    },
+    "2026-10-31": {
+      "beer": "Dark Side of the Moon",
+      "tank": "Tank 02",
       "notes": "",
       "batch": null,
       "seq": null
