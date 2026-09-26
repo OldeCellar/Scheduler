@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-26T11:21:58.770Z",
+  "savedAt": "2026-09-26T11:22:45.492Z",
   "beers": [
     {
       "id": 1,
@@ -29962,7 +29962,7 @@
         "bf_type": "Grain",
         "bf_category": "Base (Vienna)",
         "bf_color": 4.314721,
-        "onHand": 22.0922,
+        "onHand": 19.9122,
         "unit": "kg",
         "bf_cost": 2.32,
         "bf_lotNo": ""
@@ -30004,7 +30004,7 @@
         "bf_type": "Grain",
         "bf_category": "Crystal/Caramel",
         "bf_color": 1.3,
-        "onHand": 21.586,
+        "onHand": 20.136,
         "unit": "kg",
         "bf_cost": 2.29,
         "bf_lotNo": ""
@@ -30088,7 +30088,7 @@
         "bf_type": "Sugar",
         "bf_category": "",
         "bf_color": 0,
-        "onHand": 30.9596,
+        "onHand": 29.5096,
         "unit": "kg",
         "bf_cost": 2.24,
         "bf_lotNo": ""
@@ -30172,7 +30172,7 @@
         "bf_type": "Grain",
         "bf_category": "Base (Pilsner)",
         "bf_color": 1.903553,
-        "onHand": 135.863,
+        "onHand": 104.663,
         "unit": "kg",
         "bf_cost": 2.67,
         "bf_lotNo": "Floor-Malted Bohemian"
@@ -32381,7 +32381,7 @@
       "status": "Planning",
       "kegDate": "2026-10-10",
       "bfBrewDate": "2026-09-26",
-      "abv": 5.3,
+      "abv": 5.6,
       "og": null,
       "fg": null,
       "keggedVol": null,
