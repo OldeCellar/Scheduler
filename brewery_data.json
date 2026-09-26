@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.17-20260922",
-  "savedAt": "2026-09-26T22:35:09.874Z",
+  "savedAt": "2026-09-26T22:35:43.022Z",
   "beers": [
     {
       "id": 1,
@@ -2018,17 +2018,13 @@
       "bfStatus": "Fermenting"
     },
     {
+      "name": "Risning Sun",
       "batch": 571,
-      "name": "Rising Sun",
-      "beerId": null,
       "seq": 1,
       "date": "2026-10-03",
       "kegDate": "2026-10-18",
-      "tank": "Tank 03",
-      "dateTapped": "",
-      "dateKicked": "",
-      "notes": "",
-      "bfStatus": "Planning"
+      "tank": "Tank 02",
+      "notes": ""
     },
     {
       "batch": 572,
