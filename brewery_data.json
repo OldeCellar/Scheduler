@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-26T21:09:02.168Z",
+  "savedAt": "2026-09-26T21:10:49.154Z",
   "beers": [
     {
       "id": 1,
@@ -2134,6 +2134,13 @@
       "tank": "Tank 02",
       "notes": "",
       "batch": null,
+      "seq": null
+    },
+    "2026-11-14": {
+      "beer": "Czech Mate",
+      "tank": "Tank 02",
+      "notes": "",
+      "batch": 577,
       "seq": null
     }
   },
