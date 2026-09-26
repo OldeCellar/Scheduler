@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-26T11:22:45.492Z",
+  "savedAt": "2026-09-26T11:22:49.691Z",
   "beers": [
     {
       "id": 1,
@@ -30472,7 +30472,7 @@
         "bf_use": "Boil",
         "bf_alpha": 15.1,
         "bf_year": "2022",
-        "onHand": 528,
+        "onHand": 80,
         "unit": "g",
         "bf_cost": 0.032,
         "bf_lotNo": "Passion fruit, Grapefruit, Strawberry, Dank. Strata, formerly known as X-331, is Indie Hop’s first hop variety to be released out of the Oregon State Aroma Hop Breeding Program in Corvallis, Oregon. Born in 2009, Strata is the progeny of an open pollinated Perle located in an Oregon State experimental field at Corvallis, Oregon. From the get-go, this hop was out to impress. Between its strong disease resistance, vigorous growing habit, and complex layers of aroma, x331 rose to the top of an impressive group of competitors."
@@ -30812,7 +30812,7 @@
         "bf_use": "Boil",
         "bf_alpha": 13.6,
         "bf_year": "2025",
-        "onHand": 3110,
+        "onHand": 2450,
         "unit": "g",
         "bf_cost": 0.01409,
         "bf_lotNo": "Passion fruit, Grapefruit, Strawberry, Dank. Strata, formerly known as X-331, is Indie Hop’s first hop variety to be released out of the Oregon State Aroma Hop Breeding Program in Corvallis, Oregon. Born in 2009, Strata is the progeny of an open pollinated Perle located in an Oregon State experimental field at Corvallis, Oregon. From the get-go, this hop was out to impress. Between its strong disease resistance, vigorous growing habit, and complex layers of aroma, x331 rose to the top of an impressive group of competitors."
