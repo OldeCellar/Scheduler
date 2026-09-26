@@ -5855,7 +5855,6 @@ slots.forEach(slot => {
   });
 });
 
-// Sort by brew date ascending, then by tank name as tiebreak
 allFutureBrews.sort((a, b) => {
   const da = a.brewDate instanceof Date ? a.brewDate : parseDate(a.brewDate);
   const db = b.brewDate instanceof Date ? b.brewDate : parseDate(b.brewDate);
@@ -5863,39 +5862,25 @@ allFutureBrews.sort((a, b) => {
   return (a.tank||'').localeCompare(b.tank||'');
 });
 
-// Assign sequential batch numbers
-const batchStart = Math.max(...BREW_HISTORY.map(h => h.batch || 0), 552) + 1;
-allFutureBrews.forEach((b, i) => { b.batch = batchStart + i; });
+// Base the starting number ONLY on batches that have actually brewed
+// (date <= TODAY). A future BF "Planning" batch with an out-of-sequence
+// number must not push every near-term auto-scheduled brew's number ahead.
+const pastBatchNums = BREW_HISTORY
+  .filter(h => !h.date || parseDate(h.date) <= TODAY)
+  .map(h => h.batch || 0);
+let nextAvail = Math.max(...pastBatchNums, 552) + 1;
+
+// Never reuse a number already claimed anywhere in history, past or future.
+const usedBatchNumbers = new Set(BREW_HISTORY.map(h => h.batch).filter(Boolean));
+
+allFutureBrews.forEach(b => {
+  while (usedBatchNumbers.has(nextAvail)) nextAvail++;
+  b.batch = nextAvail;
+  usedBatchNumbers.add(nextAvail);
+  nextAvail++;
+});
 
 
-
-// Commit slots to SCHEDULE
-for (const slot of slots) {
-  const entry = {
-    sat: slot.sat,
-    key: slot.key,
-    brews: slot.brews
-  };
-
-  if (slot.flags.skipped) {
-    entry.skipped = true;
-    entry.skipReason = slot.flags.skipReason || '';
-  }
-
-  if (slot.flags.overridden) {
-    entry.overridden = true;
-  }
-
-  SCHEDULE.push(entry);
-}
-
-_nextBatchId =
-  Math.max(
-    ...BREW_HISTORY.map(h => h.batch || 0),
-    552
-  ) + 1;
-
-}
 
 
 
