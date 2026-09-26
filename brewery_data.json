@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-26T11:24:29.594Z",
+  "savedAt": "2026-09-26T11:27:06.599Z",
   "beers": [
     {
       "id": 1,
@@ -32261,6 +32261,15 @@
         "bfType": "",
         "members": [
           "Brutzyme"
+        ]
+      },
+      {
+        "name": "Flaked Corn",
+        "category": "Fermentable",
+        "bfType": "",
+        "members": [
+          "Flaked Corn",
+          "Flaked Corn (Yellow)"
         ]
       }
     ],
