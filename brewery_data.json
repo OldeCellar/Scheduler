@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-26T11:22:49.691Z",
+  "savedAt": "2026-09-26T11:22:53.239Z",
   "beers": [
     {
       "id": 1,
@@ -31292,7 +31292,7 @@
         "bf_form": "Dry",
         "bf_laboratory": "CellarScience",
         "bf_productId": "DY121",
-        "onHand": 251,
+        "onHand": 226,
         "unit": "g",
         "bf_cost": 0.1081,
         "bf_lotNo": ""
