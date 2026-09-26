@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.17-20260922",
-  "savedAt": "2026-09-26T22:35:43.022Z",
+  "savedAt": "2026-09-26T22:35:55.669Z",
   "beers": [
     {
       "id": 1,
@@ -2278,6 +2278,10 @@
       "reason": "Manual skip"
     },
     "2026-11-21": {
+      "skip": true,
+      "reason": "Manual skip"
+    },
+    "2026-11-14": {
       "skip": true,
       "reason": "Manual skip"
     }
