@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.17-20260922",
-  "savedAt": "2026-09-26T22:37:00.251Z",
+  "savedAt": "2026-09-26T22:38:36.651Z",
   "beers": [
     {
       "id": 1,
@@ -2109,66 +2109,6 @@
       "skip": true,
       "reason": "No brew"
     },
-    "2026-11-28": {
-      "skip": true,
-      "reason": "Manual skip"
-    },
-    "2026-12-05": {
-      "skip": true,
-      "reason": "Manual skip"
-    },
-    "2026-12-12": {
-      "skip": true,
-      "reason": "Manual skip"
-    },
-    "2026-12-19": {
-      "skip": true,
-      "reason": "Manual skip"
-    },
-    "2026-12-26": {
-      "skip": true,
-      "reason": "Manual skip"
-    },
-    "2027-01-02": {
-      "skip": true,
-      "reason": "Manual skip"
-    },
-    "2027-01-09": {
-      "skip": true,
-      "reason": "Manual skip"
-    },
-    "2027-01-16": {
-      "skip": true,
-      "reason": "Manual skip"
-    },
-    "2027-01-23": {
-      "skip": true,
-      "reason": "Manual skip"
-    },
-    "2027-01-30": {
-      "skip": true,
-      "reason": "Manual skip"
-    },
-    "2027-02-06": {
-      "skip": true,
-      "reason": "Manual skip"
-    },
-    "2027-02-13": {
-      "skip": true,
-      "reason": "Manual skip"
-    },
-    "2027-02-20": {
-      "skip": true,
-      "reason": "Manual skip"
-    },
-    "2027-02-27": {
-      "skip": true,
-      "reason": "Manual skip"
-    },
-    "2027-03-06": {
-      "skip": true,
-      "reason": "Manual skip"
-    },
     "2027-03-13": {
       "skip": true,
       "reason": "Manual skip"
@@ -2281,13 +2221,24 @@
       "skip": true,
       "reason": "Manual skip"
     },
-    "2026-11-21": {
+    "2026-12-12": {
+      "skip": true,
+      "reason": "Manual skip"
+    },
+    "2026-12-05": {
+      "skip": true,
+      "reason": "Manual skip"
+    },
+    "2026-11-28": {
       "skip": true,
       "reason": "Manual skip"
     },
     "2026-11-14": {
-      "skip": true,
-      "reason": "Manual skip"
+      "beer": "White Lotus",
+      "tank": "Tank 03",
+      "notes": "",
+      "batch": 577,
+      "seq": null
     }
   },
   "kegSettings": {
