@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-26T11:22:53.239Z",
+  "savedAt": "2026-09-26T11:22:57.625Z",
   "beers": [
     {
       "id": 1,
@@ -31450,7 +31450,7 @@
         "_fromBF": true,
         "bf_type": "Water Agent",
         "bf_use": "Primary",
-        "onHand": 61.69,
+        "onHand": 56.5,
         "unit": "g",
         "bf_cost": null,
         "bf_lotNo": "1–3 mL per hectoliter (hL)\nWhich works out to:\n0.01–0.03 mL per liter = 0.01–0.03 g/L"
@@ -31540,7 +31540,7 @@
         "_fromBF": true,
         "bf_type": "Other",
         "bf_use": "Primary",
-        "onHand": 58.62,
+        "onHand": 57.12,
         "unit": "g",
         "bf_cost": 0,
         "bf_lotNo": "LOT # EAN20040\nhttps://biosolutions.novozymes.com/en/products/craft-brewing/maturex-pro-no-buttery-flavor"
@@ -31558,7 +31558,7 @@
         "_fromBF": true,
         "bf_type": "Water Agent",
         "bf_use": "Mash",
-        "onHand": 523.15,
+        "onHand": 511.45,
         "unit": "g",
         "bf_cost": 0.0066,
         "bf_lotNo": ""
@@ -31576,7 +31576,7 @@
         "_fromBF": true,
         "bf_type": "Water Agent",
         "bf_use": "Mash",
-        "onHand": 2450.86,
+        "onHand": 2430.8,
         "unit": "ml",
         "bf_cost": 0.0112,
         "bf_lotNo": "85%"
@@ -31630,7 +31630,7 @@
         "_fromBF": true,
         "bf_type": "Water Agent",
         "bf_use": "Mash",
-        "onHand": 1271.53,
+        "onHand": 1233.05,
         "unit": "g",
         "bf_cost": 0.0088,
         "bf_lotNo": "\"https://labelpeelers.com/beer-making/beer-brewing-additives/calcium-chloride-1-lb/\n\"\n"
@@ -31648,7 +31648,7 @@
         "_fromBF": true,
         "bf_type": "Water Agent",
         "bf_use": "Mash",
-        "onHand": 392.628,
+        "onHand": 389.028,
         "unit": "g",
         "bf_cost": null,
         "bf_lotNo": ""
@@ -31702,7 +31702,7 @@
         "_fromBF": true,
         "bf_type": "Fining",
         "bf_use": "Boil",
-        "onHand": 422.869,
+        "onHand": 417.233,
         "unit": "g",
         "bf_cost": 0.0375,
         "bf_lotNo": ""
@@ -31792,7 +31792,7 @@
         "_fromBF": true,
         "bf_type": "Water Agent",
         "bf_use": "Mash",
-        "onHand": 3745.88,
+        "onHand": 3733.95,
         "unit": "g",
         "bf_cost": 0.0017,
         "bf_lotNo": ""
@@ -31828,7 +31828,7 @@
         "_fromBF": true,
         "bf_type": "Fining",
         "bf_use": "Secondary",
-        "onHand": 2016.879,
+        "onHand": 1976.879,
         "unit": "ml",
         "bf_cost": 0.0145,
         "bf_lotNo": ""
@@ -31846,7 +31846,7 @@
         "_fromBF": true,
         "bf_type": "Water Agent",
         "bf_use": "Mash",
-        "onHand": 2930.007,
+        "onHand": 2926.627,
         "unit": "g",
         "bf_cost": 0.0251,
         "bf_lotNo": ""
@@ -31864,7 +31864,7 @@
         "_fromBF": true,
         "bf_type": "Water Agent",
         "bf_use": "Mash",
-        "onHand": 3392.755,
+        "onHand": 3386.23,
         "unit": "g",
         "bf_cost": 0,
         "bf_lotNo": ""
@@ -31981,7 +31981,7 @@
         "_fromBF": true,
         "bf_type": "Other",
         "bf_use": "Mash",
-        "onHand": 929.46,
+        "onHand": 928.08,
         "unit": "ml",
         "bf_cost": 0.0634,
         "bf_lotNo": "dose at 0.1762ml/kg of malt"
