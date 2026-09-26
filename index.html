@@ -5880,7 +5880,33 @@ allFutureBrews.forEach(b => {
   nextAvail++;
 });
 
-
+// Commit slots to SCHEDULE
+for (const slot of slots) {
+  const entry = {
+    sat: slot.sat,
+    key: slot.key,
+    brews: slot.brews
+  };
+ 
+  if (slot.flags.skipped) {
+    entry.skipped = true;
+    entry.skipReason = slot.flags.skipReason || '';
+  }
+ 
+  if (slot.flags.overridden) {
+    entry.overridden = true;
+  }
+ 
+  SCHEDULE.push(entry);
+}
+ 
+_nextBatchId =
+  Math.max(
+    ...BREW_HISTORY.map(h => h.batch || 0),
+    552
+  ) + 1;
+ 
+}
 
 
 
