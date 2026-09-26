@@ -5866,7 +5866,7 @@ allFutureBrews.sort((a, b) => {
 // (date <= TODAY). A future BF "Planning" batch with an out-of-sequence
 // number must not push every near-term auto-scheduled brew's number ahead.
 const pastBatchNums = BREW_HISTORY
-  .filter(h => !h.date || parseDate(h.date) <= TODAY)
+  .filter(h => !h.date &&|| parseDate(h.date) <= TODAY)
   .map(h => h.batch || 0);
 let nextAvail = Math.max(...pastBatchNums, 552) + 1;
 
