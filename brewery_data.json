@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.15-20260920",
-  "savedAt": "2026-09-26T11:27:06.599Z",
+  "savedAt": "2026-09-26T11:30:50.572Z",
   "beers": [
     {
       "id": 1,
@@ -2093,19 +2093,6 @@
       "date": "2026-11-07",
       "kegDate": "2026-11-30",
       "tank": "Tank 02",
-      "dateTapped": "",
-      "dateKicked": "",
-      "notes": "",
-      "bfStatus": "Planning"
-    },
-    {
-      "batch": 577,
-      "name": "White Lotus",
-      "beerId": 22,
-      "seq": 1,
-      "date": "2026-11-14",
-      "kegDate": "2026-11-29",
-      "tank": "Tank 03",
       "dateTapped": "",
       "dateKicked": "",
       "notes": "",
@@ -34211,20 +34198,6 @@
       "dateKicked": null,
       "recipeName": "Mellow Yellow",
       "bfId": "FY8In2ENemH124K94QIzFap1WjSqmR"
-    },
-    "577": {
-      "status": "Planning",
-      "kegDate": "2026-11-29",
-      "bfBrewDate": "2026-11-14",
-      "keggedVol": null,
-      "abv": 8.1,
-      "og": null,
-      "fg": null,
-      "tank": null,
-      "dateTapped": null,
-      "dateKicked": null,
-      "recipeName": "White Lotus",
-      "bfId": "oN5Te27NpXEf3S7mXzhqpaSVOx7Aya"
     }
   }
 }
