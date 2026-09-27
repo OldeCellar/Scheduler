@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.17-20260922",
-  "savedAt": "2026-09-27T13:14:49.262Z",
+  "savedAt": "2026-09-27T13:16:03.671Z",
   "beers": [
     {
       "id": 1,
@@ -2308,7 +2308,7 @@
         "bf_id": "default-e33dbc9",
         "minStock": 0,
         "supplier": "",
-        "sku": "",
+        "sku": "GS452",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
         "notes": "",
