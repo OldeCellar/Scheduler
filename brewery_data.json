@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.17-20260922",
-  "savedAt": "2026-09-27T19:00:37.239Z",
+  "savedAt": "2026-09-27T19:02:34.812Z",
   "beers": [
     {
       "id": 1,
@@ -4815,11 +4815,11 @@
             "type": "Fermentable",
             "qty": 4.359999999999999,
             "unit": "g",
-            "sku": "",
-            "price": 0,
-            "supplier": "",
-            "url": "",
-            "notes": ""
+            "sku": "GR908E",
+            "price": 8.29,
+            "supplier": "MoreWinePro",
+            "url": "https://morewinepro.com/products/viking-munich-light-malt.html",
+            "notes": "order 2 x 5lb bags"
           },
           {
             "name": "Pilsner Malt",
