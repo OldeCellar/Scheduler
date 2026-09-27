@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.17-20260922",
-  "savedAt": "2026-09-27T20:14:21.733Z",
+  "savedAt": "2026-09-27T20:16:28.930Z",
   "beers": [
     {
       "id": 1,
@@ -4943,11 +4943,11 @@
             "type": "Yeast",
             "qty": 726,
             "unit": "g",
-            "sku": "",
-            "price": 0,
-            "supplier": "",
-            "url": "",
-            "notes": ""
+            "sku": "DY106",
+            "price": 69.99,
+            "supplier": "MoreWinePro",
+            "url": "https://morewinepro.com/products/cellarscience-dry-yeast-monk-placeholder.html",
+            "notes": "already have order 9776118"
           },
           {
             "name": "West Coast",
