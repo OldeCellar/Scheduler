@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.17-20260922",
-  "savedAt": "2026-09-27T18:27:26.825Z",
+  "savedAt": "2026-09-27T18:28:12.047Z",
   "beers": [
     {
       "id": 1,
@@ -4793,10 +4793,10 @@
             "type": "Fermentable",
             "qty": 27.083,
             "unit": "g",
-            "sku": "",
-            "price": 0,
-            "supplier": "",
-            "url": "",
+            "sku": "GS347",
+            "price": 61.99,
+            "supplier": "MoreWinePro",
+            "url": "https://morewinepro.com/products/weyermann-floor-malted-bohemian-pilsner-malt.html",
             "notes": ""
           },
           {
