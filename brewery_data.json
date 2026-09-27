@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.17-20260922",
-  "savedAt": "2026-09-27T19:15:17.077Z",
+  "savedAt": "2026-09-27T19:16:43.561Z",
   "beers": [
     {
       "id": 1,
@@ -4870,11 +4870,11 @@
             "type": "Misc",
             "qty": 29.019999999999968,
             "unit": "g",
-            "sku": "",
-            "price": 0,
-            "supplier": "",
-            "url": "",
-            "notes": ""
+            "sku": "AD290",
+            "price": 3.99,
+            "supplier": "MoreWinePro",
+            "url": "https://morewinepro.com/products/foam-control-fermcap.html",
+            "notes": "order 2 x 1oz bottles"
           },
           {
             "name": "Ultraflo Max lot 01",
