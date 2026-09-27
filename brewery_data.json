@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.17-20260922",
-  "savedAt": "2026-09-27T19:04:24.900Z",
+  "savedAt": "2026-09-27T19:07:04.367Z",
   "beers": [
     {
       "id": 1,
@@ -4839,8 +4839,8 @@
             "unit": "g",
             "sku": "",
             "price": 0,
-            "supplier": "",
-            "url": "",
+            "supplier": "Yakima",
+            "url": "https://yakimavalleyhops.com/products/whole-cone-hops?variant=41369440682117",
             "notes": ""
           },
           {
