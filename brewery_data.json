@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.17-20260922",
-  "savedAt": "2026-09-27T13:16:03.671Z",
+  "savedAt": "2026-09-27T13:16:11.440Z",
   "beers": [
     {
       "id": 1,
@@ -2306,7 +2306,7 @@
         "name": "CaraRed",
         "type": "Fermentable",
         "bf_id": "default-e33dbc9",
-        "minStock": 0,
+        "minStock": 2.268,
         "supplier": "",
         "sku": "GS452",
         "purchaseQty": 0,
