@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.17-20260922",
-  "savedAt": "2026-09-27T20:16:28.930Z",
+  "savedAt": "2026-09-27T20:17:30.366Z",
   "beers": [
     {
       "id": 1,
@@ -4954,11 +4954,11 @@
             "type": "Yeast",
             "qty": 107,
             "unit": "g",
-            "sku": "",
-            "price": 0,
-            "supplier": "",
-            "url": "",
-            "notes": ""
+            "sku": "DY121",
+            "price": 49.99,
+            "supplier": "MoreWinePro",
+            "url": "https://morewinepro.com/products/cellarscience-dry-yeast-west-coast-placeholder.html",
+            "notes": "order 1 x 550g"
           }
         ]
       }
