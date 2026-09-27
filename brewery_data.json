@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.17-20260922",
-  "savedAt": "2026-09-27T19:16:43.561Z",
+  "savedAt": "2026-09-27T19:17:56.359Z",
   "beers": [
     {
       "id": 1,
@@ -4885,7 +4885,7 @@
             "price": 0,
             "supplier": "",
             "url": "",
-            "notes": ""
+            "notes": "use CellarScience Glucabuster"
           },
           {
             "name": "Yuzu extract",
