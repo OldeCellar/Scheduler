@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.17-20260922",
-  "savedAt": "2026-09-27T19:17:56.359Z",
+  "savedAt": "2026-09-27T19:39:31.202Z",
   "beers": [
     {
       "id": 1,
@@ -4757,6 +4757,24 @@
         "unit": "g",
         "bf_cost": 0.04,
         "bf_lotNo": "GSPWP-KG"
+      },
+      {
+        "name": "Yuzu Organic Extract",
+        "type": "Misc",
+        "bf_id": "4yXGKDq7vLzwXA7zg2TNco40veL1Hs",
+        "minStock": 0,
+        "supplier": "",
+        "sku": "",
+        "purchaseQty": 0,
+        "purchaseUnit": "kg",
+        "notes": "",
+        "_fromBF": true,
+        "bf_type": "Spice",
+        "bf_use": "Bottling",
+        "onHand": 340,
+        "unit": "ml",
+        "bf_cost": 0.087,
+        "bf_lotNo": "R100065576"
       }
     ],
     "ingredientAliases": [],
