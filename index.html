@@ -5452,22 +5452,19 @@ SCHEDULE = [];
 
 // Build a set of Saturdays already occupied by a recorded history brew —
 // these weeks must not get a second brew scheduled into a different tank.
+// Any Saturday with a real, dated batch in BREW_HISTORY is taken — no matter
+// how far in the future. (A 14-day cutoff used to leave far-future Brewfather
+// "Planning" batches unprotected, so Pass 4 scheduled phantom duplicate brews
+// on top of them. Those never showed on screen — pastByKey always prefers the
+// real entry — but they still consumed batch numbers during renumbering,
+// causing numbers to jump ahead.)
 const historyOccupiedSaturdays = new Set(
   BREW_HISTORY
-    .filter(h => {
-      if (!h.date) return false;
-      const d = parseDate(h.date);
-      if (!d) return false;
-      if (d <= TODAY) return true;
-      // Also block near-future active BF brews so Pass 4 doesn't schedule over them
-      const daysAhead = (d - TODAY) / 86400000;
-      return daysAhead <= 14 && h.bfStatus && BF_ACTIVE.has(h.bfStatus);
-    })
+    .filter(h => h.date)
     .map(h => parseDate(h.date))
     .filter(Boolean)
     .map(d => wkKey(saturdayOf(d)))
 );
-
 const slots = [];
 
 for (let w = 0; w < WEEKS; w++) {
