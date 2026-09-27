@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.17-20260922",
-  "savedAt": "2026-09-27T18:58:34.280Z",
+  "savedAt": "2026-09-27T19:00:04.827Z",
   "beers": [
     {
       "id": 1,
@@ -4805,10 +4805,10 @@
             "qty": 178.45270000000002,
             "unit": "g",
             "sku": "GS352",
-            "price": 0,
+            "price": 61.99,
             "supplier": "MoreWinePro",
             "url": "https://morewinepro.com/products/bairds-malt-maris-otter-pale-ale.html",
-            "notes": ""
+            "notes": "order 8 55lb bags"
           },
           {
             "name": "Munich Light",
