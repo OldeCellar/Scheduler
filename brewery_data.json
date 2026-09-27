@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.17-20260922",
-  "savedAt": "2026-09-27T13:16:11.440Z",
+  "savedAt": "2026-09-27T13:16:30.003Z",
   "beers": [
     {
       "id": 1,
@@ -2307,9 +2307,9 @@
         "type": "Fermentable",
         "bf_id": "default-e33dbc9",
         "minStock": 2.268,
-        "supplier": "",
+        "supplier": "MoreWinePro",
         "sku": "GS452",
-        "purchaseQty": 0,
+        "purchaseQty": 25,
         "purchaseUnit": "kg",
         "notes": "",
         "_fromBF": true,
