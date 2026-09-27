@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.17-20260922",
-  "savedAt": "2026-09-27T18:25:23.120Z",
+  "savedAt": "2026-09-27T18:27:26.825Z",
   "beers": [
     {
       "id": 1,
@@ -4775,18 +4775,18 @@
             "price": 8.29,
             "supplier": "MoreWinePro",
             "url": "https://morewinepro.com/products/weyermann-carared-malt.html",
-            "notes": ""
+            "notes": "order one 5lb bag"
           },
           {
             "name": "Dextrose",
             "type": "Fermentable",
             "qty": 3.966000000000001,
             "unit": "g",
-            "sku": "",
-            "price": 0,
-            "supplier": "",
-            "url": "",
-            "notes": ""
+            "sku": "AD310S",
+            "price": 446.99,
+            "supplier": "MoreWinePro",
+            "url": "https://morewinepro.com/products/corn-sugar.html",
+            "notes": "order one 50lb bag"
           },
           {
             "name": "Floor-Malted Bohemian Pilsner Malt",
