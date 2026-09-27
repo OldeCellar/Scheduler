@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.17-20260922",
-  "savedAt": "2026-09-27T19:03:57.369Z",
+  "savedAt": "2026-09-27T19:04:24.900Z",
   "beers": [
     {
       "id": 1,
@@ -4829,8 +4829,8 @@
             "sku": "GS347",
             "price": 61.5,
             "supplier": "MoreWinePro",
-            "url": "",
-            "notes": ""
+            "url": "https://morewinepro.com/products/weyermann-floor-malted-bohemian-pilsner-malt.html",
+            "notes": "covered by floor malted Bohemian"
           },
           {
             "name": "Citra",
