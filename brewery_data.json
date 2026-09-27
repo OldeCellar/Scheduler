@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.17-20260922",
-  "savedAt": "2026-09-27T13:14:11.669Z",
+  "savedAt": "2026-09-27T13:14:49.262Z",
   "beers": [
     {
       "id": 1,
@@ -2348,10 +2348,10 @@
         "name": "Acid Malt",
         "type": "Fermentable",
         "bf_id": "default-4c1345c",
-        "minStock": 0,
-        "supplier": "",
+        "minStock": 2.268,
+        "supplier": "MoreWinePro",
         "sku": "GR598E",
-        "purchaseQty": 2.265,
+        "purchaseQty": 2.268,
         "purchaseUnit": "kg",
         "notes": "",
         "_fromBF": true,
