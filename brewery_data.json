@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.17-20260922",
-  "savedAt": "2026-09-27T19:00:04.827Z",
+  "savedAt": "2026-09-27T19:00:37.239Z",
   "beers": [
     {
       "id": 1,
@@ -4775,7 +4775,7 @@
             "price": 8.29,
             "supplier": "MoreWinePro",
             "url": "https://morewinepro.com/products/weyermann-carared-malt.html",
-            "notes": "order one 5lb bag"
+            "notes": "order 1 x 5lb bag"
           },
           {
             "name": "Dextrose",
@@ -4786,7 +4786,7 @@
             "price": 446.99,
             "supplier": "MoreWinePro",
             "url": "https://morewinepro.com/products/corn-sugar.html",
-            "notes": "order one 50lb bag"
+            "notes": "order 1 x 50lb bag"
           },
           {
             "name": "Floor-Malted Bohemian Pilsner Malt",
@@ -4797,7 +4797,7 @@
             "price": 61.99,
             "supplier": "MoreWinePro",
             "url": "https://morewinepro.com/products/weyermann-floor-malted-bohemian-pilsner-malt.html",
-            "notes": "order 2 55lb bags"
+            "notes": "order 2 x 55lb bags"
           },
           {
             "name": "Maris Otter",
@@ -4808,7 +4808,7 @@
             "price": 61.99,
             "supplier": "MoreWinePro",
             "url": "https://morewinepro.com/products/bairds-malt-maris-otter-pale-ale.html",
-            "notes": "order 8 55lb bags"
+            "notes": "order 8 x 55lb bags"
           },
           {
             "name": "Munich Light",
