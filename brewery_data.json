@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.17-20260922",
-  "savedAt": "2026-09-27T13:05:32.877Z",
+  "savedAt": "2026-09-27T13:05:43.065Z",
   "beers": [
     {
       "id": 1,
@@ -3885,7 +3885,7 @@
         "bf_form": "Dry",
         "bf_laboratory": "CellarScience",
         "bf_productId": "English",
-        "onHand": 290,
+        "onHand": 156,
         "unit": "g",
         "bf_cost": 0.11998,
         "bf_lotNo": ""
@@ -4005,9 +4005,9 @@
         "bf_form": "Dry",
         "bf_laboratory": "CellarScience",
         "bf_productId": "DY121",
-        "onHand": 500,
+        "onHand": 226,
         "unit": "g",
-        "bf_cost": null,
+        "bf_cost": 0.1081,
         "bf_lotNo": ""
       },
       {
@@ -4065,7 +4065,7 @@
         "bf_form": "Dry",
         "bf_laboratory": "Cellar Science",
         "bf_productId": "DY105",
-        "onHand": 805,
+        "onHand": 603,
         "unit": "g",
         "bf_cost": 0.151,
         "bf_lotNo": ""
@@ -4085,7 +4085,7 @@
         "bf_form": "Dry",
         "bf_laboratory": "Cellar Science",
         "bf_productId": "TurboShine ",
-        "onHand": 1000,
+        "onHand": 775,
         "unit": "g",
         "bf_cost": 0.02049,
         "bf_lotNo": ""
@@ -4105,7 +4105,7 @@
         "bf_form": "Dry",
         "bf_laboratory": "Cellar Science",
         "bf_productId": "Cali",
-        "onHand": 1210,
+        "onHand": 1047,
         "unit": "g",
         "bf_cost": 0.13,
         "bf_lotNo": ""
@@ -4682,6 +4682,26 @@
         "onHand": 22.68,
         "unit": "kg",
         "bf_cost": 5.29,
+        "bf_lotNo": ""
+      },
+      {
+        "name": "MONK Belgian Abbey Ale",
+        "type": "Yeast",
+        "bf_id": "default-5ZzjdYo0telPNgJ9AxobXNAivEXPqx",
+        "minStock": 0,
+        "supplier": "",
+        "sku": "",
+        "purchaseQty": 0,
+        "purchaseUnit": "kg",
+        "notes": "",
+        "_fromBF": true,
+        "bf_type": "Ale",
+        "bf_form": "Dry",
+        "bf_laboratory": "CellarScience",
+        "bf_productId": "DY106",
+        "onHand": 500,
+        "unit": "g",
+        "bf_cost": 0.13998,
         "bf_lotNo": ""
       }
     ],
