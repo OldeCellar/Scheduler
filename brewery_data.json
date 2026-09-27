@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.17-20260922",
-  "savedAt": "2026-09-27T15:35:01.022Z",
+  "savedAt": "2026-09-27T18:25:00.308Z",
   "beers": [
     {
       "id": 1,
@@ -4771,7 +4771,7 @@
             "type": "Fermentable",
             "qty": 2.7561,
             "unit": "g",
-            "sku": "",
+            "sku": "GR452E",
             "price": 0,
             "supplier": "",
             "url": "",
