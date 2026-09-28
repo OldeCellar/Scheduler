@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T13:48:51.474Z",
+  "savedAt": "2026-09-28T13:49:02.417Z",
   "beers": [
     {
       "id": 1,
@@ -30372,7 +30372,7 @@
         "type": "Fermentable",
         "bf_id": "default-2d9d89a",
         "minStock": 0,
-        "supplier": "",
+        "supplier": "MoreWinePro",
         "sku": "GR435E",
         "purchaseQty": 2.268,
         "purchaseUnit": "kg",
