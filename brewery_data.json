@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T13:21:44.231Z",
+  "savedAt": "2026-09-28T13:23:05.567Z",
   "beers": [
     {
       "id": 1,
@@ -30153,8 +30153,8 @@
         "type": "Fermentable",
         "bf_id": "default-2e836dc",
         "minStock": 0,
-        "supplier": "",
-        "sku": "",
+        "supplier": "MoreWinePro",
+        "sku": "GR336E",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
         "notes": "",
