@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T13:39:22.974Z",
+  "savedAt": "2026-09-28T13:44:30.890Z",
   "beers": [
     {
       "id": 1,
@@ -30145,7 +30145,7 @@
         "onHand": 3.78,
         "unit": "kg",
         "bf_cost": 4.17,
-        "bf_lotNo": "9468869",
+        "bf_lotNo": "",
         "link": "https://morewinepro.com/products/briess-caramel-munich-60-malt.html"
       },
       {
@@ -30189,7 +30189,7 @@
         "onHand": 1.458,
         "unit": "kg",
         "bf_cost": 0.0035,
-        "bf_lotNo": "9561846",
+        "bf_lotNo": "",
         "link": "https://morewinepro.com/products/lactose.html"
       },
       {
@@ -30302,7 +30302,7 @@
         "link": "https://morewinepro.com/products/weyermann-carared-malt.html"
       },
       {
-        "name": "Roasted Barley 300",
+        "name": "Roasted Barley 800",
         "type": "Fermentable",
         "bf_id": "default-9a06033",
         "minStock": 0,
@@ -30316,11 +30316,11 @@
         "bf_origin": "US",
         "bf_type": "Grain",
         "bf_category": "Roasted",
-        "bf_color": 296.954315,
+        "bf_color": 406.091371,
         "onHand": 3.175,
         "unit": "kg",
         "bf_cost": 0.9,
-        "bf_lotNo": "8529977",
+        "bf_lotNo": "",
         "link": "https://labelpeelers.com/beer-making/briess-unmalted-roasted-barley-10-lb/"
       },
       {
@@ -30472,7 +30472,7 @@
         "onHand": 6.1114,
         "unit": "kg",
         "bf_cost": 4.63,
-        "bf_lotNo": "9625389",
+        "bf_lotNo": "",
         "link": "https://morewinepro.com/products/briess-caramel-80l.html"
       },
       {
