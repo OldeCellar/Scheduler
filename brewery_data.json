@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T14:02:12.510Z",
+  "savedAt": "2026-09-28T14:07:24.860Z",
   "beers": [
     {
       "id": 1,
@@ -30548,9 +30548,9 @@
         "type": "Fermentable",
         "bf_id": "default-d2c0778",
         "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
+        "supplier": "MoreWinePro",
+        "sku": "AJ35E",
+        "purchaseQty": 2.268,
         "purchaseUnit": "kg",
         "notes": "",
         "_fromBF": true,
@@ -30562,7 +30562,8 @@
         "onHand": 8.225,
         "unit": "kg",
         "bf_cost": 3.87,
-        "bf_lotNo": "AJ40E"
+        "bf_lotNo": "9625389",
+        "link": "https://morewinepro.com/products/flaked-oats-maltwerks-premium-ingredients.html"
       },
       {
         "name": "Pilsner Malt",
