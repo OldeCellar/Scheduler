@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.17-20260922",
-  "savedAt": "2026-09-28T02:59:34.561Z",
+  "savedAt": "2026-09-28T02:59:41.931Z",
   "beers": [
     {
       "id": 1,
@@ -4792,7 +4792,7 @@
         "bf_type": "Grain",
         "bf_category": "Base (Pilsner)",
         "bf_color": 1.4,
-        "onHand": 75,
+        "onHand": 0,
         "unit": "kg",
         "bf_cost": 1.7996,
         "bf_lotNo": ""
