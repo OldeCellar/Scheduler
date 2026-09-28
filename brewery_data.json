@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T11:59:00.627Z",
+  "savedAt": "2026-09-28T12:03:31.581Z",
   "beers": [
     {
       "id": 1,
@@ -30630,7 +30630,7 @@
         "bf_lotNo": ""
       },
       {
-        "name": "Vienna",
+        "name": "Vienna malt",
         "type": "Fermentable",
         "bf_id": "default-4d8b7c4",
         "minStock": 0,
