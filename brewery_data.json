@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T13:35:53.930Z",
+  "savedAt": "2026-09-28T13:39:22.974Z",
   "beers": [
     {
       "id": 1,
@@ -30502,7 +30502,7 @@
         "bf_id": "default-56a32ca",
         "minStock": 0,
         "supplier": "MoreWinePro",
-        "sku": "",
+        "sku": "GS620",
         "purchaseQty": 25,
         "purchaseUnit": "kg",
         "notes": "",
@@ -30515,7 +30515,8 @@
         "onHand": 8.1584,
         "unit": "kg",
         "bf_cost": 3.43,
-        "bf_lotNo": ""
+        "bf_lotNo": "",
+        "link": "https://morewinepro.com/products/bairds-black-roasted-barley-malt.html"
       },
       {
         "name": "Munich Light",
