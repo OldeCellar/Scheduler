@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T14:07:24.860Z",
+  "savedAt": "2026-09-28T14:09:12.872Z",
   "beers": [
     {
       "id": 1,
@@ -30569,10 +30569,10 @@
         "name": "Pilsner Malt",
         "type": "Fermentable",
         "bf_id": "default-vi-7f73d4",
-        "minStock": 0,
+        "minStock": 50,
         "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
+        "sku": "GS902",
+        "purchaseQty": 25,
         "purchaseUnit": "kg",
         "notes": "",
         "_fromBF": true,
@@ -30584,7 +30584,8 @@
         "onHand": 11,
         "unit": "kg",
         "bf_cost": 1.54,
-        "bf_lotNo": " Zero Malt - Viking (55 lb)"
+        "bf_lotNo": "9625389",
+        "link": "https://morewinepro.com/products/pilsner-malt-viking.html"
       },
       {
         "name": "Flaked Barley",
