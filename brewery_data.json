@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T13:46:51.874Z",
+  "savedAt": "2026-09-28T13:47:20.696Z",
   "beers": [
     {
       "id": 1,
@@ -32573,8 +32573,8 @@
         "type": "Fermentable",
         "bf_id": "default-64e981a",
         "minStock": 0,
-        "supplier": "",
-        "sku": "",
+        "supplier": "MoreWinePro",
+        "sku": "GR690E",
         "purchaseQty": 2.268,
         "purchaseUnit": "kg",
         "notes": "",
@@ -32587,7 +32587,8 @@
         "onHand": 2.268,
         "unit": "kg",
         "bf_cost": 6.036,
-        "bf_lotNo": "9717961"
+        "bf_lotNo": "9717961",
+        "link": "https://morewinepro.com/products/weyermann-carafa-special-malt.html"
       },
       {
         "name": "Flaked Corn (Yellow)",
