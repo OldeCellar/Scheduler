@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T13:31:42.134Z",
+  "savedAt": "2026-09-28T13:31:57.794Z",
   "beers": [
     {
       "id": 1,
@@ -30262,7 +30262,7 @@
         "type": "Fermentable",
         "bf_id": "default-f4877e3",
         "minStock": 0,
-        "supplier": "",
+        "supplier": "home made",
         "sku": "",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
