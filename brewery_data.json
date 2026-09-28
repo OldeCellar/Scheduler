@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T12:37:40.089Z",
+  "savedAt": "2026-09-28T12:45:33.551Z",
   "beers": [
     {
       "id": 1,
@@ -30249,7 +30249,7 @@
         "onHand": 1.9441,
         "unit": "kg",
         "bf_cost": 2.868,
-        "bf_lotNo": "1610B"
+        "bf_lotNo": "303137"
       },
       {
         "name": "Invert Sugar",
@@ -30438,7 +30438,7 @@
         "onHand": 5.168,
         "unit": "kg",
         "bf_cost": 5.29,
-        "bf_lotNo": "GR480E"
+        "bf_lotNo": "9625389"
       },
       {
         "name": "Caramel 80L",
