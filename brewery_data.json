@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.17-20260922",
-  "savedAt": "2026-09-28T03:36:32.224Z",
+  "savedAt": "2026-09-28T03:46:43.791Z",
   "beers": [
     {
       "id": 1,
@@ -417,6 +417,45 @@
   ],
   "history": [
     {
+      "batch": 1,
+      "name": "Old Pappy",
+      "beerId": null,
+      "seq": 1,
+      "date": "2024-02-10",
+      "kegDate": "2024-02-17",
+      "tank": "Tank 01",
+      "dateTapped": "",
+      "dateKicked": "",
+      "notes": "",
+      "bfStatus": "Archived"
+    },
+    {
+      "batch": 2,
+      "name": "Wineos Plain Ol Sugar Wash",
+      "beerId": null,
+      "seq": 1,
+      "date": "2024-06-09",
+      "kegDate": "2024-07-09",
+      "tank": "Tank 01",
+      "dateTapped": "",
+      "dateKicked": "",
+      "notes": "",
+      "bfStatus": "Archived"
+    },
+    {
+      "batch": 3,
+      "name": "Wheat Vodka",
+      "beerId": 17,
+      "seq": 3,
+      "date": "2024-06-30",
+      "kegDate": "2024-07-10",
+      "tank": "Tank 03",
+      "dateTapped": "",
+      "dateKicked": "",
+      "notes": "",
+      "bfStatus": "Archived"
+    },
+    {
       "batch": 451,
       "name": "Bishops Tipple",
       "beerId": null,
@@ -794,19 +833,6 @@
       "bfStatus": "Archived"
     },
     {
-      "batch": 1,
-      "name": "Old Pappy",
-      "beerId": null,
-      "seq": 1,
-      "date": "2024-02-10",
-      "kegDate": "2024-02-17",
-      "tank": "Tank 01",
-      "dateTapped": "",
-      "dateKicked": "",
-      "notes": "",
-      "bfStatus": "Archived"
-    },
-    {
       "batch": 480,
       "name": "Pliny the Elder",
       "beerId": 1,
@@ -950,19 +976,6 @@
       "bfStatus": "Archived"
     },
     {
-      "batch": 2,
-      "name": "Wineos Plain Ol Sugar Wash",
-      "beerId": null,
-      "seq": 1,
-      "date": "2024-06-09",
-      "kegDate": "2024-07-09",
-      "tank": "Tank 01",
-      "dateTapped": "",
-      "dateKicked": "",
-      "notes": "",
-      "bfStatus": "Archived"
-    },
-    {
       "batch": 491,
       "name": "Strata",
       "beerId": 6,
@@ -985,19 +998,6 @@
       "tank": "Tank 02",
       "dateTapped": "2024-08-10",
       "dateKicked": "2024-10-26",
-      "notes": "",
-      "bfStatus": "Archived"
-    },
-    {
-      "batch": 3,
-      "name": "Wheat Vodka",
-      "beerId": 17,
-      "seq": 3,
-      "date": "2024-06-30",
-      "kegDate": "2024-07-10",
-      "tank": "Tank 03",
-      "dateTapped": "",
-      "dateKicked": "",
       "notes": "",
       "bfStatus": "Archived"
     },
@@ -2108,10 +2108,6 @@
     }
   ],
   "overrides": {
-    "2026-01-17": {
-      "skip": true,
-      "reason": "No brew"
-    },
     "2026-02-14": {
       "skip": true,
       "reason": "No brew"
