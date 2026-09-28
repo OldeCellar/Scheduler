@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T14:09:12.872Z",
+  "savedAt": "2026-09-28T14:10:37.104Z",
   "beers": [
     {
       "id": 1,
@@ -30570,7 +30570,7 @@
         "type": "Fermentable",
         "bf_id": "default-vi-7f73d4",
         "minStock": 50,
-        "supplier": "",
+        "supplier": "MoreWinePro",
         "sku": "GS902",
         "purchaseQty": 25,
         "purchaseUnit": "kg",
@@ -30865,10 +30865,10 @@
         "name": "Floor Malted Bohemian Pilsner Malt",
         "type": "Fermentable",
         "bf_id": "default-nym-rna3",
-        "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
+        "minStock": 50,
+        "supplier": "MoreWinePro",
+        "sku": "GS347",
+        "purchaseQty": 25,
         "purchaseUnit": "kg",
         "notes": "",
         "_fromBF": true,
@@ -30880,7 +30880,8 @@
         "onHand": 104.663,
         "unit": "kg",
         "bf_cost": 2.67,
-        "bf_lotNo": "9666706"
+        "bf_lotNo": "9666706",
+        "link": "https://morewinepro.com/products/weyermann-floor-malted-bohemian-pilsner-malt.html"
       },
       {
         "name": "Magnum",
