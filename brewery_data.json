@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.17-20260922",
-  "savedAt": "2026-09-28T02:51:34.407Z",
+  "savedAt": "2026-09-28T02:51:37.791Z",
   "beers": [
     {
       "id": 1,
@@ -4702,7 +4702,7 @@
         "onHand": 500,
         "unit": "g",
         "bf_cost": 0.13998,
-        "bf_lotNo": ""
+        "bf_lotNo": "9776118"
       },
       {
         "name": "Madaqasquer vanilla Bean extract",
