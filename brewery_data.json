@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T12:13:14.354Z",
+  "savedAt": "2026-09-28T12:24:27.133Z",
   "beers": [
     {
       "id": 1,
@@ -32819,6 +32819,25 @@
         "unit": "g",
         "bf_cost": 0.04,
         "bf_lotNo": "GSPWP-KG"
+      },
+      {
+        "name": "Coriander Seed",
+        "type": "Misc",
+        "bf_id": "default-8c2f24",
+        "minStock": 0,
+        "supplier": "",
+        "sku": "",
+        "purchaseQty": 0,
+        "purchaseUnit": "kg",
+        "notes": "",
+        "link": "",
+        "_fromBF": true,
+        "bf_type": "Spice",
+        "bf_use": "Flameout",
+        "onHand": 454,
+        "unit": "g",
+        "bf_cost": 0.018,
+        "bf_lotNo": "9782732"
       }
     ],
     "ingredientAliases": [],
