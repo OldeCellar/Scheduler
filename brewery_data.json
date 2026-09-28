@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T13:49:02.417Z",
+  "savedAt": "2026-09-28T13:59:22.696Z",
   "beers": [
     {
       "id": 1,
@@ -30482,9 +30482,9 @@
         "type": "Fermentable",
         "bf_id": "default-5dad7a6",
         "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
+        "supplier": "MoreWinePro",
+        "sku": "GR331E",
+        "purchaseQty": 2.268,
         "purchaseUnit": "kg",
         "notes": "",
         "_fromBF": true,
@@ -30496,7 +30496,8 @@
         "onHand": 6.78,
         "unit": "kg",
         "bf_cost": 5.29,
-        "bf_lotNo": "9468869"
+        "bf_lotNo": "9468869",
+        "link": "https://morewinepro.com/products/dingemans-biscuit.html"
       },
       {
         "name": "Roasted Barley 1500",
