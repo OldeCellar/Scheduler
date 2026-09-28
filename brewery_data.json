@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.17-20260922",
-  "savedAt": "2026-09-28T02:51:58.613Z",
+  "savedAt": "2026-09-28T02:54:37.126Z",
   "beers": [
     {
       "id": 1,
@@ -4878,7 +4878,7 @@
             "price": 61.5,
             "supplier": "MoreWinePro",
             "url": "https://morewinepro.com/products/weyermann-floor-malted-bohemian-pilsner-malt.html",
-            "notes": "order 7 x 55lb bags"
+            "notes": "order 2 x 55lb bags"
           },
           {
             "name": "Maris Otter",
