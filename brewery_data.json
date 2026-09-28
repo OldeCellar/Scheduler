@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T13:34:29.006Z",
+  "savedAt": "2026-09-28T13:35:53.930Z",
   "beers": [
     {
       "id": 1,
@@ -30306,9 +30306,9 @@
         "type": "Fermentable",
         "bf_id": "default-9a06033",
         "minStock": 0,
-        "supplier": "MoreWinePro",
-        "sku": "GS620",
-        "purchaseQty": 25,
+        "supplier": "Labelpeelers",
+        "sku": "1921B",
+        "purchaseQty": 4.536,
         "purchaseUnit": "kg",
         "notes": "",
         "_fromBF": true,
@@ -30321,7 +30321,7 @@
         "unit": "kg",
         "bf_cost": 0.9,
         "bf_lotNo": "8529977",
-        "link": "https://morewinepro.com/products/bairds-black-roasted-barley-malt.html"
+        "link": "https://labelpeelers.com/beer-making/briess-unmalted-roasted-barley-10-lb/"
       },
       {
         "name": "Acid Malt",
