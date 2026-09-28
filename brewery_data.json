@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T12:47:56.110Z",
+  "savedAt": "2026-09-28T12:48:08.852Z",
   "beers": [
     {
       "id": 1,
@@ -32295,7 +32295,7 @@
         "_fromBF": true,
         "bf_type": "Other",
         "bf_use": "Mash",
-        "onHand": 196.545,
+        "onHand": 0,
         "unit": "g",
         "bf_cost": 0.049,
         "bf_lotNo": "Dose at 0.2003g/kg\nUltraflo® Max is a high-performing blend of β-glucanase and an arabinoxylanase that makes it possible to degrade both major cell wall components to ensure minimum viscosity and get the best wort separation and beer filtration. This enzyme blend will break down β-glucans and arabinoxylans into non-viscous polysaccharides and thus increasing extract run off of a more concentrated wort.\n\nhttps://biosolutions.novozymes.com/en/products/craft-brewing/ultraflo-max-faster-filtration"
