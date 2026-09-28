@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T13:16:35.464Z",
+  "savedAt": "2026-09-28T13:17:09.004Z",
   "beers": [
     {
       "id": 1,
@@ -30463,7 +30463,7 @@
         "onHand": 6.1114,
         "unit": "kg",
         "bf_cost": 4.63,
-        "bf_lotNo": "",
+        "bf_lotNo": "9625389",
         "link": "https://morewinepro.com/products/briess-caramel-80l.html"
       },
       {
