@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T13:23:19.153Z",
+  "savedAt": "2026-09-28T13:24:29.094Z",
   "beers": [
     {
       "id": 1,
@@ -30175,8 +30175,8 @@
         "type": "Fermentable",
         "bf_id": "dDJs4617bJMwW5gsnqhScn5rqe5Or9",
         "minStock": 0,
-        "supplier": "",
-        "sku": "",
+        "supplier": "MoreWinePro",
+        "sku": "AD3955LB",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
         "notes": "",
@@ -30189,7 +30189,8 @@
         "onHand": 1.458,
         "unit": "kg",
         "bf_cost": 0.0035,
-        "bf_lotNo": ""
+        "bf_lotNo": "9561846",
+        "link": "https://morewinepro.com/products/lactose.html"
       },
       {
         "name": "Peated Malt",
