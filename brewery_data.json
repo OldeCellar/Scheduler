@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T11:45:46.636Z",
+  "savedAt": "2026-09-28T11:51:42.295Z",
   "beers": [
     {
       "id": 1,
@@ -32802,7 +32802,7 @@
         "bf_lotNo": "dose at 0.1762ml/kg of malt"
       },
       {
-        "name": "Sansho",
+        "name": "Sansho pepper",
         "type": "Misc",
         "bf_id": "wqQYaJpGDvJU0AOaOns9d50aKv2Seb",
         "minStock": 0,
