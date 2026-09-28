@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T13:21:12.450Z",
+  "savedAt": "2026-09-28T13:21:44.231Z",
   "beers": [
     {
       "id": 1,
@@ -30324,7 +30324,7 @@
         "bf_id": "default-4c1345c",
         "minStock": 0,
         "supplier": "MoreWinePro",
-        "sku": "",
+        "sku": "GR598E",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
         "notes": "",
@@ -30337,7 +30337,8 @@
         "onHand": 3.08,
         "unit": "kg",
         "bf_cost": 6.06,
-        "bf_lotNo": "9468869"
+        "bf_lotNo": "9468869",
+        "link": "https://morewinepro.com/products/weyermann-acidulated-malt.html"
       },
       {
         "name": "Carafa Special III",
