@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T13:17:59.415Z",
+  "savedAt": "2026-09-28T13:21:12.450Z",
   "beers": [
     {
       "id": 1,
@@ -30110,7 +30110,7 @@
         "bf_id": "default-5c999b6",
         "minStock": 0,
         "supplier": "MoreWinePro",
-        "sku": "",
+        "sku": "GR417E",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
         "notes": "",
@@ -30123,7 +30123,8 @@
         "onHand": 0.468,
         "unit": "kg",
         "bf_cost": 6.06,
-        "bf_lotNo": "9625389"
+        "bf_lotNo": "9625389",
+        "link": "https://morewinepro.com/products/malt-bestmalz-acidulated-lb-showroom.html"
       },
       {
         "name": "Caramel 60L",
