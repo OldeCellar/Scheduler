@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T13:08:15.075Z",
+  "savedAt": "2026-09-28T13:15:03.992Z",
   "beers": [
     {
       "id": 1,
@@ -30130,8 +30130,8 @@
         "type": "Fermentable",
         "bf_id": "default-ce18fea",
         "minStock": 0,
-        "supplier": "",
-        "sku": "",
+        "supplier": "MoreWinePro",
+        "sku": "GR591E",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
         "notes": "",
@@ -30144,7 +30144,7 @@
         "onHand": 3.78,
         "unit": "kg",
         "bf_cost": 4.17,
-        "bf_lotNo": ""
+        "bf_lotNo": "9468869"
       },
       {
         "name": "Special B",
