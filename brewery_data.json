@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T14:00:43.785Z",
+  "savedAt": "2026-09-28T14:01:10.014Z",
   "beers": [
     {
       "id": 1,
@@ -30526,7 +30526,7 @@
         "type": "Fermentable",
         "bf_id": "default-vi-7e09fb",
         "minStock": 0,
-        "supplier": "",
+        "supplier": "MoreWinePro",
         "sku": "GS908",
         "purchaseQty": 25,
         "purchaseUnit": "kg",
@@ -30540,7 +30540,7 @@
         "onHand": 2.66,
         "unit": "kg",
         "bf_cost": 1.74,
-        "bf_lotNo": "",
+        "bf_lotNo": "8626644",
         "link": "https://morewinepro.com/products/viking-munich-light-malt.html"
       },
       {
