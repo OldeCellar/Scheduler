@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T12:50:33.355Z",
+  "savedAt": "2026-09-28T12:51:55.351Z",
   "beers": [
     {
       "id": 1,
@@ -32281,24 +32281,6 @@
         "unit": "g",
         "bf_cost": 0.0228,
         "bf_lotNo": ""
-      },
-      {
-        "name": "Ultraflo Max lot 02",
-        "type": "Misc",
-        "bf_id": "vbQBsNUzMhmjtFWb7WhsH841w4Hr1r",
-        "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
-        "purchaseUnit": "kg",
-        "notes": "",
-        "_fromBF": true,
-        "bf_type": "Other",
-        "bf_use": "Mash",
-        "onHand": 0,
-        "unit": "g",
-        "bf_cost": 0.049,
-        "bf_lotNo": "Dose at 0.2003g/kg\nUltraflo® Max is a high-performing blend of β-glucanase and an arabinoxylanase that makes it possible to degrade both major cell wall components to ensure minimum viscosity and get the best wort separation and beer filtration. This enzyme blend will break down β-glucans and arabinoxylans into non-viscous polysaccharides and thus increasing extract run off of a more concentrated wort.\n\nhttps://biosolutions.novozymes.com/en/products/craft-brewing/ultraflo-max-faster-filtration"
       },
       {
         "name": "Calcium Chloride (CaCl2)",
