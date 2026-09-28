@@ -4975,7 +4975,7 @@ function calcKegDate(bfBottlingDate, brewDate, tankDays, allKegDates) {
 // ════════════════════════════════════════════════════════
 
 // set APP_VERSION and STORAGE_KEY
-let APP_VERSION = 'v33.17-20260922';
+let APP_VERSION = 'v33.18-20260927';
 const STORAGE_KEY = 'brewery_scheduler';  // fixed — version-independent
 
 document.title =
@@ -5138,7 +5138,7 @@ function downloadHtmlFile() {
   if (s2 === source) { alert('Could not locate DEFAULT_PACKAGING markers — download aborted.'); return; }
   source = s2;
 
-  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.17-20260922';");
+  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.18-20260927';");
 
   source = source.replace(/\n<script id="__html_source__">var _HTML_SOURCE_B64_="[A-Za-z0-9+\/=]*";<\/script>\n/, '\n');
 
@@ -10473,12 +10473,13 @@ async function pullBFInventory(filterType, inStockOnly = false){
           // was renamed in Brewfather (e.g. "Pekko Leaf" -> "Pekko"), reflect
           // that here instead of leaving the old name stuck forever.
           existing.name = name;
+          if(existing._costLocal) delete fields.bf_cost;  // keep hand-entered / order-history price
           Object.assign(existing, fields);
           updated++;
         } else {
           PACKAGING.inventory.push(Object.assign(
             {name, type, bf_id: bfId, minStock:0, supplier:'', sku:'', purchaseQty:0,
-             purchaseUnit: type==='Hop'?'g':'kg', notes:''},
+             purchaseUnit: type==='Hop'?'g':'kg', notes:'', link:''},
             fields
           ));
           added++;
@@ -11346,6 +11347,392 @@ window.addEventListener('load', ()=>{
 
 
 
+
+
+// ════════════════════════════════════════════════════════════════════════════
+// v33.18 — Ingredient ordering fields (Supplier / SKU / Price / Link) live on the
+// ingredient pages (per BF lot) and sync both ways with Order List / Order History.
+// These declarations intentionally come LAST so they replace the older versions of
+// renderIngType, saveOrderList and renderIngOrders (last function declaration wins).
+// ════════════════════════════════════════════════════════════════════════════
+function _ea(v){ return String(v==null?'':v).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+function _safeUrl(u){ u=String(u||'').trim(); if(!u) return ''; return /^https?:\/\//i.test(u) ? u : 'https://'+u.replace(/^\/+/,''); }
+function _normName(s){ return (s||'').toLowerCase().trim().replace(/\s+/g,' '); }
+function _yearOf(item){ return item.bf_year || ((item.name||'').match(/\b(20\d{2})\b/)||[])[1] || ''; }
+
+function _ensureIngStyle(){
+  if(document.getElementById('ing-patch-style')) return;
+  const st=document.createElement('style'); st.id='ing-patch-style';
+  st.textContent=
+    'table.ing-tbl{width:auto;}'+
+    'table.ing-tbl th{padding:8px 6px;font-size:9px;}'+
+    'table.ing-tbl td{padding:4px 5px;vertical-align:top;}'+
+    'table.ing-tbl input.form-input{padding:3px 5px;font-size:11px;min-width:0;}'+
+    'table.ing-tbl th.ord-col{background:#a89a72;}'+
+    '.ing-stack{display:flex;flex-direction:column;gap:2px;}'+
+    '.ing-sub{font-size:10px;color:var(--muted);line-height:1.25;}'+
+    '.ing-name{font-weight:500;line-height:1.25;max-width:190px;}'+
+    '.ing-link-a{margin-left:3px;text-decoration:none;font-size:12px;}'+
+    '.ord-add{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:10px;padding:8px 10px;background:var(--bg3);border-radius:var(--radius);}';
+  document.head.appendChild(st);
+}
+
+// ── inventory cell helpers ───────────────────────────────────────────────────
+function _iTxt(ri, field, val, w, ph){
+  return '<input type="text" class="form-input" value="'+_ea(val)+'" title="'+_ea(val)+'" style="width:'+w+'px;"'+
+    (ph?' placeholder="'+_ea(ph)+'"':'')+' onchange="invSet('+ri+',\''+field+'\',this.value)">';
+}
+function _iNum(ri, field, val, w, step, ph, extraStyle){
+  return '<input type="number" class="form-input" value="'+(val==null?'':_ea(val))+'" min="0" step="'+step+'" style="width:'+w+'px;'+(extraStyle||'')+'"'+
+    (ph?' placeholder="'+_ea(ph)+'"':'')+' onchange="invSet('+ri+',\''+field+'\',this.value,\'num\')">';
+}
+// Single write path for every inventory edit on the ingredient pages
+function invSet(ri, field, v, kind){
+  const it=(PACKAGING.inventory||[])[ri]; if(!it) return;
+  if(kind==='num'){
+    const n=parseFloat(v);
+    const nullable=(field==='bf_cost'||field==='bf_color');
+    it[field]=isNaN(n)?(nullable?null:0):n;
+  } else it[field]=v;
+  // A hand-entered price must survive the next Brewfather inventory refresh
+  if(field==='bf_cost') it._costLocal=true;
+  markDirty();
+  if(field==='link') renderIngType(null, it.type);
+}
+function _nameCell(item, aliasMap){
+  const al=aliasMap[(item.name||'').toLowerCase()];
+  return '<td><div class="ing-name">'+esc(item.name)+(item._fromBF?'<span style="font-size:8px;color:var(--hops);margin-left:4px;">●BF</span>':'')+'</div>'+
+    (al?'<div class="ing-sub">🔗 '+esc(al)+'</div>':'')+'</td>';
+}
+
+// ── MAIN PER-TYPE RENDER (compact layout + supplier/SKU/price/link) ──────────
+function renderIngType(el, type){
+  _ensureIngStyle();
+  if(!el) el=document.getElementById('ing-content');
+  if(!PACKAGING.inventory) PACKAGING.inventory=[];
+  if(!PACKAGING.ingredientAliases) PACKAGING.ingredientAliases=[];
+  const typeKey=typeToKey(type), state=_invState[typeKey];
+  const searchEl=document.getElementById('inv-search-'+typeKey);
+  if(searchEl) state.search=searchEl.value;
+
+  const aliasMap={};
+  PACKAGING.ingredientAliases.forEach(a=>{ if(a.category===type) (a.members||[]).forEach(m=>{ aliasMap[m.toLowerCase()]=a.name; }); });
+
+  const all=PACKAGING.inventory.map((item,ri)=>({item,ri,year:_yearOf(item)})).filter(r=>r.item.type===type);
+  let rows=all.slice();
+  if(state.stockFilter==='instock')    rows=rows.filter(r=>(r.item.onHand||0)>0);
+  if(state.stockFilter==='outofstock') rows=rows.filter(r=>(r.item.onHand||0)<=0);
+  const sq=(state.search||'').toLowerCase().trim();
+  if(sq) rows=rows.filter(r=>{
+    const x=r.item, al=aliasMap[(x.name||'').toLowerCase()]||'';
+    return [x.name,x.supplier,x.bf_supplier,x.bf_origin,x.bf_lotNo,x.sku,al].some(v=>String(v||'').toLowerCase().includes(sq));
+  });
+
+  const numCols=new Set(['onHand','minStock','bf_color','bf_alpha','bf_cost','purchaseQty']);
+  const col=state.sort.col;
+  rows.sort((a,b)=>{
+    let av=col==='bf_year'?a.year:a.item[col], bv=col==='bf_year'?b.year:b.item[col];
+    av=av==null?'':av; bv=bv==null?'':bv;
+    if(numCols.has(col)){ av=Number(av)||0; bv=Number(bv)||0; } else { av=String(av).toLowerCase(); bv=String(bv).toLowerCase(); }
+    if(av<bv) return -state.sort.dir; if(av>bv) return state.sort.dir; return 0;
+  });
+
+  const typeLabels={Fermentable:'Fermentables 🌾',Hop:'Hops 🌿',Yeast:'Yeasts 🧫',Misc:'Misc Ingredients 🧪'};
+  const totalItems=all.length;
+  const lowItems=all.filter(r=>r.item.minStock>0&&r.item.onHand<=r.item.minStock).length;
+  const inStockCount=all.filter(r=>(r.item.onHand||0)>0).length;
+  const outStockCount=all.filter(r=>(r.item.onHand||0)<=0).length;
+  const sfBtn=(val,label,count)=>{
+    const active=state.stockFilter===val;
+    return '<button class="btn btn-sm" style="font-size:10px;padding:3px 8px;'+(active?'background:var(--hops);color:#fff;border-color:var(--hops);':'background:var(--bg2);color:var(--text2);border:1px solid var(--border2);')+'"'+
+      ' onclick="_invState[\''+typeKey+'\'].stockFilter=\''+val+'\';renderIngType(null,\''+type+'\')">'+label+' ('+count+')</button>';
+  };
+
+  let h='<div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap;">'+
+    '<button class="btn btn-secondary btn-sm" onclick="pullBFInventory(\''+type+'\')" title="Re-sync this category from Brewfather">⚗ Sync '+type+'s from BF</button>'+
+    '<input id="inv-search-'+typeKey+'" type="text" placeholder="🔍 Search name, supplier, lot#…" style="width:190px;font-size:11px;" value="'+_ea(state.search)+'" oninput="invSearchDebounce(\''+typeKey+'\',\''+type+'\',this.value)">'+
+    '<span style="font-size:10px;color:var(--muted);">Show:</span>'+
+    sfBtn('all','All',totalItems)+sfBtn('instock','In Stock',inStockCount)+sfBtn('outofstock','Out of Stock',outStockCount)+
+    '<span style="font-size:10px;color:var(--muted);margin-left:auto;">'+rows.length+(rows.length!==totalItems?' of '+totalItems:'')+' '+typeLabels[type]+
+    (lowItems>0?'&nbsp;<span style="color:var(--red2);">· '+lowItems+' ⚠ low stock</span>':'')+'</span></div>';
+
+  if(!rows.length && !totalItems){
+    el.innerHTML=h+'<div class="alert alert-info">No '+type+' inventory yet — click "⚗ Sync '+type+'s from BF" to import from Brewfather.</div>'; return;
+  }
+  if(!rows.length){ el.innerHTML=h+'<div class="alert alert-info">No '+type+'s match your search.</div>'; return; }
+
+  // ── column builders ────────────────────────────────────────────────────────
+  const T =(c,l)=>invTh(state,c,l,typeKey);
+  const TO=(c,l)=>invTh(state,c,l,typeKey).replace('<th ','<th class="ord-col" ');
+  const P =(l,t)=>'<th'+(t?' title="'+t+'"':'')+'>'+l+'</th>';
+  const cName={th:T('name','Name ●BF'), td:r=>_nameCell(r.item,aliasMap)};
+  const cOnHand=(label,step,showUnit)=>({th:T('onHand',label), td:r=>{
+    const it=r.item, low=it.minStock>0&&it.onHand<=it.minStock;
+    return '<td style="white-space:nowrap;">'+_iNum(r.ri,'onHand',it.onHand||0,64,step)+(showUnit?'<span class="ing-sub"> '+esc(it.unit||'')+'</span>':'')+
+      (low?'<div style="color:var(--red2);font-size:9px;">⚠ Low</div>':'')+'</td>';}});
+  const cLot={th:P('Lot #','Locally editable'), td:r=>'<td>'+_iTxt(r.ri,'bf_lotNo',r.item.bf_lotNo,80,'Lot #')+'</td>'};
+  const cMin=step=>({th:T('minStock','Min Stock'), td:r=>'<td>'+_iNum(r.ri,'minStock',r.item.minStock||0,54,step)+'</td>'});
+  const cSupplier={th:TO('supplier','Supplier'), td:r=>'<td>'+_iTxt(r.ri,'supplier',r.item.supplier,90,'Vendor')+'</td>'};
+  const cSku={th:TO('sku','SKU'), td:r=>'<td>'+_iTxt(r.ri,'sku',r.item.sku,72)+'</td>'};
+  const cPrice=lbl=>({th:TO('bf_cost','Price/'+lbl), td:r=>{
+    const it=r.item;
+    return '<td>'+_iNum(r.ri,'bf_cost',it.bf_cost,62,'any','$',it._costLocal?'border-color:var(--gold);':'')+'</td>';}});
+  const cLink={th:'<th class="ord-col">Link</th>', td:r=>{
+    const u=_safeUrl(r.item.link);
+    return '<td style="white-space:nowrap;">'+_iTxt(r.ri,'link',r.item.link,90,'https://…')+
+      (u?'<a class="ing-link-a" href="'+_ea(u)+'" target="_blank" rel="noopener" title="'+_ea(u)+'">🔗</a>':'')+'</td>';}};
+  const cPurch=hdrUnit=>({th:'<th class="ord-col">Purch. Qty'+(hdrUnit?' ('+hdrUnit+')':'')+'</th>', td:r=>{
+    const it=r.item;
+    return '<td style="white-space:nowrap;">'+_iNum(r.ri,'purchaseQty',it.purchaseQty||0,56,'any')+
+      (hdrUnit?'':'<span class="ing-sub"> '+esc(it.unit||it.purchaseUnit||'')+'</span>')+'</td>';}});
+  const cDel={th:'<th></th>', td:r=>'<td><button class="skip-btn" onclick="removeInventoryItem('+r.ri+')">✕</button></td>'};
+  const sub=(a,b)=>'<td style="font-size:11px;">'+esc(a||'')+(b?'<div class="ing-sub">'+esc(b)+'</div>':'')+'</td>';
+
+  let cols;
+  if(type==='Fermentable'){
+    cols=[cName,
+      {th:T('bf_supplier','Supplier ●BF'), td:r=>'<td style="font-size:11px;color:var(--muted);">'+esc(r.item.bf_supplier||'')+'</td>'},
+      {th:T('bf_type','Type ●BF'), td:r=>'<td style="font-size:11px;">'+esc(r.item.bf_type||'')+'</td>'},
+      cOnHand('On Hand (kg) ●BF','0.01',false),
+      {th:P('Origin / Category','Locally editable'), td:r=>'<td><div class="ing-stack">'+_iTxt(r.ri,'bf_origin',r.item.bf_origin,84,'Origin')+_iTxt(r.ri,'bf_category',r.item.bf_category,84,'Category')+'</div></td>'},
+      {th:P('Color (EBC)','Locally editable'), td:r=>'<td>'+_iNum(r.ri,'bf_color',r.item.bf_color,52,'0.1','EBC')+'</td>'},
+      cLot, cMin('0.01'), cSupplier, cSku, cPrice('kg'), cLink, cPurch('kg'), cDel];
+  } else if(type==='Hop'){
+    cols=[cName,
+      {th:T('bf_type','Form / Use ●BF'), td:r=>sub(r.item.bf_type,r.item.bf_use)},
+      {th:T('bf_year','Year / α ●BF'), td:r=>'<td class="mono" style="font-size:11px;">'+esc(r.year)+'<div class="ing-sub">'+(r.item.bf_alpha!=null?num(r.item.bf_alpha)+'%':'')+'</div></td>'},
+      cOnHand('On Hand (g) ●BF','0.1',false),
+      cLot, cMin('1'), cSupplier, cSku, cPrice('g'), cLink, cDel];
+  } else if(type==='Yeast'){
+    cols=[cName,
+      {th:T('bf_type','Type ●BF'), td:r=>'<td style="font-size:11px;color:var(--muted);">'+esc(r.item.bf_type||'')+'</td>'},
+      cOnHand('On Hand ●BF','0.01',true),
+      {th:P('Form / Lab','Locally editable'), td:r=>'<td><div class="ing-stack">'+_iTxt(r.ri,'bf_form',r.item.bf_form,84,'Dry/Liquid')+_iTxt(r.ri,'bf_laboratory',r.item.bf_laboratory,84,'Lab')+'</div></td>'},
+      {th:P('BF ID','Locally editable'), td:r=>'<td>'+_iTxt(r.ri,'bf_productId',r.item.bf_productId,66,'ID')+'</td>'},
+      cLot, cMin('0.01'), cSupplier, cSku, cPrice('unit'), cLink, cPurch(''), cDel];
+  } else {
+    cols=[cName,
+      {th:T('bf_type','Type / Use ●BF'), td:r=>sub(r.item.bf_type,r.item.bf_use)},
+      cOnHand('On Hand ●BF','0.01',true),
+      cLot, cMin('0.01'),
+      {th:P('Notes','Locally editable'), td:r=>'<td>'+_iTxt(r.ri,'notes',r.item.notes,110)+'</td>'},
+      cSupplier, cSku, cPrice('unit'), cLink, cPurch(''), cDel];
+  }
+
+  h+='<div style="overflow-x:auto;"><table class="sched-table ing-tbl"><thead><tr>'+cols.map(c=>c.th).join('')+'</tr></thead><tbody>'+
+    rows.map(r=>{
+      const low=r.item.minStock>0&&r.item.onHand<=r.item.minStock;
+      return '<tr'+(low?' style="background:rgba(176,48,32,0.04);"':'')+'>'+cols.map(c=>c.td(r)).join('')+'</tr>';
+    }).join('')+'</tbody></table></div>'+
+    '<div style="margin-top:10px;font-size:10px;color:var(--muted);font-family:\'IBM Plex Mono\',monospace;">'+
+    '<span style="color:var(--hops);">●BF</span> = from Brewfather &nbsp;·&nbsp; other columns are locally editable and saved with your data &nbsp;·&nbsp; '+
+    '<span style="background:#a89a72;color:#000;padding:0 4px;">tan headers</span> = ordering info (per lot) — feeds Order List / Order History and is updated by edits there &nbsp;·&nbsp; '+
+    'gold price border = hand-entered, protected from BF refresh &nbsp;·&nbsp; <span style="color:var(--red2);">⚠ Low</span> = on hand ≤ min stock'+
+    '<span class="inv-sync-status" style="margin-left:12px;color:var(--hops);"></span></div>';
+  el.innerHTML=h;
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// ORDER LIST → ORDER HISTORY  (pull from lot on create, write back on edit)
+// ════════════════════════════════════════════════════════════════════════════
+function _lotsFor(type, name){
+  const inv=(PACKAGING.inventory||[]).filter(i=>i.type===type);
+  const n=_normName(name);
+  const exact=inv.filter(i=>_normName(i.name)===n);
+  if(exact.length) return exact;
+  return inv.filter(i=>{ const m=_normName(i.name); return m&&n&&(m.startsWith(n)||n.startsWith(m)); });
+}
+// Lowest-stock matching lot (per agreed design)
+function _pickLot(type, name){
+  const l=_lotsFor(type,name); if(!l.length) return null;
+  return l.slice().sort((a,b)=>(Number(a.onHand)||0)-(Number(b.onHand)||0))[0];
+}
+function _newOrderItem(type, name, qty, unit){
+  const inv=_pickLot(type,name);
+  return { name, type, qty:Number(qty)||0, unit:unit||(type==='Fermentable'?'kg':'g'),
+    sku:(inv&&inv.sku)||'', price:Number(inv&&inv.bf_cost)||0, supplier:(inv&&inv.supplier)||'', url:(inv&&inv.link)||'',
+    notes:'', bf_id:(inv&&inv.bf_id)||null };
+}
+function _findInvForOrderItem(item){
+  if(item.bf_id){
+    const byId=(PACKAGING.inventory||[]).find(x=>x.bf_id===item.bf_id);
+    if(byId) return byId;
+  }
+  return (PACKAGING.inventory||[]).find(x=>x.type===item.type && _normName(x.name)===_normName(item.name));
+}
+
+function saveOrderList(){
+  const el=document.getElementById('ing-content');
+  const items=el._orderItems||[];
+  if(!items.length){ alert('Nothing to order.'); return; }
+  if(!PACKAGING.orders) PACKAGING.orders=[];
+  PACKAGING.orders.push({
+    id:'ord-'+Date.now(), date:fmtISO(TODAY), status:'Draft',
+    items:items.map(i=>_newOrderItem(i.type,i.name,i.orderQty,i.unit))
+  });
+  markDirty();
+  alert('Order saved as draft with supplier / SKU / price / link pulled from your ingredient lots. Review it on the Order History tab.');
+  showIngTab('ing-orders');
+}
+
+// Rule B — linking only fills what is EMPTY (on the lot, and on the order line); nothing is overwritten
+function linkOrderItemToLot(oi, ii, bfId){
+  const item=PACKAGING.orders[oi].items[ii];
+  if(!bfId){ item.bf_id=null; markDirty(); showIngTab('ing-orders'); return; }
+  item.bf_id=bfId;
+  const inv=(PACKAGING.inventory||[]).find(x=>x.bf_id===bfId);
+  if(inv){
+    if(!inv.bf_cost && item.price)       { inv.bf_cost=item.price; inv._costLocal=true; }
+    if(!inv.sku && item.sku)             inv.sku=item.sku;
+    if(!inv.supplier && item.supplier)   inv.supplier=item.supplier;
+    if(!inv.link && item.url)            inv.link=item.url;
+    if(!item.price && inv.bf_cost)       item.price=Number(inv.bf_cost)||0;
+    if(!item.sku && inv.sku)             item.sku=inv.sku;
+    if(!item.supplier && inv.supplier)   item.supplier=inv.supplier;
+    if(!item.url && inv.link)            item.url=inv.link;
+  }
+  markDirty();
+  showIngTab('ing-orders');
+}
+
+// Rule A — ongoing edits on Order History always overwrite the lot
+function ordSet(oi, ii, field, raw){
+  const item=PACKAGING.orders[oi].items[ii];
+  const v=(field==='price')?(parseFloat(raw)||0):raw;
+  item[field]=v;
+  const inv=_findInvForOrderItem(item);
+  if(inv){
+    if(field==='price'){ inv.bf_cost=v; inv._costLocal=true; }
+    else if(field==='sku') inv.sku=v;
+    else if(field==='supplier') inv.supplier=v;
+    else if(field==='url') inv.link=v;
+  }
+  markDirty();
+  _ordRefreshTotals(oi);
+}
+function ordSetQty(oi, ii, raw){
+  PACKAGING.orders[oi].items[ii].qty=Math.max(0,parseFloat(raw)||0);
+  markDirty(); _ordRefreshTotals(oi);
+}
+function ordSetText(oi, ii, field, raw){ PACKAGING.orders[oi].items[ii][field]=raw; markDirty(); }
+function _ordRefreshTotals(oi){
+  const ord=PACKAGING.orders[oi]; if(!ord) return;
+  let tot=0;
+  ord.items.forEach((it,ii)=>{
+    const lt=(Number(it.price)||0)*(Number(it.qty)||0); tot+=lt;
+    const e=document.getElementById('ol-'+oi+'-'+ii); if(e) e.textContent='$'+lt.toFixed(2);
+  });
+  const t=document.getElementById('ot-'+oi); if(t) t.textContent='$'+tot.toFixed(2);
+}
+function ordDelItem(oi, ii){
+  const it=PACKAGING.orders[oi].items[ii];
+  if(!confirm('Remove "'+it.name+'" from this order?')) return;
+  PACKAGING.orders[oi].items.splice(ii,1); markDirty(); showIngTab('ing-orders');
+}
+function newBlankOrder(){
+  if(!PACKAGING.orders) PACKAGING.orders=[];
+  PACKAGING.orders.push({id:'ord-'+Date.now(), date:fmtISO(TODAY), status:'Draft', items:[]});
+  markDirty(); showIngTab('ing-orders');
+}
+function ordAddTypeChange(oi){
+  const t=document.getElementById('oa-type-'+oi).value;
+  document.getElementById('oa-name-'+oi).setAttribute('list','ing-dl-'+t);
+  document.getElementById('oa-unit-'+oi).value=(t==='Fermentable'?'kg':'g');
+}
+function ordAddItem(oi){
+  const ord=PACKAGING.orders[oi]; if(!ord) return;
+  const type=document.getElementById('oa-type-'+oi).value;
+  let name=document.getElementById('oa-name-'+oi).value.trim();
+  const qty=parseFloat(document.getElementById('oa-qty-'+oi).value);
+  const unit=document.getElementById('oa-unit-'+oi).value.trim();
+  if(!name){ alert('Enter an ingredient name.'); return; }
+  if(!(qty>0)){ alert('Enter a quantity greater than 0.'); return; }
+  const inv=_pickLot(type,name);
+  if(inv && _normName(inv.name)===_normName(name)) name=inv.name;   // canonical spelling
+  ord.items.push(_newOrderItem(type,name,qty,unit));
+  markDirty(); showIngTab('ing-orders');
+}
+
+function _lotOptLabel(i){
+  const bits=[i.name];
+  const y=_yearOf(i); if(y) bits.push(y);
+  if(i.bf_alpha) bits.push('α'+i.bf_alpha);
+  if(i.bf_supplier) bits.push(i.bf_supplier);
+  const lot=(i.bf_lotNo||'').split('\n')[0]; if(lot && lot.length<=14) bits.push('lot '+lot);
+  bits.push((Number(i.onHand)||0).toFixed(1)+' '+(i.unit||''));
+  return bits.join(' · ');
+}
+function _lotSelect(oi, ii, item){
+  const withId=(PACKAGING.inventory||[]).filter(i=>i.type===item.type && i.bf_id);
+  const match=_lotsFor(item.type,item.name).filter(i=>i.bf_id);
+  const ids=new Set(match.map(i=>i.bf_id));
+  const others=withId.filter(i=>!ids.has(i.bf_id));
+  const opt=i=>'<option value="'+_ea(i.bf_id)+'"'+(item.bf_id===i.bf_id?' selected':'')+'>'+_ea(_lotOptLabel(i))+'</option>';
+  const missing=item.bf_id && !withId.some(i=>i.bf_id===item.bf_id);
+  return '<select style="width:170px;font-size:10px;padding:3px;'+(item.bf_id?'':'border-color:var(--amber);')+'" onchange="linkOrderItemToLot('+oi+','+ii+',this.value)">'+
+    '<option value="">— not linked to a lot —</option>'+
+    (missing?'<option value="'+_ea(item.bf_id)+'" selected>(lot no longer in inventory)</option>':'')+
+    (match.length?'<optgroup label="Matching lots">'+match.map(opt).join('')+'</optgroup>':'')+
+    (others.length?'<optgroup label="Other '+item.type+'s">'+others.map(opt).join('')+'</optgroup>':'')+
+    '</select>';
+}
+
+function renderIngOrders(el){
+  if(!el) el=document.getElementById('ing-content');
+  _ensureIngStyle();
+  if(!PACKAGING.orders) PACKAGING.orders=[];
+  const inv=PACKAGING.inventory||[];
+  let h=['Fermentable','Hop','Yeast','Misc'].map(t=>
+    '<datalist id="ing-dl-'+t+'">'+[...new Set(inv.filter(i=>i.type===t).map(i=>i.name))].sort().map(n=>'<option value="'+_ea(n)+'">').join('')+'</datalist>').join('');
+  h+='<div class="controls" style="margin-bottom:10px;"><button class="btn btn-primary btn-sm" onclick="newBlankOrder()">+ New blank order</button>'+
+     '<span style="font-size:11px;color:var(--muted);">Edits to SKU / price / supplier / link here also update the linked ingredient lot.</span></div>'+
+     '<div class="section-title">Order history</div>';
+  if(!PACKAGING.orders.length){ el.innerHTML=h+'<div class="empty-state">No orders yet</div>'; return; }
+
+  PACKAGING.orders.slice().reverse().forEach((ord,ri)=>{
+    const oi=PACKAGING.orders.length-1-ri;
+    let total=0;
+    h+='<div class="card" style="margin-bottom:12px;">'+
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">'+
+      '<div><strong>'+_ea(ord.date)+'</strong> &nbsp;<span class="badge b-filler">'+_ea(ord.status)+'</span></div>'+
+      '<div style="display:flex;gap:8px;">'+
+      '<select class="form-input" style="width:120px;" onchange="PACKAGING.orders['+oi+'].status=this.value;markDirty();">'+
+      ['Draft','Ordered','Received'].map(s=>'<option'+(ord.status===s?' selected':'')+'>'+s+'</option>').join('')+'</select>'+
+      '<button class="skip-btn btn-sm" onclick="deleteOrder('+oi+')">✕ Delete</button></div></div>'+
+      '<div style="overflow-x:auto;"><table class="sched-table ing-tbl"><thead><tr>'+
+      '<th>Type</th><th>Ingredient</th><th>Lot</th><th>Qty</th><th>Unit</th><th>SKU</th><th>Price/unit</th><th>Supplier</th><th>Link</th><th>Line $</th><th>Notes</th><th></th>'+
+      '</tr></thead><tbody>';
+    if(!ord.items.length) h+='<tr><td colspan="12" class="empty-state" style="padding:14px;">No line items — add one below</td></tr>';
+    ord.items.forEach((item,ii)=>{
+      const lt=(Number(item.price)||0)*(Number(item.qty)||0); total+=lt;
+      const u=_safeUrl(item.url);
+      h+='<tr>'+
+        '<td style="font-size:10px;color:var(--muted);">'+_ea(item.type)+'</td>'+
+        '<td><div class="ing-name">'+_ea(item.name)+'</div></td>'+
+        '<td>'+_lotSelect(oi,ii,item)+'</td>'+
+        '<td><input type="number" class="form-input" value="'+_ea(Number(item.qty||0).toFixed(2))+'" min="0" step="any" style="width:70px;" onchange="ordSetQty('+oi+','+ii+',this.value)"></td>'+
+        '<td><input type="text" class="form-input" value="'+_ea(item.unit)+'" style="width:40px;" onchange="ordSetText('+oi+','+ii+',\'unit\',this.value)"></td>'+
+        '<td><input type="text" class="form-input" value="'+_ea(item.sku)+'" style="width:84px;" onchange="ordSet('+oi+','+ii+',\'sku\',this.value)"></td>'+
+        '<td><input type="number" class="form-input" value="'+_ea(item.price||0)+'" min="0" step="any" style="width:68px;" onchange="ordSet('+oi+','+ii+',\'price\',this.value)"></td>'+
+        '<td><input type="text" class="form-input" value="'+_ea(item.supplier)+'" style="width:96px;" onchange="ordSet('+oi+','+ii+',\'supplier\',this.value)"></td>'+
+        '<td style="white-space:nowrap;"><input type="text" class="form-input" value="'+_ea(item.url)+'" style="width:110px;" placeholder="https://..." onchange="ordSet('+oi+','+ii+',\'url\',this.value)">'+
+          (u?'<a class="ing-link-a" href="'+_ea(u)+'" target="_blank" rel="noopener" title="'+_ea(u)+'">🔗</a>':'')+'</td>'+
+        '<td class="mono" style="font-size:11px;" id="ol-'+oi+'-'+ii+'">$'+lt.toFixed(2)+'</td>'+
+        '<td><input type="text" class="form-input" value="'+_ea(item.notes)+'" style="width:120px;" onchange="ordSetText('+oi+','+ii+',\'notes\',this.value)"></td>'+
+        '<td><button class="skip-btn" onclick="ordDelItem('+oi+','+ii+')">✕</button></td></tr>';
+    });
+    h+='</tbody></table></div>'+
+      '<div class="ord-add"><span class="ing-sub">Add line item:</span>'+
+      '<select id="oa-type-'+oi+'" onchange="ordAddTypeChange('+oi+')" style="font-size:11px;">'+
+        ['Fermentable','Hop','Yeast','Misc'].map(t=>'<option>'+t+'</option>').join('')+'</select>'+
+      '<input type="text" id="oa-name-'+oi+'" list="ing-dl-Fermentable" placeholder="Ingredient (pick or type a new one)" style="width:230px;">'+
+      '<input type="number" id="oa-qty-'+oi+'" placeholder="Qty" min="0" step="any" style="width:76px;">'+
+      '<input type="text" id="oa-unit-'+oi+'" value="kg" style="width:46px;">'+
+      '<button class="btn btn-secondary btn-sm" onclick="ordAddItem('+oi+')">+ Add</button></div>'+
+      '<div style="text-align:right;font-size:12px;margin-top:8px;font-family:monospace;">Order total: <strong id="ot-'+oi+'">$'+total.toFixed(2)+'</strong></div></div>';
+  });
+  el.innerHTML=h;
+}
 
 </script>
 </body></html>
