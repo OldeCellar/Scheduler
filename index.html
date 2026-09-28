@@ -4975,7 +4975,7 @@ function calcKegDate(bfBottlingDate, brewDate, tankDays, allKegDates) {
 // ════════════════════════════════════════════════════════
 
 // set APP_VERSION and STORAGE_KEY
-let APP_VERSION = 'v33.18-20260927';
+let APP_VERSION = 'v33.19-20260928';
 const STORAGE_KEY = 'brewery_scheduler';  // fixed — version-independent
 
 document.title =
@@ -5138,7 +5138,7 @@ function downloadHtmlFile() {
   if (s2 === source) { alert('Could not locate DEFAULT_PACKAGING markers — download aborted.'); return; }
   source = s2;
 
-  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.18-20260927';");
+  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.19-20260928';");
 
   source = source.replace(/\n<script id="__html_source__">var _HTML_SOURCE_B64_="[A-Za-z0-9+\/=]*";<\/script>\n/, '\n');
 
@@ -11369,6 +11369,10 @@ function _ensureIngStyle(){
     'table.ing-tbl td{padding:4px 5px;vertical-align:top;}'+
     'table.ing-tbl input.form-input{padding:3px 5px;font-size:11px;min-width:0;}'+
     'table.ing-tbl th.ord-col{background:#a89a72;}'+
+    'table.ord-tbl{width:100%;table-layout:fixed;}'+
+    'table.ord-tbl td{overflow:hidden;}'+
+    'table.ord-tbl input.form-input,table.ord-tbl select{width:100%;box-sizing:border-box;}'+
+    '.ord-unit{font-size:11px;color:var(--text2);white-space:nowrap;}'+
     '.ing-stack{display:flex;flex-direction:column;gap:2px;}'+
     '.ing-sub{font-size:10px;color:var(--muted);line-height:1.25;}'+
     '.ing-name{font-weight:500;line-height:1.25;max-width:190px;}'+
@@ -11549,7 +11553,7 @@ function _pickLot(type, name){
 }
 function _newOrderItem(type, name, qty, unit){
   const inv=_pickLot(type,name);
-  return { name, type, qty:Number(qty)||0, unit:unit||(type==='Fermentable'?'kg':'g'),
+  return { name, type, qty:Number(qty)||0, unit:(inv&&inv.unit)||unit||(type==='Fermentable'?'kg':'g'),
     sku:(inv&&inv.sku)||'', price:Number(inv&&inv.bf_cost)||0, supplier:(inv&&inv.supplier)||'', url:(inv&&inv.link)||'',
     notes:'', bf_id:(inv&&inv.bf_id)||null };
 }
@@ -11669,12 +11673,19 @@ function _lotSelect(oi, ii, item){
   const others=withId.filter(i=>!ids.has(i.bf_id));
   const opt=i=>'<option value="'+_ea(i.bf_id)+'"'+(item.bf_id===i.bf_id?' selected':'')+'>'+_ea(_lotOptLabel(i))+'</option>';
   const missing=item.bf_id && !withId.some(i=>i.bf_id===item.bf_id);
-  return '<select style="width:170px;font-size:10px;padding:3px;'+(item.bf_id?'':'border-color:var(--amber);')+'" onchange="linkOrderItemToLot('+oi+','+ii+',this.value)">'+
+  return '<select style="font-size:10px;padding:3px;'+(item.bf_id?'':'border-color:var(--amber);')+'" onchange="linkOrderItemToLot('+oi+','+ii+',this.value)">'+
     '<option value="">— not linked to a lot —</option>'+
     (missing?'<option value="'+_ea(item.bf_id)+'" selected>(lot no longer in inventory)</option>':'')+
     (match.length?'<optgroup label="Matching lots">'+match.map(opt).join('')+'</optgroup>':'')+
     (others.length?'<optgroup label="Other '+item.type+'s">'+others.map(opt).join('')+'</optgroup>':'')+
     '</select>';
+}
+
+// Unit always reflects the linked ingredient lot's BF unit (not separately editable);
+// falls back to the unit stored on the line only when no lot is linked.
+function _ordUnit(item){
+  const inv=_findInvForOrderItem(item);
+  return (inv && inv.unit) ? inv.unit : (item.unit||'');
 }
 
 function renderIngOrders(el){
@@ -11699,8 +11710,10 @@ function renderIngOrders(el){
       '<select class="form-input" style="width:120px;" onchange="PACKAGING.orders['+oi+'].status=this.value;markDirty();">'+
       ['Draft','Ordered','Received'].map(s=>'<option'+(ord.status===s?' selected':'')+'>'+s+'</option>').join('')+'</select>'+
       '<button class="skip-btn btn-sm" onclick="deleteOrder('+oi+')">✕ Delete</button></div></div>'+
-      '<div style="overflow-x:auto;"><table class="sched-table ing-tbl"><thead><tr>'+
-      '<th>Type</th><th>Ingredient</th><th>Lot</th><th>Qty</th><th>Unit</th><th>SKU</th><th>Price/unit</th><th>Supplier</th><th>Link</th><th>Line $</th><th>Notes</th><th></th>'+
+      '<div style="overflow-x:auto;"><table class="sched-table ing-tbl ord-tbl"><colgroup>'+
+      '<col style="width:5%"><col style="width:13%"><col style="width:17%"><col style="width:5%"><col style="width:5%"><col style="width:8%"><col style="width:7%"><col style="width:9%"><col style="width:13%"><col style="width:6%"><col style="width:10%"><col style="width:2%">'+
+      '</colgroup><thead><tr>'+
+      '<th>Type</th><th>Ingredient</th><th>Lot</th><th>Qty to Order</th><th>Unit</th><th>SKU</th><th>Price/unit</th><th>Supplier</th><th>Link</th><th>Line $</th><th>Notes</th><th></th>'+
       '</tr></thead><tbody>';
     if(!ord.items.length) h+='<tr><td colspan="12" class="empty-state" style="padding:14px;">No line items — add one below</td></tr>';
     ord.items.forEach((item,ii)=>{
@@ -11710,15 +11723,15 @@ function renderIngOrders(el){
         '<td style="font-size:10px;color:var(--muted);">'+_ea(item.type)+'</td>'+
         '<td><div class="ing-name">'+_ea(item.name)+'</div></td>'+
         '<td>'+_lotSelect(oi,ii,item)+'</td>'+
-        '<td><input type="number" class="form-input" value="'+_ea(Number(item.qty||0).toFixed(2))+'" min="0" step="any" style="width:70px;" onchange="ordSetQty('+oi+','+ii+',this.value)"></td>'+
-        '<td><input type="text" class="form-input" value="'+_ea(item.unit)+'" style="width:40px;" onchange="ordSetText('+oi+','+ii+',\'unit\',this.value)"></td>'+
-        '<td><input type="text" class="form-input" value="'+_ea(item.sku)+'" style="width:84px;" onchange="ordSet('+oi+','+ii+',\'sku\',this.value)"></td>'+
-        '<td><input type="number" class="form-input" value="'+_ea(item.price||0)+'" min="0" step="any" style="width:68px;" onchange="ordSet('+oi+','+ii+',\'price\',this.value)"></td>'+
-        '<td><input type="text" class="form-input" value="'+_ea(item.supplier)+'" style="width:96px;" onchange="ordSet('+oi+','+ii+',\'supplier\',this.value)"></td>'+
-        '<td style="white-space:nowrap;"><input type="text" class="form-input" value="'+_ea(item.url)+'" style="width:110px;" placeholder="https://..." onchange="ordSet('+oi+','+ii+',\'url\',this.value)">'+
+        '<td><input type="number" class="form-input" value="'+_ea(Number(item.qty||0).toFixed(2))+'" min="0" step="any" onchange="ordSetQty('+oi+','+ii+',this.value)"></td>'+
+        '<td class="ord-unit">'+_ea(_ordUnit(item))+'</td>'+
+        '<td><input type="text" class="form-input" value="'+_ea(item.sku)+'" onchange="ordSet('+oi+','+ii+',\'sku\',this.value)"></td>'+
+        '<td><input type="number" class="form-input" value="'+_ea(item.price||0)+'" min="0" step="any" onchange="ordSet('+oi+','+ii+',\'price\',this.value)"></td>'+
+        '<td><input type="text" class="form-input" value="'+_ea(item.supplier)+'" onchange="ordSet('+oi+','+ii+',\'supplier\',this.value)"></td>'+
+        '<td style="white-space:nowrap;"><input type="text" class="form-input" value="'+_ea(item.url)+'" placeholder="https://..." onchange="ordSet('+oi+','+ii+',\'url\',this.value)">'+
           (u?'<a class="ing-link-a" href="'+_ea(u)+'" target="_blank" rel="noopener" title="'+_ea(u)+'">🔗</a>':'')+'</td>'+
         '<td class="mono" style="font-size:11px;" id="ol-'+oi+'-'+ii+'">$'+lt.toFixed(2)+'</td>'+
-        '<td><input type="text" class="form-input" value="'+_ea(item.notes)+'" style="width:120px;" onchange="ordSetText('+oi+','+ii+',\'notes\',this.value)"></td>'+
+        '<td><input type="text" class="form-input" value="'+_ea(item.notes)+'" onchange="ordSetText('+oi+','+ii+',\'notes\',this.value)"></td>'+
         '<td><button class="skip-btn" onclick="ordDelItem('+oi+','+ii+')">✕</button></td></tr>';
     });
     h+='</tbody></table></div>'+
