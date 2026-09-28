@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T13:28:05.698Z",
+  "savedAt": "2026-09-28T13:31:42.134Z",
   "beers": [
     {
       "id": 1,
@@ -30240,9 +30240,9 @@
         "type": "Fermentable",
         "bf_id": "BOE9n3nnhy7JIUIPijZ76Z9AtbAVgs",
         "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
+        "supplier": "Labelpeelers",
+        "sku": "1610B",
+        "purchaseQty": 4.536,
         "purchaseUnit": "kg",
         "notes": "",
         "_fromBF": true,
@@ -30254,7 +30254,8 @@
         "onHand": 1.9441,
         "unit": "kg",
         "bf_cost": 2.868,
-        "bf_lotNo": "303137"
+        "bf_lotNo": "303137",
+        "link": "https://labelpeelers.com/beer-making/swaen-melanoidin-malt-10-lb/"
       },
       {
         "name": "Invert Sugar",
@@ -30434,9 +30435,9 @@
         "type": "Fermentable",
         "bf_id": "default-008bf2415e4",
         "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
+        "supplier": "MoreWinePro",
+        "sku": "GR480E",
+        "purchaseQty": 2.268,
         "purchaseUnit": "kg",
         "notes": "",
         "_fromBF": true,
@@ -30448,7 +30449,8 @@
         "onHand": 5.168,
         "unit": "kg",
         "bf_cost": 5.29,
-        "bf_lotNo": "9625389"
+        "bf_lotNo": "9625389",
+        "link": "https://morewinepro.com/products/weyermann-melanoidin-malt.html"
       },
       {
         "name": "Caramel 80L",
