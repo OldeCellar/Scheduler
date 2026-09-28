@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T12:36:34.561Z",
+  "savedAt": "2026-09-28T12:37:40.089Z",
   "beers": [
     {
       "id": 1,
@@ -30729,7 +30729,7 @@
         "bf_type": "Grain",
         "bf_category": "Base",
         "bf_color": 0.324873,
-        "onHand": 37.9128,
+        "onHand": 0,
         "unit": "kg",
         "bf_cost": 1.935,
         "bf_lotNo": ""
