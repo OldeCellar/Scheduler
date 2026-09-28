@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T13:47:20.696Z",
+  "savedAt": "2026-09-28T13:48:51.474Z",
   "beers": [
     {
       "id": 1,
@@ -30373,8 +30373,8 @@
         "bf_id": "default-2d9d89a",
         "minStock": 0,
         "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
+        "sku": "GR435E",
+        "purchaseQty": 2.268,
         "purchaseUnit": "kg",
         "notes": "",
         "_fromBF": true,
@@ -30386,7 +30386,8 @@
         "onHand": 4.54,
         "unit": "kg",
         "bf_cost": 3.14,
-        "bf_lotNo": "GR435E"
+        "bf_lotNo": "",
+        "link": "https://morewinepro.com/products/gambrinus-honey-malt.html"
       },
       {
         "name": "Caramel 120L",
