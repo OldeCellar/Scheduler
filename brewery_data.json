@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T13:23:05.567Z",
+  "savedAt": "2026-09-28T13:23:19.153Z",
   "beers": [
     {
       "id": 1,
@@ -30167,7 +30167,8 @@
         "onHand": 1.3474,
         "unit": "kg",
         "bf_cost": 5.07,
-        "bf_lotNo": ""
+        "bf_lotNo": "",
+        "link": "https://morewinepro.com/products/dingemans-special.html"
       },
       {
         "name": "Lactose Sugar",
