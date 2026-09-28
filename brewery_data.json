@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T13:31:57.794Z",
+  "savedAt": "2026-09-28T13:34:29.006Z",
   "beers": [
     {
       "id": 1,
@@ -30306,9 +30306,9 @@
         "type": "Fermentable",
         "bf_id": "default-9a06033",
         "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
+        "supplier": "MoreWinePro",
+        "sku": "GS620",
+        "purchaseQty": 25,
         "purchaseUnit": "kg",
         "notes": "",
         "_fromBF": true,
@@ -30320,7 +30320,8 @@
         "onHand": 3.175,
         "unit": "kg",
         "bf_cost": 0.9,
-        "bf_lotNo": ""
+        "bf_lotNo": "8529977",
+        "link": "https://morewinepro.com/products/bairds-black-roasted-barley-malt.html"
       },
       {
         "name": "Acid Malt",
@@ -30500,9 +30501,9 @@
         "type": "Fermentable",
         "bf_id": "default-56a32ca",
         "minStock": 0,
-        "supplier": "",
+        "supplier": "MoreWinePro",
         "sku": "",
-        "purchaseQty": 0,
+        "purchaseQty": 25,
         "purchaseUnit": "kg",
         "notes": "",
         "_fromBF": true,
