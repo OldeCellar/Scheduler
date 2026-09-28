@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T13:25:33.241Z",
+  "savedAt": "2026-09-28T13:26:02.212Z",
   "beers": [
     {
       "id": 1,
@@ -30412,8 +30412,8 @@
         "type": "Fermentable",
         "bf_id": "default-a5e4c05",
         "minStock": 0,
-        "supplier": "",
-        "sku": "",
+        "supplier": "MoreWinePro",
+        "sku": "GR440E",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
         "notes": "",
@@ -30426,7 +30426,8 @@
         "onHand": 4.65,
         "unit": "kg",
         "bf_cost": 3.14,
-        "bf_lotNo": "GR440E"
+        "bf_lotNo": "GR440E",
+        "link": "https://morewinepro.com/products/simpson-peated-malt.html"
       },
       {
         "name": "Melanoidin",
