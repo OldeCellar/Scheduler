@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T14:01:10.014Z",
+  "savedAt": "2026-09-28T14:02:12.510Z",
   "beers": [
     {
       "id": 1,
@@ -30633,7 +30633,7 @@
         "bf_id": "default-cc606e8",
         "minStock": 0,
         "supplier": "MoreWinePro",
-        "sku": "",
+        "sku": "GS385",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
         "notes": "",
@@ -30646,7 +30646,8 @@
         "onHand": 17.87,
         "unit": "kg",
         "bf_cost": 2.81,
-        "bf_lotNo": ""
+        "bf_lotNo": "9143801",
+        "link": "https://morewinepro.com/products/weyermann-caramunich.html"
       },
       {
         "name": "Vienna malt",
