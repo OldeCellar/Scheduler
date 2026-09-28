@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T13:24:29.094Z",
+  "savedAt": "2026-09-28T13:25:33.241Z",
   "beers": [
     {
       "id": 1,
@@ -30197,8 +30197,8 @@
         "type": "Fermentable",
         "bf_id": "default-bm-peated",
         "minStock": 0,
-        "supplier": "",
-        "sku": "",
+        "supplier": "MoreWinePro",
+        "sku": "GR445E",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
         "notes": "",
@@ -30211,7 +30211,8 @@
         "onHand": 1.6542,
         "unit": "kg",
         "bf_cost": 5.14,
-        "bf_lotNo": ""
+        "bf_lotNo": "",
+        "link": "https://morewinepro.com/products/weyermann-rauch-malt.html"
       },
       {
         "name": "Molasses",
