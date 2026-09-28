@@ -4975,7 +4975,7 @@ function calcKegDate(bfBottlingDate, brewDate, tankDays, allKegDates) {
 // ════════════════════════════════════════════════════════
 
 // set APP_VERSION and STORAGE_KEY
-let APP_VERSION = 'v33.19-20260928';
+let APP_VERSION = 'v33.20-20260928';
 const STORAGE_KEY = 'brewery_scheduler';  // fixed — version-independent
 
 document.title =
@@ -5138,7 +5138,7 @@ function downloadHtmlFile() {
   if (s2 === source) { alert('Could not locate DEFAULT_PACKAGING markers — download aborted.'); return; }
   source = s2;
 
-  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.19-20260928';");
+  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.20-20260928';");
 
   source = source.replace(/\n<script id="__html_source__">var _HTML_SOURCE_B64_="[A-Za-z0-9+\/=]*";<\/script>\n/, '\n');
 
@@ -11369,9 +11369,9 @@ function _ensureIngStyle(){
     'table.ing-tbl td{padding:4px 5px;vertical-align:top;}'+
     'table.ing-tbl input.form-input{padding:3px 5px;font-size:11px;min-width:0;}'+
     'table.ing-tbl th.ord-col{background:#a89a72;}'+
-    'table.ord-tbl{width:100%;table-layout:fixed;}'+
-    'table.ord-tbl td{overflow:hidden;}'+
-    'table.ord-tbl input.form-input,table.ord-tbl select{width:100%;box-sizing:border-box;}'+
+    'table.fill-tbl{width:100%;table-layout:fixed;}'+
+    'table.fill-tbl td{overflow:hidden;}'+
+    'table.fill-tbl input.form-input,table.fill-tbl select{width:100%;box-sizing:border-box;}'+
     '.ord-unit{font-size:11px;color:var(--text2);white-space:nowrap;}'+
     '.ing-stack{display:flex;flex-direction:column;gap:2px;}'+
     '.ing-sub{font-size:10px;color:var(--muted);line-height:1.25;}'+
@@ -11382,12 +11382,15 @@ function _ensureIngStyle(){
 }
 
 // ── inventory cell helpers ───────────────────────────────────────────────────
+// 'w' (px) is accepted for compatibility with existing call sites but no longer used for
+// sizing — the fill-tbl CSS class stretches every input to its <col> width instead, so the
+// table (and its whitespace) is governed by the colgroup, not by each input's own width.
 function _iTxt(ri, field, val, w, ph){
-  return '<input type="text" class="form-input" value="'+_ea(val)+'" title="'+_ea(val)+'" style="width:'+w+'px;"'+
+  return '<input type="text" class="form-input" value="'+_ea(val)+'" title="'+_ea(val)+'" style="width:100%;box-sizing:border-box;"'+
     (ph?' placeholder="'+_ea(ph)+'"':'')+' onchange="invSet('+ri+',\''+field+'\',this.value)">';
 }
 function _iNum(ri, field, val, w, step, ph, extraStyle){
-  return '<input type="number" class="form-input" value="'+(val==null?'':_ea(val))+'" min="0" step="'+step+'" style="width:'+w+'px;'+(extraStyle||'')+'"'+
+  return '<input type="number" class="form-input" value="'+(val==null?'':_ea(val))+'" min="0" step="'+step+'" style="width:100%;box-sizing:border-box;'+(extraStyle||'')+'"'+
     (ph?' placeholder="'+_ea(ph)+'"':'')+' onchange="invSet('+ri+',\''+field+'\',this.value,\'num\')">';
 }
 // Single write path for every inventory edit on the ingredient pages
@@ -11523,7 +11526,16 @@ function renderIngType(el, type){
       cSupplier, cSku, cPrice('unit'), cLink, cPurch(''), cDel];
   }
 
-  h+='<div style="overflow-x:auto;"><table class="sched-table ing-tbl"><thead><tr>'+cols.map(c=>c.th).join('')+'</tr></thead><tbody>'+
+  const _colPct={
+    Fermentable:[14,8,6,6,12,5,8,5,8,6,6,9,5,2],
+    Hop:        [18,11,9,8,10,6,11,8,7,10,2],
+    Yeast:      [17,7,7,12,7,8,5,9,6,6,9,5,2],
+    Misc:       [16,10,7,8,5,14,9,6,6,9,8,2]
+  }[type] || [];
+  const colgroup = _colPct.length===cols.length
+    ? '<colgroup>'+_colPct.map(p=>'<col style="width:'+p+'%">').join('')+'</colgroup>'
+    : '';  // falls back to natural sizing if a column was added/removed without updating _colPct
+  h+='<div style="overflow-x:auto;"><table class="sched-table ing-tbl fill-tbl">'+colgroup+'<thead><tr>'+cols.map(c=>c.th).join('')+'</tr></thead><tbody>'+
     rows.map(r=>{
       const low=r.item.minStock>0&&r.item.onHand<=r.item.minStock;
       return '<tr'+(low?' style="background:rgba(176,48,32,0.04);"':'')+'>'+cols.map(c=>c.td(r)).join('')+'</tr>';
@@ -11710,7 +11722,7 @@ function renderIngOrders(el){
       '<select class="form-input" style="width:120px;" onchange="PACKAGING.orders['+oi+'].status=this.value;markDirty();">'+
       ['Draft','Ordered','Received'].map(s=>'<option'+(ord.status===s?' selected':'')+'>'+s+'</option>').join('')+'</select>'+
       '<button class="skip-btn btn-sm" onclick="deleteOrder('+oi+')">✕ Delete</button></div></div>'+
-      '<div style="overflow-x:auto;"><table class="sched-table ing-tbl ord-tbl"><colgroup>'+
+      '<div style="overflow-x:auto;"><table class="sched-table ing-tbl fill-tbl"><colgroup>'+
       '<col style="width:5%"><col style="width:13%"><col style="width:17%"><col style="width:5%"><col style="width:5%"><col style="width:8%"><col style="width:7%"><col style="width:9%"><col style="width:13%"><col style="width:6%"><col style="width:10%"><col style="width:2%">'+
       '</colgroup><thead><tr>'+
       '<th>Type</th><th>Ingredient</th><th>Lot</th><th>Qty to Order</th><th>Unit</th><th>SKU</th><th>Price/unit</th><th>Supplier</th><th>Link</th><th>Line $</th><th>Notes</th><th></th>'+
