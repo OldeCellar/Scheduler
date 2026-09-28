@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T13:44:30.890Z",
+  "savedAt": "2026-09-28T13:46:51.874Z",
   "beers": [
     {
       "id": 1,
@@ -30350,9 +30350,9 @@
         "type": "Fermentable",
         "bf_id": "default-6970cb8",
         "minStock": 0,
-        "supplier": "",
-        "sku": "",
-        "purchaseQty": 0,
+        "supplier": "MoreWinePro",
+        "sku": "GR693E",
+        "purchaseQty": 2.268,
         "purchaseUnit": "kg",
         "notes": "",
         "_fromBF": true,
@@ -30364,7 +30364,8 @@
         "onHand": 3.9927,
         "unit": "kg",
         "bf_cost": 4.76,
-        "bf_lotNo": "8949182"
+        "bf_lotNo": "8949182",
+        "link": "https://morewinepro.com/products/weyermann-carafa-special-iii.html"
       },
       {
         "name": "Honey Malt",
@@ -32574,7 +32575,7 @@
         "minStock": 0,
         "supplier": "",
         "sku": "",
-        "purchaseQty": 0,
+        "purchaseQty": 2.268,
         "purchaseUnit": "kg",
         "notes": "",
         "_fromBF": true,
