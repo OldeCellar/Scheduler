@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T13:15:03.992Z",
+  "savedAt": "2026-09-28T13:16:35.464Z",
   "beers": [
     {
       "id": 1,
@@ -30144,7 +30144,8 @@
         "onHand": 3.78,
         "unit": "kg",
         "bf_cost": 4.17,
-        "bf_lotNo": "9468869"
+        "bf_lotNo": "9468869",
+        "link": "https://morewinepro.com/products/briess-caramel-munich-60-malt.html"
       },
       {
         "name": "Special B",
@@ -30384,8 +30385,8 @@
         "type": "Fermentable",
         "bf_id": "default-0kgX2Mll5dUX0UE7dBSYdbzlQQXTr3",
         "minStock": 0,
-        "supplier": "",
-        "sku": "",
+        "supplier": "MoreWinePro",
+        "sku": "GR562E",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
         "notes": "",
@@ -30398,7 +30399,8 @@
         "onHand": 4.6,
         "unit": "kg",
         "bf_cost": 3.69,
-        "bf_lotNo": "1919B"
+        "bf_lotNo": "1919B",
+        "link": "https://morewinepro.com/products/briess-caramel-120l.html"
       },
       {
         "name": "Peated Malt",
@@ -30447,8 +30449,8 @@
         "type": "Fermentable",
         "bf_id": "default-2kOGrC63fZ83Zpuvc4FdpnhV0O6yy6",
         "minStock": 0,
-        "supplier": "",
-        "sku": "",
+        "supplier": "MoreWinePro",
+        "sku": "GR563E",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
         "notes": "",
@@ -30461,7 +30463,8 @@
         "onHand": 6.1114,
         "unit": "kg",
         "bf_cost": 4.63,
-        "bf_lotNo": ""
+        "bf_lotNo": "",
+        "link": "https://morewinepro.com/products/briess-caramel-80l.html"
       },
       {
         "name": "Biscuit Malt",
