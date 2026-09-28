@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.18-20260927",
-  "savedAt": "2026-09-28T13:26:02.212Z",
+  "savedAt": "2026-09-28T13:28:05.698Z",
   "beers": [
     {
       "id": 1,
@@ -30219,7 +30219,7 @@
         "type": "Fermentable",
         "bf_id": "default-410740b",
         "minStock": 0,
-        "supplier": "",
+        "supplier": "stores",
         "sku": "",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
