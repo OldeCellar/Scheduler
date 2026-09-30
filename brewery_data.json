@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.21-20260928",
-  "savedAt": "2026-09-30T14:31:23.948Z",
+  "savedAt": "2026-09-30T14:45:03.123Z",
   "beers": [
     {
       "id": 1,
@@ -4719,12 +4719,12 @@
         "type": "Fermentable",
         "bf_id": "default-e893982",
         "minStock": 0,
-        "supplier": "",
-        "sku": "",
+        "supplier": "MoreWinePro",
+        "sku": "GS330",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
         "notes": "",
-        "link": "",
+        "link": "https://morewinepro.com/products/dingemans-pale-ale.html",
         "_fromBF": true,
         "bf_supplier": "Dingemans",
         "bf_origin": "Belgium",
@@ -5049,6 +5049,18 @@
             "url": "https://morewinepro.com/products/barke-pilsner-malt-weyermann-specialty-malts.html",
             "notes": "order 3",
             "bf_id": null
+          },
+          {
+            "name": "Pale Ale Malt",
+            "type": "Fermentable",
+            "qty": 100,
+            "unit": "kg",
+            "sku": "GS330",
+            "price": 2.3196,
+            "supplier": "MoreWinePro",
+            "url": "https://morewinepro.com/products/dingemans-pale-ale.html",
+            "notes": "order 3",
+            "bf_id": "default-e893982"
           }
         ]
       }
