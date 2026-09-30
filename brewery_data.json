@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.21-20260928",
-  "savedAt": "2026-09-30T16:12:12.430Z",
+  "savedAt": "2026-09-30T16:16:31.102Z",
   "beers": [
     {
       "id": 1,
@@ -2553,9 +2553,10 @@
         "bf_color": 8.1218274,
         "onHand": 2.66,
         "unit": "kg",
-        "bf_cost": 1.74,
+        "bf_cost": 3.29,
         "bf_lotNo": "",
-        "link": "https://morewinepro.com/products/viking-munich-light-malt.html"
+        "link": "https://morewinepro.com/products/viking-munich-light-malt.html",
+        "_costLocal": true
       },
       {
         "name": "Flaked Oats",
@@ -2794,7 +2795,7 @@
         "bf_id": "default-c563e53",
         "minStock": 0,
         "supplier": "MoreWinePro",
-        "sku": "",
+        "sku": "AD310S",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
         "notes": "",
@@ -2806,8 +2807,10 @@
         "bf_color": 0,
         "onHand": 29.5096,
         "unit": "kg",
-        "bf_cost": 2.24,
-        "bf_lotNo": ""
+        "bf_cost": 2.07,
+        "bf_lotNo": "",
+        "link": "https://morewinepro.com/products/corn-sugar.html",
+        "_costLocal": true
       },
       {
         "name": "White Wheat Malt",
@@ -4900,12 +4903,12 @@
           {
             "name": "Dextrose",
             "type": "Fermentable",
-            "qty": 3.966000000000001,
+            "qty": 22.68,
             "unit": "kg",
-            "sku": "",
-            "price": 2.24,
+            "sku": "AD310S",
+            "price": 2.07,
             "supplier": "MoreWinePro",
-            "url": "",
+            "url": "https://morewinepro.com/products/corn-sugar.html",
             "notes": "order 1",
             "bf_id": "default-c563e53"
           },
@@ -4939,7 +4942,7 @@
             "qty": 4.359999999999999,
             "unit": "kg",
             "sku": "GR908E",
-            "price": 1.74,
+            "price": 3.29,
             "supplier": "MoreWinePro",
             "url": "https://morewinepro.com/products/viking-munich-light-malt.html",
             "notes": "order 2",
