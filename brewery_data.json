@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.21-20260928",
-  "savedAt": "2026-09-30T14:03:32.051Z",
+  "savedAt": "2026-09-30T14:23:03.421Z",
   "beers": [
     {
       "id": 1,
@@ -5036,6 +5036,18 @@
             "url": "",
             "notes": "",
             "bf_id": "default-ow3yfIwJKFl0nQ5COjZxbYoIm8dABS"
+          },
+          {
+            "name": "Barke Pilsner",
+            "type": "Fermentable",
+            "qty": 165,
+            "unit": "kg",
+            "sku": "GS694",
+            "price": 0,
+            "supplier": "",
+            "url": "",
+            "notes": "",
+            "bf_id": null
           }
         ]
       }
