@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.21-20260928",
-  "savedAt": "2026-09-30T16:10:37.276Z",
+  "savedAt": "2026-09-30T16:11:15.876Z",
   "beers": [
     {
       "id": 1,
@@ -2847,9 +2847,10 @@
         "bf_color": 2.6,
         "onHand": 74.7515,
         "unit": "kg",
-        "bf_cost": 2.99,
+        "bf_cost": 2.45,
         "bf_lotNo": "",
-        "link": "https://morewinepro.com/products/bairds-malt-maris-otter-pale-ale.html"
+        "link": "https://morewinepro.com/products/bairds-malt-maris-otter-pale-ale.html",
+        "_costLocal": true
       },
       {
         "name": "Pale Ale null-LOX",
@@ -4925,7 +4926,7 @@
             "qty": 150,
             "unit": "kg",
             "sku": "GS352",
-            "price": 2.99,
+            "price": 2.45,
             "supplier": "MoreWinePro",
             "url": "https://morewinepro.com/products/bairds-malt-maris-otter-pale-ale.html",
             "notes": "order 6",
