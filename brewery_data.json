@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.21-20260928",
-  "savedAt": "2026-09-30T16:09:48.837Z",
+  "savedAt": "2026-09-30T16:10:37.276Z",
   "beers": [
     {
       "id": 1,
@@ -4922,7 +4922,7 @@
           {
             "name": "Maris Otter",
             "type": "Fermentable",
-            "qty": 178.45270000000002,
+            "qty": 150,
             "unit": "kg",
             "sku": "GS352",
             "price": 2.99,
