@@ -4975,7 +4975,7 @@ function calcKegDate(bfBottlingDate, brewDate, tankDays, allKegDates) {
 // ════════════════════════════════════════════════════════
 
 // set APP_VERSION and STORAGE_KEY
-let APP_VERSION = 'v33.20-20260928';
+let APP_VERSION = 'v33.21-20260928';
 const STORAGE_KEY = 'brewery_scheduler';  // fixed — version-independent
 
 document.title =
@@ -5138,7 +5138,7 @@ function downloadHtmlFile() {
   if (s2 === source) { alert('Could not locate DEFAULT_PACKAGING markers — download aborted.'); return; }
   source = s2;
 
-  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.20-20260928';");
+  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.21-20260928';");
 
   source = source.replace(/\n<script id="__html_source__">var _HTML_SOURCE_B64_="[A-Za-z0-9+\/=]*";<\/script>\n/, '\n');
 
@@ -11073,6 +11073,19 @@ async function pullFromGitHub(manual) {
     if (manual) alert('GitHub Sync not configured — go to Data → GitHub Sync tab.');
     return false;
   }
+  // A manual Pull is an explicit "give me exactly what's in GitHub" request. If there are
+  // local edits not yet pushed, warn before discarding them — otherwise proceed straight
+  // to a full restore below. (Previously this button only merged brew-history fields and
+  // silently left the Beer Catalog and Ingredient inventory/pricing untouched, even though
+  // its own log message claimed the beers had been pulled — that mismatch is fixed here.)
+  if (manual && _dirty) {
+    if (!confirm('You have local changes that have not been pushed to GitHub yet.\n\n' +
+                  'Pulling now will REPLACE your Beer Catalog, Ingredient inventory, schedule ' +
+                  'overrides and keg settings with whatever is currently saved in GitHub, ' +
+                  'discarding those local edits.\n\nContinue?')) {
+      return false;
+    }
+  }
   if (manual) ghLog('Pulling from GitHub…');
   ghStatus('Pulling…', 'var(--amber)');
 
@@ -11102,59 +11115,51 @@ async function pullFromGitHub(manual) {
       return false;
     }
 
-    // Preserve local credentials — never overwrite from GitHub
+    // Preserve local credentials — never overwrite from GitHub (BF creds are deliberately
+    // excluded from every push, and the GitHub PAT itself lives outside getDataObject()).
     const savedBFCreds = { ...BF_CREDS };
 
-    // ── SELECTIVE MERGE: only update BF-owned data ─────────────────────────
-    // NEVER overwrite: BEERS, PACKAGING, OVERRIDES, KEG_SETTINGS, KEG_OVERRIDES
-    // These are user-owned and must only change via the app UI.
-    // ALWAYS update: BREW_HISTORY (merge by batch#), BF_BATCH_CACHE, USAGE_LOG
-
-    // Merge history by batch number
-    const _pullHistByBatch = {};
-    BREW_HISTORY.forEach(h => { if (h.batch) _pullHistByBatch[h.batch] = h; });
-    (d.history || []).forEach(gh => {
-      if (!gh.batch) return;
-      if (_pullHistByBatch[gh.batch]) {
-        // Update BF-owned fields only
-        const ex = _pullHistByBatch[gh.batch];
-        if (gh.bfStatus) ex.bfStatus = gh.bfStatus;
-        if (gh.kegDate)  ex.kegDate  = gh.kegDate;
-        if (gh.date)     ex.date      = gh.date;
-      } else {
-        BREW_HISTORY.push(gh);
-        _pullHistByBatch[gh.batch] = gh;
-      }
+    // ── FULL RESTORE ─────────────────────────────────────────────────────
+    // An explicit Pull replaces everything with what's in GitHub: Beer Catalog,
+    // Ingredient inventory (supplier/SKU/price/link per lot), orders, aliases,
+    // schedule overrides, keg settings, brew history, BF cache and usage log.
+    BEERS = d.beers || BEERS;
+    BEERS.forEach(b => {
+      if (!b.lane) b.lane = b.type === 'IPA' ? 'ipa' : b.type === 'Lager' ? 'lager' : 'flex';
     });
-    BREW_HISTORY.sort((a, b) => (a.batch || 0) - (b.batch || 0));
+    BREW_HISTORY  = d.history      || [];
+    OVERRIDES     = d.overrides    || {};
+    KEG_SETTINGS  = d.kegSettings  || { ...DEFAULT_KEG };
+    USAGE_LOG     = d.usageLog     || [];
+    PACKAGING     = d.packaging    || PACKAGING || {};
+    if (!PACKAGING.inventory)         PACKAGING.inventory = [];
+    if (!PACKAGING.ingredientAliases) PACKAGING.ingredientAliases = [];
+    if (!PACKAGING.orders)            PACKAGING.orders = [];
+    KEG_OVERRIDES  = d.kegOverrides  || {};
+    BF_BATCH_CACHE = d.bfBatchCache  || {};
 
-    BF_BATCH_CACHE = d.bfBatchCache || BF_BATCH_CACHE || {};
-    if (d.usageLog && d.usageLog.length > (USAGE_LOG||[]).length) USAGE_LOG = d.usageLog;
     if (d.bfSyncTime) {
-      const newSyncTime = new Date(d.bfSyncTime);
-      const isNewerSync = !_bfSyncTime || newSyncTime > _bfSyncTime;
-      _bfSyncTime = newSyncTime;
+      _bfSyncTime = new Date(d.bfSyncTime);
+      _lastIngredientRefresh = new Date();
       updateIngSyncBar();
-      // If the workflow ran a fresher sync than we last knew about,
-      // auto-refresh the ingredient tabs so inventory is current
-      if (isNewerSync) {
-        _lastIngredientRefresh = new Date();
-        const el = document.getElementById('ing-content');
-        const activeTab = document.querySelector('#page-ingredients .tab-btn.active');
-        if (el && activeTab) {
-          const tabId = (activeTab.getAttribute('onclick')||'').match(/'([^']+)'/)?.[1];
-          if (tabId) setTimeout(() => showIngTab(tabId), 100);
-        }
-      }
     }
 
     BF_CREDS = savedBFCreds;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(getDataObject()));
+    _dirty = false;
+    showSaveBar(false);
 
+    // Refresh whatever's on screen so the restored data is visible immediately
+    rebuildSchedule();
+    renderAll();
+    if (document.getElementById('page-schedule')?.classList.contains('active'))    renderSchedule();
+    if (document.getElementById('page-history')?.classList.contains('active'))     renderHistory();
+    if (document.getElementById('page-beers')?.classList.contains('active'))       renderBeers();
+    if (document.getElementById('page-ingredients')?.classList.contains('active')) renderIngredients();
 
     const ts = new Date().toLocaleTimeString();
-    ghLog('✓ Pulled from GitHub — ' + d.history.length + ' history entries, ' +
-          d.beers.length + ' beers (' + ts + ')');
+    ghLog('✓ Pulled from GitHub — restored ' + d.history.length + ' history entries, ' +
+          d.beers.length + ' beers, ' + (PACKAGING.inventory||[]).length + ' ingredient lots (' + ts + ')');
     ghStatus('✓ Pulled ' + new Date().toISOString().slice(0,16).replace('T',' '), 'var(--hops)');
     return true;
 
