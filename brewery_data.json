@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.21-20260928",
-  "savedAt": "2026-09-30T13:58:52.905Z",
+  "savedAt": "2026-09-30T13:59:33.926Z",
   "beers": [
     {
       "id": 1,
@@ -2320,7 +2320,7 @@
         "bf_color": 24,
         "onHand": 1.8031,
         "unit": "kg",
-        "bf_cost": 7.47,
+        "bf_cost": 3.29,
         "bf_lotNo": "",
         "link": "https://morewinepro.com/products/weyermann-carared-malt.html",
         "_costLocal": true
@@ -4887,7 +4887,7 @@
             "qty": 4.536,
             "unit": "kg",
             "sku": "GR452E",
-            "price": 7.47,
+            "price": 3.29,
             "supplier": "MoreWinePro",
             "url": "https://morewinepro.com/products/weyermann-carared-malt.html",
             "notes": "order 2",
