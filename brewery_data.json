@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.21-20260928",
-  "savedAt": "2026-09-30T13:31:41.064Z",
+  "savedAt": "2026-09-30T13:39:37.724Z",
   "beers": [
     {
       "id": 1,
@@ -3275,8 +3275,8 @@
         "type": "Hop",
         "bf_id": "default-8e9450d5",
         "minStock": 0,
-        "supplier": "",
-        "sku": "",
+        "supplier": "Yakima Valley Hops",
+        "sku": "K-WC-US-Citra-2025-16oz",
         "purchaseQty": 0,
         "purchaseUnit": "g",
         "notes": "",
@@ -3287,8 +3287,10 @@
         "bf_year": "2022",
         "onHand": 238,
         "unit": "g",
-        "bf_cost": 0.0176,
-        "bf_lotNo": ""
+        "bf_cost": 0.033,
+        "bf_lotNo": "",
+        "link": "https://yakimavalleyhops.com/products/whole-cone-hops?variant=41369440714885",
+        "_costLocal": true
       },
       {
         "name": "Saaz",
@@ -4952,13 +4954,13 @@
           {
             "name": "Citra",
             "type": "Hop",
-            "qty": 348.59999999999945,
+            "qty": 1361,
             "unit": "g",
-            "sku": "",
-            "price": 0.0176,
-            "supplier": "",
-            "url": "",
-            "notes": "",
+            "sku": "K-WC-US-Citra-2025-16oz",
+            "price": 0.033,
+            "supplier": "Yakima Valley Hops",
+            "url": "https://yakimavalleyhops.com/products/whole-cone-hops?variant=41369440714885",
+            "notes": "ordered 187737",
             "bf_id": "default-8e9450d5"
           },
           {
