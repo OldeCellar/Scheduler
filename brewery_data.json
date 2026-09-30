@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.21-20260928",
-  "savedAt": "2026-09-30T16:23:03.571Z",
+  "savedAt": "2026-09-30T16:24:35.378Z",
   "beers": [
     {
       "id": 1,
@@ -3886,7 +3886,7 @@
         "type": "Yeast",
         "bf_id": "default-3JAtrIUM7wCCMCaNNtRtxjkXcBIrP6",
         "minStock": 0,
-        "supplier": "DY102",
+        "supplier": "MoreWinePro",
         "sku": "DY102",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
@@ -4776,12 +4776,12 @@
         "type": "Yeast",
         "bf_id": "default-5ZzjdYo0telPNgJ9AxobXNAivEXPqx",
         "minStock": 0,
-        "supplier": "",
-        "sku": "",
+        "supplier": "MoreWinePro",
+        "sku": "DY106",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
         "notes": "",
-        "link": "",
+        "link": "https://morewinepro.com/products/cellarscience-dry-yeast-monk-placeholder.html",
         "_fromBF": true,
         "bf_type": "Ale",
         "bf_form": "Dry",
@@ -5022,7 +5022,7 @@
             "unit": "g",
             "sku": "DY102",
             "price": 0.11998,
-            "supplier": "DY102",
+            "supplier": "MoreWinePro",
             "url": "https://morewinepro.com/products/cellarscience-english-dry-yeast.html",
             "notes": "order 1",
             "bf_id": "default-3JAtrIUM7wCCMCaNNtRtxjkXcBIrP6"
@@ -5030,13 +5030,13 @@
           {
             "name": "MONK Belgian Abbey Ale ",
             "type": "Yeast",
-            "qty": 240,
+            "qty": 500,
             "unit": "g",
-            "sku": "",
+            "sku": "DY106",
             "price": 0.13998,
-            "supplier": "",
-            "url": "",
-            "notes": "",
+            "supplier": "MoreWinePro",
+            "url": "https://morewinepro.com/products/cellarscience-dry-yeast-monk-placeholder.html",
+            "notes": "order 1",
             "bf_id": "default-5ZzjdYo0telPNgJ9AxobXNAivEXPqx"
           },
           {
