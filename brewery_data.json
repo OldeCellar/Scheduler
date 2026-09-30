@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.21-20260928",
-  "savedAt": "2026-09-30T13:56:11.527Z",
+  "savedAt": "2026-09-30T13:58:52.905Z",
   "beers": [
     {
       "id": 1,
@@ -2307,8 +2307,8 @@
         "type": "Fermentable",
         "bf_id": "default-e33dbc9",
         "minStock": 0,
-        "supplier": "",
-        "sku": "",
+        "supplier": "MoreWinePro",
+        "sku": "GR452E",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
         "notes": "",
@@ -2320,8 +2320,10 @@
         "bf_color": 24,
         "onHand": 1.8031,
         "unit": "kg",
-        "bf_cost": 4.76,
-        "bf_lotNo": ""
+        "bf_cost": 7.47,
+        "bf_lotNo": "",
+        "link": "https://morewinepro.com/products/weyermann-carared-malt.html",
+        "_costLocal": true
       },
       {
         "name": "Roasted Barley 800",
@@ -4882,12 +4884,12 @@
           {
             "name": "CaraRed",
             "type": "Fermentable",
-            "qty": 2.7561,
+            "qty": 4.536,
             "unit": "kg",
-            "sku": "",
-            "price": 4.76,
-            "supplier": "",
-            "url": "",
+            "sku": "GR452E",
+            "price": 7.47,
+            "supplier": "MoreWinePro",
+            "url": "https://morewinepro.com/products/weyermann-carared-malt.html",
             "notes": "order 2",
             "bf_id": "default-e33dbc9"
           },
