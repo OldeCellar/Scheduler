@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.22-20260930",
-  "savedAt": "2026-09-30T21:10:38.995Z",
+  "savedAt": "2026-09-30T21:17:01.085Z",
   "beers": [
     {
       "id": 1,
@@ -5097,6 +5097,18 @@
             "supplier": "MoreWinePro",
             "url": "https://morewinepro.com/products/great-western-domestic-2row-malt.html",
             "notes": "order 7",
+            "bf_id": null
+          },
+          {
+            "name": "Rice Hull",
+            "type": "Fermentable",
+            "qty": 22.68,
+            "unit": "kg",
+            "sku": "",
+            "price": 0,
+            "supplier": "",
+            "url": "",
+            "notes": "",
             "bf_id": null
           }
         ]
