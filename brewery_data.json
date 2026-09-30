@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.21-20260928",
-  "savedAt": "2026-09-30T14:45:03.123Z",
+  "savedAt": "2026-09-30T15:06:47.928Z",
   "beers": [
     {
       "id": 1,
@@ -4903,7 +4903,7 @@
             "price": 2.24,
             "supplier": "",
             "url": "",
-            "notes": "",
+            "notes": "order 1",
             "bf_id": "default-c563e53"
           },
           {
@@ -4945,7 +4945,7 @@
           {
             "name": "Pilsner Malt",
             "type": "Fermentable",
-            "qty": 20.2,
+            "qty": 0,
             "unit": "kg",
             "sku": "",
             "price": 1.54,
@@ -5061,6 +5061,18 @@
             "url": "https://morewinepro.com/products/dingemans-pale-ale.html",
             "notes": "order 3",
             "bf_id": "default-e893982"
+          },
+          {
+            "name": "North Star Pils",
+            "type": "Fermentable",
+            "qty": 125,
+            "unit": "kg",
+            "sku": "GS313",
+            "price": 1.56,
+            "supplier": "MoreWinePro",
+            "url": "https://morewinepro.com/products/north-star-pils-rahr-malting.html",
+            "notes": "order 5",
+            "bf_id": null
           }
         ]
       }
