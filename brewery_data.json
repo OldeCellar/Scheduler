@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.22-20260930",
-  "savedAt": "2026-09-30T22:34:06.400Z",
+  "savedAt": "2026-09-30T22:35:49.603Z",
   "beers": [
     {
       "id": 1,
@@ -5013,7 +5013,7 @@
             "price": 3.29,
             "supplier": "MoreWinePro",
             "url": "https://morewinepro.com/products/weyermann-carared-malt.html",
-            "notes": "order 2",
+            "notes": "order 2 9785314",
             "bf_id": "default-e33dbc9"
           },
           {
@@ -5025,7 +5025,7 @@
             "price": 2.07,
             "supplier": "MoreWinePro",
             "url": "https://morewinepro.com/products/corn-sugar.html",
-            "notes": "order 1",
+            "notes": "order 1 9785314",
             "bf_id": "default-c563e53"
           },
           {
@@ -5049,7 +5049,7 @@
             "price": 2.45,
             "supplier": "MoreWinePro",
             "url": "https://morewinepro.com/products/bairds-malt-maris-otter-pale-ale.html",
-            "notes": "order 3",
+            "notes": "order 3 9785314",
             "bf_id": "VYd9vBsqSWHxqsf1mY6L0IrIQHVC3Q"
           },
           {
@@ -5061,7 +5061,7 @@
             "price": 3.29,
             "supplier": "MoreWinePro",
             "url": "https://morewinepro.com/products/viking-munich-light-malt.html",
-            "notes": "order 2",
+            "notes": "order 2 9785314",
             "bf_id": "default-vi-7e09fb"
           },
           {
@@ -5109,7 +5109,7 @@
             "price": 0.14,
             "supplier": "MoreWinePro",
             "url": "https://morewinepro.com/products/foam-control-fermcap.html",
-            "notes": "order 2",
+            "notes": "order 2 9785314",
             "bf_id": "default-c70fea"
           },
           {
@@ -5121,7 +5121,7 @@
             "price": 0.13998,
             "supplier": "MoreWinePro",
             "url": "https://morewinepro.com/products/cellarscience-berlin-dry-lager-yeast.html",
-            "notes": "order 1",
+            "notes": "order 1 9785314",
             "bf_id": "kRsM16cwJzbz1CgZeiFzcqrlNb95as"
           },
           {
@@ -5133,7 +5133,7 @@
             "price": 0.11998,
             "supplier": "MoreWinePro",
             "url": "https://morewinepro.com/products/cellarscience-english-dry-yeast.html",
-            "notes": "order 1",
+            "notes": "order 1 9785314",
             "bf_id": "default-3JAtrIUM7wCCMCaNNtRtxjkXcBIrP6"
           },
           {
@@ -5145,7 +5145,7 @@
             "price": 0.13998,
             "supplier": "MoreWinePro",
             "url": "https://morewinepro.com/products/cellarscience-dry-yeast-monk-placeholder.html",
-            "notes": "order 1",
+            "notes": "order 1 9785314",
             "bf_id": "default-5ZzjdYo0telPNgJ9AxobXNAivEXPqx"
           },
           {
@@ -5157,7 +5157,7 @@
             "price": 0.09998,
             "supplier": "MoreWinePro",
             "url": "https://morewinepro.com/products/cellarscience-dry-yeast-west-coast-placeholder.html",
-            "notes": "order 1",
+            "notes": "order 1 9785314",
             "bf_id": "default-ow3yfIwJKFl0nQ5COjZxbYoIm8dABS"
           },
           {
@@ -5169,7 +5169,7 @@
             "price": 2.3,
             "supplier": "MoreWinePro",
             "url": "https://morewinepro.com/products/barke-pilsner-malt-weyermann-specialty-malts.html",
-            "notes": "order 3",
+            "notes": "order 3 9785314",
             "bf_id": null
           },
           {
@@ -5181,7 +5181,7 @@
             "price": 2.3196,
             "supplier": "MoreWinePro",
             "url": "https://morewinepro.com/products/dingemans-pale-ale.html",
-            "notes": "order 4",
+            "notes": "order 4 9785314",
             "bf_id": "default-e893982"
           },
           {
@@ -5193,7 +5193,7 @@
             "price": 1.56,
             "supplier": "MoreWinePro",
             "url": "https://morewinepro.com/products/north-star-pils-rahr-malting.html",
-            "notes": "order 2",
+            "notes": "order 2 9785314",
             "bf_id": null
           },
           {
@@ -5205,7 +5205,7 @@
             "price": 1.658,
             "supplier": "MoreWinePro",
             "url": "https://morewinepro.com/products/great-western-domestic-2row-malt.html",
-            "notes": "order 7",
+            "notes": "order 7 9785314",
             "bf_id": null
           },
           {
@@ -5217,7 +5217,7 @@
             "price": 1.03,
             "supplier": "MoreWinePro",
             "url": "https://morewinepro.com/products/rice-hulls-maltwerks-premium-ingredients.html",
-            "notes": "order 1",
+            "notes": "order 1 9785314",
             "bf_id": null
           },
           {
@@ -5229,7 +5229,7 @@
             "price": 2,
             "supplier": "MoreWinePro",
             "url": "https://morewinepro.com/products/viking-lightly-peated-malt.html",
-            "notes": "order 1",
+            "notes": "order 1 9785314",
             "bf_id": null
           }
         ]
