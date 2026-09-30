@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.21-20260928",
-  "savedAt": "2026-09-30T16:18:43.705Z",
+  "savedAt": "2026-09-30T16:21:26.588Z",
   "beers": [
     {
       "id": 1,
@@ -4006,7 +4006,7 @@
         "type": "Yeast",
         "bf_id": "default-ow3yfIwJKFl0nQ5COjZxbYoIm8dABS",
         "minStock": 0,
-        "supplier": "",
+        "supplier": "MoreWinePro",
         "sku": "",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
@@ -4019,7 +4019,8 @@
         "onHand": 226,
         "unit": "g",
         "bf_cost": 0.1081,
-        "bf_lotNo": ""
+        "bf_lotNo": "",
+        "link": "https://morewinepro.com/products/cellarscience-dry-yeast-west-coast-placeholder.html"
       },
       {
         "name": "Hornindal Kveik",
@@ -4066,8 +4067,8 @@
         "type": "Yeast",
         "bf_id": "kRsM16cwJzbz1CgZeiFzcqrlNb95as",
         "minStock": 0,
-        "supplier": "",
-        "sku": "",
+        "supplier": "MoreWinePro",
+        "sku": "DY105",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
         "notes": "",
@@ -4078,8 +4079,10 @@
         "bf_productId": "DY105",
         "onHand": 603,
         "unit": "g",
-        "bf_cost": 0.151,
-        "bf_lotNo": ""
+        "bf_cost": 0.13998,
+        "bf_lotNo": "",
+        "link": "https://morewinepro.com/products/cellarscience-berlin-dry-lager-yeast.html",
+        "_costLocal": true
       },
       {
         "name": "TurboShine Distiller's Yeast",
@@ -5001,19 +5004,19 @@
           {
             "name": "Berlin Lager yeast",
             "type": "Yeast",
-            "qty": 381,
+            "qty": 500,
             "unit": "g",
-            "sku": "",
-            "price": 0.151,
-            "supplier": "",
-            "url": "",
-            "notes": "",
+            "sku": "DY105",
+            "price": 0.13998,
+            "supplier": "MoreWinePro",
+            "url": "https://morewinepro.com/products/cellarscience-berlin-dry-lager-yeast.html",
+            "notes": "order 1",
             "bf_id": "kRsM16cwJzbz1CgZeiFzcqrlNb95as"
           },
           {
             "name": "ENGLISH",
             "type": "Yeast",
-            "qty": 66,
+            "qty": 500,
             "unit": "g",
             "sku": "",
             "price": 0.11998,
@@ -5037,12 +5040,12 @@
           {
             "name": "West Coast",
             "type": "Yeast",
-            "qty": 119,
+            "qty": 500,
             "unit": "g",
             "sku": "",
             "price": 0.1081,
-            "supplier": "",
-            "url": "",
+            "supplier": "MoreWinePro",
+            "url": "https://morewinepro.com/products/cellarscience-dry-yeast-west-coast-placeholder.html",
             "notes": "",
             "bf_id": "default-ow3yfIwJKFl0nQ5COjZxbYoIm8dABS"
           },
