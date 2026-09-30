@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.21-20260928",
-  "savedAt": "2026-09-30T17:19:37.423Z",
+  "savedAt": "2026-09-30T17:31:41.912Z",
   "beers": [
     {
       "id": 1,
@@ -4988,7 +4988,7 @@
             "price": 0.032,
             "supplier": "IndieHops",
             "url": "",
-            "notes": "",
+            "notes": "waiting for IndieHops",
             "bf_id": "7gXPZdloYefsntVJwhu8df83iCT0QG"
           },
           {
