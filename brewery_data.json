@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.22-20260930",
-  "savedAt": "2026-09-30T21:17:01.085Z",
+  "savedAt": "2026-09-30T21:17:27.109Z",
   "beers": [
     {
       "id": 1,
@@ -5104,9 +5104,9 @@
             "type": "Fermentable",
             "qty": 22.68,
             "unit": "kg",
-            "sku": "",
+            "sku": "AJ39BULK",
             "price": 0,
-            "supplier": "",
+            "supplier": "MoreWinePro",
             "url": "",
             "notes": "",
             "bf_id": null
