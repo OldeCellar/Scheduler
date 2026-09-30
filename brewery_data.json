@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.21-20260928",
-  "savedAt": "2026-09-30T16:11:15.876Z",
+  "savedAt": "2026-09-30T16:12:12.430Z",
   "beers": [
     {
       "id": 1,
@@ -2540,8 +2540,8 @@
         "type": "Fermentable",
         "bf_id": "default-vi-7e09fb",
         "minStock": 0,
-        "supplier": "",
-        "sku": "",
+        "supplier": "MoreWinePro",
+        "sku": "GR908E",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
         "notes": "",
@@ -2554,7 +2554,8 @@
         "onHand": 2.66,
         "unit": "kg",
         "bf_cost": 1.74,
-        "bf_lotNo": ""
+        "bf_lotNo": "",
+        "link": "https://morewinepro.com/products/viking-munich-light-malt.html"
       },
       {
         "name": "Flaked Oats",
@@ -2792,7 +2793,7 @@
         "type": "Fermentable",
         "bf_id": "default-c563e53",
         "minStock": 0,
-        "supplier": "",
+        "supplier": "MoreWinePro",
         "sku": "",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
@@ -4903,7 +4904,7 @@
             "unit": "kg",
             "sku": "",
             "price": 2.24,
-            "supplier": "",
+            "supplier": "MoreWinePro",
             "url": "",
             "notes": "order 1",
             "bf_id": "default-c563e53"
@@ -4937,11 +4938,11 @@
             "type": "Fermentable",
             "qty": 4.359999999999999,
             "unit": "kg",
-            "sku": "",
+            "sku": "GR908E",
             "price": 1.74,
-            "supplier": "",
-            "url": "",
-            "notes": "",
+            "supplier": "MoreWinePro",
+            "url": "https://morewinepro.com/products/viking-munich-light-malt.html",
+            "notes": "order 2",
             "bf_id": "default-vi-7e09fb"
           },
           {
