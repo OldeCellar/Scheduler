@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.21-20260928",
-  "savedAt": "2026-09-30T16:22:44.248Z",
+  "savedAt": "2026-09-30T16:23:03.571Z",
   "beers": [
     {
       "id": 1,
@@ -3899,7 +3899,8 @@
         "onHand": 156,
         "unit": "g",
         "bf_cost": 0.11998,
-        "bf_lotNo": ""
+        "bf_lotNo": "",
+        "link": "https://morewinepro.com/products/cellarscience-english-dry-yeast.html"
       },
       {
         "name": "Kolsch-Style Hybrid Ale",
@@ -5022,8 +5023,8 @@
             "sku": "DY102",
             "price": 0.11998,
             "supplier": "DY102",
-            "url": "",
-            "notes": "",
+            "url": "https://morewinepro.com/products/cellarscience-english-dry-yeast.html",
+            "notes": "order 1",
             "bf_id": "default-3JAtrIUM7wCCMCaNNtRtxjkXcBIrP6"
           },
           {
