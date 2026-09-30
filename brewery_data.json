@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.21-20260928",
-  "savedAt": "2026-09-30T14:24:31.769Z",
+  "savedAt": "2026-09-30T14:30:37.174Z",
   "beers": [
     {
       "id": 1,
@@ -4908,13 +4908,13 @@
           {
             "name": "Floor Malted Bohemian Pilsner Malt ",
             "type": "Fermentable",
-            "qty": 33.66699999999999,
+            "qty": 0,
             "unit": "kg",
             "sku": "",
             "price": 2.67,
             "supplier": "",
             "url": "",
-            "notes": "",
+            "notes": "have enough for MY & Czech",
             "bf_id": "default-nym-rna3"
           },
           {
