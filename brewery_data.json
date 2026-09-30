@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.21-20260928",
-  "savedAt": "2026-09-30T14:23:03.421Z",
+  "savedAt": "2026-09-30T14:24:31.769Z",
   "beers": [
     {
       "id": 1,
@@ -5043,10 +5043,10 @@
             "qty": 165,
             "unit": "kg",
             "sku": "GS694",
-            "price": 0,
-            "supplier": "",
-            "url": "",
-            "notes": "",
+            "price": 2.3,
+            "supplier": "MoreWinePro",
+            "url": "https://morewinepro.com/products/barke-pilsner-malt-weyermann-specialty-malts.html",
+            "notes": "order 3",
             "bf_id": null
           }
         ]
