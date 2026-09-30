@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.21-20260928",
-  "savedAt": "2026-09-30T16:21:26.588Z",
+  "savedAt": "2026-09-30T16:22:07.621Z",
   "beers": [
     {
       "id": 1,
@@ -4007,7 +4007,7 @@
         "bf_id": "default-ow3yfIwJKFl0nQ5COjZxbYoIm8dABS",
         "minStock": 0,
         "supplier": "MoreWinePro",
-        "sku": "",
+        "sku": "DY121",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
         "notes": "",
@@ -4018,9 +4018,10 @@
         "bf_productId": "DY121",
         "onHand": 226,
         "unit": "g",
-        "bf_cost": 0.1081,
+        "bf_cost": 0.09998,
         "bf_lotNo": "",
-        "link": "https://morewinepro.com/products/cellarscience-dry-yeast-west-coast-placeholder.html"
+        "link": "https://morewinepro.com/products/cellarscience-dry-yeast-west-coast-placeholder.html",
+        "_costLocal": true
       },
       {
         "name": "Hornindal Kveik",
@@ -5042,8 +5043,8 @@
             "type": "Yeast",
             "qty": 500,
             "unit": "g",
-            "sku": "",
-            "price": 0.1081,
+            "sku": "DY121",
+            "price": 0.09998,
             "supplier": "MoreWinePro",
             "url": "https://morewinepro.com/products/cellarscience-dry-yeast-west-coast-placeholder.html",
             "notes": "",
