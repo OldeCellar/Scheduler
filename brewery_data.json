@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.21-20260928",
-  "savedAt": "2026-09-30T16:22:07.621Z",
+  "savedAt": "2026-09-30T16:22:44.248Z",
   "beers": [
     {
       "id": 1,
@@ -3886,8 +3886,8 @@
         "type": "Yeast",
         "bf_id": "default-3JAtrIUM7wCCMCaNNtRtxjkXcBIrP6",
         "minStock": 0,
-        "supplier": "",
-        "sku": "",
+        "supplier": "DY102",
+        "sku": "DY102",
         "purchaseQty": 0,
         "purchaseUnit": "kg",
         "notes": "",
@@ -5019,9 +5019,9 @@
             "type": "Yeast",
             "qty": 500,
             "unit": "g",
-            "sku": "",
+            "sku": "DY102",
             "price": 0.11998,
-            "supplier": "",
+            "supplier": "DY102",
             "url": "",
             "notes": "",
             "bf_id": "default-3JAtrIUM7wCCMCaNNtRtxjkXcBIrP6"
