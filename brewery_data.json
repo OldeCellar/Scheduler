@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.21-20260928",
-  "savedAt": "2026-09-30T16:51:38.518Z",
+  "savedAt": "2026-09-30T17:19:37.423Z",
   "beers": [
     {
       "id": 1,
@@ -4940,7 +4940,7 @@
             "price": 2.45,
             "supplier": "MoreWinePro",
             "url": "https://morewinepro.com/products/bairds-malt-maris-otter-pale-ale.html",
-            "notes": "order 6",
+            "notes": "order 3",
             "bf_id": "VYd9vBsqSWHxqsf1mY6L0IrIQHVC3Q"
           },
           {
@@ -5048,7 +5048,7 @@
             "price": 0.09998,
             "supplier": "MoreWinePro",
             "url": "https://morewinepro.com/products/cellarscience-dry-yeast-west-coast-placeholder.html",
-            "notes": "",
+            "notes": "order 1",
             "bf_id": "default-ow3yfIwJKFl0nQ5COjZxbYoIm8dABS"
           },
           {
@@ -5085,6 +5085,18 @@
             "supplier": "MoreWinePro",
             "url": "https://morewinepro.com/products/north-star-pils-rahr-malting.html",
             "notes": "order 2",
+            "bf_id": null
+          },
+          {
+            "name": "Premium 2-Row malt",
+            "type": "Fermentable",
+            "qty": 175,
+            "unit": "kg",
+            "sku": "GS30055",
+            "price": 1.658,
+            "supplier": "MoreWinePro",
+            "url": "https://morewinepro.com/products/great-western-domestic-2row-malt.html",
+            "notes": "order 7",
             "bf_id": null
           }
         ]
