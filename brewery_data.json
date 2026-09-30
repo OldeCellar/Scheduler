@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.21-20260928",
-  "savedAt": "2026-09-30T13:39:37.724Z",
+  "savedAt": "2026-09-30T13:56:11.527Z",
   "beers": [
     {
       "id": 1,
@@ -4888,7 +4888,7 @@
             "price": 4.76,
             "supplier": "",
             "url": "",
-            "notes": "",
+            "notes": "order 2",
             "bf_id": "default-e33dbc9"
           },
           {
