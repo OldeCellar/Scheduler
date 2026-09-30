@@ -341,7 +341,7 @@ hr.divider{border:none;border-top:1px solid var(--border);margin:16px 0;}
   </div>
   
   <div class="header-center">
-	<button class="btn btn-primary" onclick="saveToBrowser()">Save to Browser</button>
+	<button class="btn btn-primary" onclick="saveToBrowser()" title="Saves to this browser and pushes to GitHub">Save &amp; Sync</button>
 	<button class="btn btn-secondary" onclick="saveAsNewVersion()">Save As New Version</button>
 	<button class="btn btn-secondary" onclick="discardChanges()">Discard</button>
 	<button class="btn btn-secondary" onclick="downloadHtmlFile()" title="Download this file with your Beer Catalog and Ingredient Aliases baked in as the defaults">⬇ Download HTML File</button>
@@ -1427,8 +1427,8 @@ hr.divider{border:none;border-top:1px solid var(--border);margin:16px 0;}
     <div class="data-section">
       <div class="data-title">GITHUB SYNC — all data stored in your repo, same across every browser and computer</div>
       <p style="font-size:12px;color:var(--text2);margin-bottom:14px;line-height:1.8;">
-        On every Save the app pushes <strong style="color:var(--gold2);">brewery_data.json</strong> to your GitHub repo via a workflow.<br>
-        On startup the app fetches that file so every browser always has the same data.<br>
+        Save and Push are the same action: the browser copy and <strong style="color:var(--gold2);">brewery_data.json</strong> in your repo are written together from one snapshot.<br>
+        On startup and when you return to the tab, the app checks GitHub (including the nightly Brewfather sync) and loads anything newer, so every browser has the same data.<br>
         <strong style="color:var(--red2);">Your Brewfather credentials and GitHub token are never stored in GitHub</strong> — they stay in this browser only.
       </p>
       <div style="display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:12px;">
@@ -1450,7 +1450,7 @@ hr.divider{border:none;border-top:1px solid var(--border);margin:16px 0;}
       </div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:4px;">
         <button class="btn btn-primary" onclick="saveGHConfig()">Save &amp; Test Connection</button>
-        <button class="btn btn-secondary" onclick="pushToGitHub(true)">&#x2B06; Push to GitHub now</button>
+        <button class="btn btn-secondary" onclick="syncNow()" title="Same as Save &amp; Sync">&#x2B06; Save &amp; push now</button>
         <button class="btn btn-secondary" onclick="pullFromGitHub(true)">&#x2B07; Pull from GitHub now</button>
         <span id="gh-status" style="font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--muted);"></span>
       </div>
@@ -1564,7 +1564,7 @@ hr.divider{border:none;border-top:1px solid var(--border);margin:16px 0;}
 <!-- ═══════════════════ SAVE BAR ═══════════════════ -->
 <div class="save-bar" id="save-bar">
   <span class="save-bar-msg">⚠ Unsaved changes</span>
-  <button class="btn btn-primary" onclick="saveData()">Save to Browser</button>
+  <button class="btn btn-primary" onclick="saveData()">Save &amp; Sync</button>
   <button class="btn btn-secondary" onclick="discardChanges()">Discard</button>
   <span class="save-status" id="save-status">Saved 8:57 PM</span>
 </div>
@@ -4975,7 +4975,7 @@ function calcKegDate(bfBottlingDate, brewDate, tankDays, allKegDates) {
 // ════════════════════════════════════════════════════════
 
 // set APP_VERSION and STORAGE_KEY
-let APP_VERSION = 'v33.21-20260928';
+let APP_VERSION = 'v33.22-20260930';
 const STORAGE_KEY = 'brewery_scheduler';  // fixed — version-independent
 
 document.title =
@@ -5021,7 +5021,8 @@ function getDataObject() {
     bfCreds: BF_CREDS,
     packaging: PACKAGING,
     kegOverrides: KEG_OVERRIDES,
-    bfBatchCache: BF_BATCH_CACHE
+    bfBatchCache: BF_BATCH_CACHE,
+    bfSyncTime: (typeof _bfSyncTime !== 'undefined' && _bfSyncTime) ? _bfSyncTime.toISOString() : undefined
   };
 }
 
@@ -5058,6 +5059,7 @@ function loadData() {
       if(!PACKAGING.ingredientAliases) PACKAGING.ingredientAliases = (d.packaging && d.packaging.ingredientAliases) || [];
       KEG_OVERRIDES = d.kegOverrides || {};
       BF_BATCH_CACHE= d.bfBatchCache || {};
+      if (d.bfSyncTime) _bfSyncTime = new Date(d.bfSyncTime);
     } else {
       resetToDefaults(true);
     }
@@ -5087,22 +5089,17 @@ function saveData() {
   document.getElementById('save-status').textContent = 'Saved ' + fmtTime(new Date());
   rebuildSchedule();
   renderAll();
-  // Auto-push to GitHub whenever data is saved
+  // One action: browser save + GitHub push (push re-writes the browser copy with the identical object)
   if (hasGHConfig()) {
+    ghSetUnpushed(true);
     pushToGitHub(false).catch(e => console.warn('GH push:', e.message));
   }
 }
 
-function saveToBrowser() {
+function saveToBrowser() { saveData(); }   // same action as "Push to GitHub now"
+function syncNow() {
+  if (!hasGHConfig()) alert('GitHub Sync not configured — go to Data → GitHub Sync tab. Saved to this browser only.');
   saveData();
-  try {
-    const blob = new Blob([JSON.stringify(getDataObject(), null, 2)], {type:'application/json'});
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'olde_cellar_' + APP_VERSION + '_' + fmtISO(new Date()).replace(/-/g,'') + '.json';
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-  } catch(e) { console.warn('JSON download failed:', e.message); }
 }
 
 function saveAsNewVersion() {
@@ -5138,7 +5135,7 @@ function downloadHtmlFile() {
   if (s2 === source) { alert('Could not locate DEFAULT_PACKAGING markers — download aborted.'); return; }
   source = s2;
 
-  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.21-20260928';");
+  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.22-20260930';");
 
   source = source.replace(/\n<script id="__html_source__">var _HTML_SOURCE_B64_="[A-Za-z0-9+\/=]*";<\/script>\n/, '\n');
 
@@ -10716,10 +10713,10 @@ function persistAppState() {
 }
 
 const _markDirty = markDirty;
-markDirty = function() { dirty = true; showSaveBar(true); persistAppState(); };
+markDirty = function() { _dirty = true; showSaveBar(true); };
 
 const _saveData = saveData;
-saveData = function() { persistAppState(); _saveData(); syncBFInputs(); };
+saveData = function() { _saveData(); syncBFInputs(); };
 
 const _loadData = loadData;
 loadData = function() { _loadData(); syncBFInputs(); };
@@ -10989,288 +10986,336 @@ function getGHDataObject() {
   return { ...d, bfCreds: { userId: '', apiKey: '' } };
 }
 
-// ── PUSH: write brewery_data.json directly via GitHub Contents API ────────────
-// Uses PUT /repos/{owner}/{repo}/contents/{path} — no size limit, instant commit.
-// The save_data.yml workflow is no longer needed for saves (kept as manual backup).
+// ── SYNC MODEL (v33.22) ───────────────────────────────────────────────────────
+// GitHub's brewery_data.json is the source of truth; localStorage is a cache of it.
+//   • Save  = write localStorage + push to GitHub (one action; "Push now" is the same action)
+//   • Push  = fetch remote → fold in the nightly Brewfather sync → write local AND remote
+//             with the identical object, so the two can never differ after a push
+//   • Load / tab refocus = compare GitHub's file SHA with the SHA we last synced with:
+//         unchanged            → nothing to do (or retry an unpushed save)
+//         changed, no local edits → adopt GitHub's copy wholesale
+//         changed + local edits   → BF-owned fields from GitHub, everything else local, then push
+const GH_SHA_KEY      = 'brewery_gh_sha';        // blob SHA of the version we last synced with
+const GH_UNPUSHED_KEY = 'brewery_gh_unpushed';   // '1' = browser has saves GitHub doesn't
+let _ghPending   = false;   // a save arrived while a push was running → run once more
+let _ghLastCheck = 0;
+
+function ghGetSha()      { try { return localStorage.getItem(GH_SHA_KEY) || ''; } catch(e) { return ''; } }
+function ghSetSha(s)     { try { if (s) localStorage.setItem(GH_SHA_KEY, s); } catch(e) {} }
+function ghIsUnpushed()  { try { return localStorage.getItem(GH_UNPUSHED_KEY) === '1'; } catch(e) { return false; } }
+function ghSetUnpushed(v){ try { if (v) localStorage.setItem(GH_UNPUSHED_KEY, '1'); else localStorage.removeItem(GH_UNPUSHED_KEY); } catch(e) {} }
+function ghSetSaveStatus(txt) { const el = document.getElementById('save-status'); if (el) el.textContent = txt; }
+function ghSleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+function ghFileUrl() {
+  return 'https://api.github.com/repos/' + (_ghConfig.repo || GH_REPO) + '/contents/' + GH_DATA_FILE;
+}
+
+// Authenticated read through the Contents API: no CDN lag, works for private repos,
+// and returns the blob SHA we need for conflict-safe writes.
+async function ghFetchRemote() {
+  const ref = '?ref=' + encodeURIComponent(_ghConfig.branch || GH_BRANCH);
+  const r = await fetch(ghFileUrl() + ref + '&t=' + Date.now(), { headers: ghHeaders() });
+  if (r.status === 404) return { missing: true };
+  if (!r.ok) throw new Error('HTTP ' + r.status);
+  const j = await r.json();
+  let text;
+  if (j.content && j.encoding === 'base64') {
+    const bin = atob(j.content.replace(/\n/g, ''));
+    text = new TextDecoder().decode(Uint8Array.from(bin, c => c.charCodeAt(0)));
+  } else {
+    // Files over 1 MB come back without a body — request the raw content instead
+    const rr = await fetch(ghFileUrl() + ref + '&t=' + Date.now(),
+                           { headers: { ...ghHeaders(), 'Accept': 'application/vnd.github.raw+json' } });
+    if (!rr.ok) throw new Error('HTTP ' + rr.status);
+    text = await rr.text();
+  }
+  return { data: JSON.parse(text), sha: j.sha };
+}
+
+// Replace everything in memory with GitHub's copy (credentials stay local).
+function ghApplyRemoteFull(d) {
+  const savedBFCreds = { ...BF_CREDS };
+  BEERS = d.beers || BEERS;
+  BEERS.forEach(b => {
+    if (!b.lane) b.lane = b.type === 'IPA' ? 'ipa' : b.type === 'Lager' ? 'lager' : 'flex';
+  });
+  BREW_HISTORY   = d.history     || [];
+  OVERRIDES      = d.overrides   || {};
+  KEG_SETTINGS   = d.kegSettings || { ...DEFAULT_KEG };
+  USAGE_LOG      = d.usageLog    || [];
+  PACKAGING      = d.packaging   || PACKAGING || {};
+  if (!PACKAGING.inventory)         PACKAGING.inventory = [];
+  if (!PACKAGING.ingredientAliases) PACKAGING.ingredientAliases = [];
+  if (!PACKAGING.orders)            PACKAGING.orders = [];
+  KEG_OVERRIDES  = d.kegOverrides || {};
+  BF_BATCH_CACHE = d.bfBatchCache || {};
+  if (d.bfSyncTime) {
+    _bfSyncTime = new Date(d.bfSyncTime);
+    _lastIngredientRefresh = new Date();
+    updateIngSyncBar();
+  }
+  BF_CREDS = savedBFCreds;
+}
+
+// Fold the fields the nightly workflow owns (bf_sync.yml) from GitHub into memory, leaving every
+// user-owned field alone. Returns true when GitHub's Brewfather data was newer and was applied.
+function ghMergeBFOwned(d) {
+  if (!d) return false;
+  const remoteSync  = d.bfSyncTime ? new Date(d.bfSyncTime) : null;
+  const remoteNewer = !!(remoteSync && !isNaN(remoteSync) && (!_bfSyncTime || remoteSync > _bfSyncTime));
+
+  // Brew history — BF status / keg date / brew date only; batches we don't have yet are added
+  const byBatch = {};
+  BREW_HISTORY.forEach(h => { if (h.batch != null) byBatch[h.batch] = h; });
+  (d.history || []).forEach(gh => {
+    if (gh.batch == null) return;
+    const ex = byBatch[gh.batch];
+    if (ex) {
+      if (remoteNewer) {
+        if (gh.bfStatus) ex.bfStatus = gh.bfStatus;
+        if (gh.kegDate)  ex.kegDate  = gh.kegDate;
+        if (gh.date)     ex.date     = gh.date;
+      }
+    } else {
+      BREW_HISTORY.push(gh);
+      byBatch[gh.batch] = gh;
+    }
+  });
+  BREW_HISTORY.sort((a, b) => (a.batch || 0) - (b.batch || 0));
+
+  // BF batch cache
+  if (remoteNewer) BF_BATCH_CACHE = Object.assign({}, BF_BATCH_CACHE, d.bfBatchCache || {});
+  else if (d.bfBatchCache) BF_BATCH_CACHE = Object.assign({}, d.bfBatchCache, BF_BATCH_CACHE);
+
+  // Ingredient inventory — on-hand / name / supplier / sync stamp; supplier, SKU, price etc. stay local
+  if (!PACKAGING.inventory) PACKAGING.inventory = [];
+  const inv = PACKAGING.inventory, invById = {};
+  inv.forEach(i => { if (i.bf_id) invById[i.bf_id] = i; });
+  ((d.packaging && d.packaging.inventory) || []).forEach(ri => {
+    if (!ri.bf_id) return;
+    const li = invById[ri.bf_id];
+    if (li) {
+      if (remoteNewer) {
+        li.onHand      = ri.onHand;
+        li.name        = ri.name;
+        li.bf_supplier = ri.bf_supplier;
+        li.lastBFSync  = ri.lastBFSync;
+      }
+    } else {
+      inv.push(ri);
+      invById[ri.bf_id] = ri;
+    }
+  });
+
+  if (remoteNewer) _bfSyncTime = remoteSync;
+  return remoteNewer;
+}
+
+function ghRefreshUI() {
+  rebuildSchedule();
+  renderAll();
+  if (document.getElementById('page-schedule')?.classList.contains('active'))    renderSchedule();
+  if (document.getElementById('page-history')?.classList.contains('active'))     renderHistory();
+  if (document.getElementById('page-beers')?.classList.contains('active'))       renderBeers();
+  if (document.getElementById('page-ingredients')?.classList.contains('active')) renderIngredients();
+}
+
+// ── PUSH ─────────────────────────────────────────────────────────────────────
+// Writes localStorage and GitHub from ONE object so they always match after this returns.
+// Uses the last-read SHA; on a conflict (e.g. the 1am workflow committed meanwhile) it
+// re-reads, re-merges the Brewfather fields, and retries.
 async function pushToGitHub(manual) {
   if (!hasGHConfig()) {
     if (manual) alert('GitHub Sync not configured — go to Data → GitHub Sync tab.');
     return false;
   }
-  if (_ghSyncing) { if (manual) ghLog('Sync already in progress.'); return false; }
-  _ghSyncing = true;
-  if (manual) ghLog('Pushing to GitHub…');
-  ghStatus('Pushing…', 'var(--amber)');
-
-  try {
-    const repo    = _ghConfig.repo   || GH_REPO;
-    const branch  = _ghConfig.branch || GH_BRANCH;
-    const fileUrl = 'https://api.github.com/repos/' + repo + '/contents/' + GH_DATA_FILE;
-
-    // Encode data as Base64 once — used in all attempts
-    const json    = JSON.stringify(getGHDataObject(), null, 2);
-    const bytes   = new TextEncoder().encode(json);
-    let   binary  = '';
-    bytes.forEach(b => binary += String.fromCharCode(b));
-    const b64     = btoa(binary);
-    const ts      = new Date().toISOString().slice(0,16).replace('T',' ');
-
-    // Helper: fetch current SHA from GitHub (always fresh, bypasses CDN cache)
-    async function fetchSHA() {
-      try {
-        const r = await fetch(fileUrl + '?ref=' + branch +
-                              '&t=' + Date.now(),   // cache-bust
-                              { headers: ghHeaders() });
-        if (r.ok) { const j = await r.json(); return j.sha || null; }
-      } catch(e) {}
-      return null;
-    }
-
-    // Try up to 2 times — retry on SHA mismatch (422) with a fresh SHA
-    for (let attempt = 1; attempt <= 2; attempt++) {
-      const sha  = await fetchSHA();
-      const body = { message: 'Brewery scheduler save ' + ts, content: b64, branch };
-      if (sha) body.sha = sha;
-
-      const putR = await fetch(fileUrl, {
-        method: 'PUT', headers: ghHeaders(), body: JSON.stringify(body)
-      });
-
-      if (putR.ok || putR.status === 201) {
-        ghLog('✓ Saved to GitHub (' + repo + ') at ' + ts +
-              (attempt > 1 ? ' (retry ' + attempt + ')' : ''));
-        ghStatus('✓ Saved ' + ts, 'var(--hops)');
-        _ghSyncing = false;
-        return true;
-      }
-
-      const err = await putR.json().catch(() => ({}));
-      const msg = err.message || ('HTTP ' + putR.status);
-
-      // SHA mismatch — retry with fresh SHA
-      if (putR.status === 422 && attempt < 2) {
-        ghLog('SHA mismatch on attempt ' + attempt + ' — retrying with fresh SHA…');
-        await new Promise(r => setTimeout(r, 800)); // brief pause before retry
-        continue;
-      }
-
-      ghLog('✗ Push failed: ' + msg, true);
-      ghStatus('✗ Push failed', 'var(--red2)');
-      _ghSyncing = false;
-      return false;
-    }
-  } catch(e) {
-    ghLog('✗ Push error: ' + e.message, true);
-    ghStatus('✗ Error', 'var(--red2)');
-    _ghSyncing = false;
+  if (_ghSyncing) {
+    _ghPending = true;
+    if (manual) ghLog('Sync already running — will run again when it finishes.');
     return false;
   }
+  _ghSyncing = true;
+  ghStatus('Syncing…', 'var(--amber)');
+  if (manual) ghLog('Saving + pushing to GitHub…');
+
+  let ok = false, bfMerged = false, lastErr = '';
+  try {
+    const branch = _ghConfig.branch || GH_BRANCH;
+    const ts = new Date().toISOString().slice(0, 16).replace('T', ' ');
+
+    for (let attempt = 1; attempt <= 3 && !ok; attempt++) {
+      const remote = await ghFetchRemote();
+      if (!remote.missing && remote.data) bfMerged = ghMergeBFOwned(remote.data) || bfMerged;
+
+      const obj = getDataObject();                        // one snapshot…
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(obj));   // …to the browser
+      const ghObj = { ...obj, bfCreds: { userId: '', apiKey: '' } };   // …and to GitHub (no secrets)
+
+      const bytes = new TextEncoder().encode(JSON.stringify(ghObj, null, 2));
+      let binary = '';
+      bytes.forEach(b => binary += String.fromCharCode(b));
+      const body = { message: 'Brewery scheduler save ' + ts, content: btoa(binary), branch };
+      if (remote.sha) body.sha = remote.sha;
+
+      const putR = await fetch(ghFileUrl(), { method: 'PUT', headers: ghHeaders(), body: JSON.stringify(body) });
+      if (putR.ok) {
+        const pj = await putR.json().catch(() => ({}));
+        ghSetSha(pj.content && pj.content.sha);
+        ghSetUnpushed(false);
+        ok = true;
+        break;
+      }
+      const err = await putR.json().catch(() => ({}));
+      lastErr = err.message || ('HTTP ' + putR.status);
+      if ((putR.status === 409 || putR.status === 422) && attempt < 3) {
+        ghLog('GitHub changed during save (attempt ' + attempt + ') — re-reading and retrying…');
+        await ghSleep(800);
+        continue;
+      }
+      break;
+    }
+
+    if (ok) {
+      ghLog('✓ Browser and GitHub are in sync (' + ts + ')' + (bfMerged ? ' — included latest Brewfather sync' : ''));
+      ghStatus('✓ Synced ' + ts, 'var(--hops)');
+      ghSetSaveStatus('Saved ' + fmtTime(new Date()) + ' · GitHub ✓');
+      _dirty = false; showSaveBar(false);
+      if (bfMerged) ghRefreshUI();
+    } else {
+      ghLog('✗ Push failed: ' + lastErr + ' — saved in browser, will retry.', true);
+      ghStatus('✗ Push failed — saved locally', 'var(--red2)');
+      ghSetSaveStatus('Saved ' + fmtTime(new Date()) + ' · GitHub ✗ (will retry)');
+    }
+  } catch (e) {
+    ghLog('✗ Push error: ' + e.message + ' — saved in browser, will retry.', true);
+    ghStatus('✗ Error — saved locally', 'var(--red2)');
+    ghSetSaveStatus('Saved ' + fmtTime(new Date()) + ' · GitHub ✗ (will retry)');
+  }
+  _ghSyncing = false;
+  if (_ghPending) { _ghPending = false; return pushToGitHub(false); }
+  return ok;
 }
 
-// ── PULL: fetch brewery_data.json directly from the repo ─────────────────────
+// ── PULL (manual): exactly what's in GitHub replaces the browser copy ────────
 async function pullFromGitHub(manual) {
   if (!hasGHConfig()) {
     if (manual) alert('GitHub Sync not configured — go to Data → GitHub Sync tab.');
     return false;
   }
-  // A manual Pull is an explicit "give me exactly what's in GitHub" request. If there are
-  // local edits not yet pushed, warn before discarding them — otherwise proceed straight
-  // to a full restore below. (Previously this button only merged brew-history fields and
-  // silently left the Beer Catalog and Ingredient inventory/pricing untouched, even though
-  // its own log message claimed the beers had been pulled — that mismatch is fixed here.)
-  if (manual && _dirty) {
-    if (!confirm('You have local changes that have not been pushed to GitHub yet.\n\n' +
-                  'Pulling now will REPLACE your Beer Catalog, Ingredient inventory, schedule ' +
-                  'overrides and keg settings with whatever is currently saved in GitHub, ' +
-                  'discarding those local edits.\n\nContinue?')) {
-      return false;
-    }
+  if (manual && (_dirty || ghIsUnpushed())) {
+    if (!confirm('You have local changes that are not in GitHub yet.\n\n' +
+                 'Pulling now will REPLACE your Beer Catalog, Ingredient inventory, schedule ' +
+                 'overrides and keg settings with what is currently in GitHub, ' +
+                 'discarding those local edits.\n\nContinue?')) return false;
   }
   if (manual) ghLog('Pulling from GitHub…');
   ghStatus('Pulling…', 'var(--amber)');
-
   try {
-    const branch = _ghConfig.branch || GH_BRANCH;
-    const repo   = _ghConfig.repo   || GH_REPO;
-    // Cache-bust with timestamp so we always get the latest file
-    const url = 'https://raw.githubusercontent.com/' + repo + '/' + branch +
-                '/' + GH_DATA_FILE + '?t=' + Date.now();
-    const r = await fetch(url);
-
-    if (r.status === 404) {
-      ghLog('brewery_data.json not found in repo — push first to create it.');
-      ghStatus('Not found — push first', 'var(--amber)');
+    const remote = await ghFetchRemote();
+    if (remote.missing) {
+      ghLog('brewery_data.json not found in repo — save first to create it.');
+      ghStatus('Not found — save first', 'var(--amber)');
       return false;
     }
-    if (!r.ok) {
-      ghLog('✗ Pull failed: HTTP ' + r.status, true);
-      ghStatus('✗ Pull failed', 'var(--red2)');
-      return false;
-    }
-
-    const d = await r.json();
+    const d = remote.data;
     if (!d.beers || !d.history) {
       ghLog('✗ brewery_data.json is missing beers or history — ignoring.', true);
       ghStatus('✗ Bad data format', 'var(--red2)');
       return false;
     }
-
-    // Preserve local credentials — never overwrite from GitHub (BF creds are deliberately
-    // excluded from every push, and the GitHub PAT itself lives outside getDataObject()).
-    const savedBFCreds = { ...BF_CREDS };
-
-    // ── FULL RESTORE ─────────────────────────────────────────────────────
-    // An explicit Pull replaces everything with what's in GitHub: Beer Catalog,
-    // Ingredient inventory (supplier/SKU/price/link per lot), orders, aliases,
-    // schedule overrides, keg settings, brew history, BF cache and usage log.
-    BEERS = d.beers || BEERS;
-    BEERS.forEach(b => {
-      if (!b.lane) b.lane = b.type === 'IPA' ? 'ipa' : b.type === 'Lager' ? 'lager' : 'flex';
-    });
-    BREW_HISTORY  = d.history      || [];
-    OVERRIDES     = d.overrides    || {};
-    KEG_SETTINGS  = d.kegSettings  || { ...DEFAULT_KEG };
-    USAGE_LOG     = d.usageLog     || [];
-    PACKAGING     = d.packaging    || PACKAGING || {};
-    if (!PACKAGING.inventory)         PACKAGING.inventory = [];
-    if (!PACKAGING.ingredientAliases) PACKAGING.ingredientAliases = [];
-    if (!PACKAGING.orders)            PACKAGING.orders = [];
-    KEG_OVERRIDES  = d.kegOverrides  || {};
-    BF_BATCH_CACHE = d.bfBatchCache  || {};
-
-    if (d.bfSyncTime) {
-      _bfSyncTime = new Date(d.bfSyncTime);
-      _lastIngredientRefresh = new Date();
-      updateIngSyncBar();
-    }
-
-    BF_CREDS = savedBFCreds;
+    ghApplyRemoteFull(d);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(getDataObject()));
-    _dirty = false;
-    showSaveBar(false);
-
-    // Refresh whatever's on screen so the restored data is visible immediately
-    rebuildSchedule();
-    renderAll();
-    if (document.getElementById('page-schedule')?.classList.contains('active'))    renderSchedule();
-    if (document.getElementById('page-history')?.classList.contains('active'))     renderHistory();
-    if (document.getElementById('page-beers')?.classList.contains('active'))       renderBeers();
-    if (document.getElementById('page-ingredients')?.classList.contains('active')) renderIngredients();
-
-    const ts = new Date().toLocaleTimeString();
-    ghLog('✓ Pulled from GitHub — restored ' + d.history.length + ' history entries, ' +
-          d.beers.length + ' beers, ' + (PACKAGING.inventory||[]).length + ' ingredient lots (' + ts + ')');
-    ghStatus('✓ Pulled ' + new Date().toISOString().slice(0,16).replace('T',' '), 'var(--hops)');
+    ghSetSha(remote.sha);
+    ghSetUnpushed(false);
+    _dirty = false; showSaveBar(false);
+    ghRefreshUI();
+    ghLog('✓ Pulled from GitHub — ' + d.history.length + ' history entries, ' + d.beers.length + ' beers, ' +
+          (PACKAGING.inventory || []).length + ' ingredient lots (' + new Date().toLocaleTimeString() + ')');
+    ghStatus('✓ Pulled ' + new Date().toISOString().slice(0, 16).replace('T', ' '), 'var(--hops)');
+    ghSetSaveStatus('Synced ' + fmtTime(new Date()) + ' · GitHub ✓');
     return true;
-
-  } catch(e) {
+  } catch (e) {
     ghLog('✗ Pull error: ' + e.message, true);
     ghStatus('✗ Error', 'var(--red2)');
     return false;
   }
 }
 
-// ── STARTUP LOAD: compare GitHub vs localStorage timestamps, use newer ────────
-async function loadDataWithGitHub() {
-  if (!hasGHConfig()) { loadData(); return; }
+// ── RECONCILE: used on startup and when the tab regains focus ────────────────
+async function ghReconcile(reason) {
+  if (!hasGHConfig() || _ghSyncing) return 'skipped';
+  _ghLastCheck = Date.now();
 
-  // Read localStorage timestamp before potentially overwriting it
-  let localSavedAt = null;
+  let remote;
   try {
-    const local = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-    localSavedAt = local.savedAt ? new Date(local.savedAt) : null;
-  } catch(e) {}
-
-  ghLog('Startup: fetching latest data from GitHub…');
-  try {
-    const branch = _ghConfig.branch || GH_BRANCH;
-    const repo   = _ghConfig.repo   || GH_REPO;
-    const url = 'https://raw.githubusercontent.com/' + repo + '/' + branch +
-                '/' + GH_DATA_FILE + '?t=' + Date.now();
-    const r = await fetch(url);
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-
-    const d = await r.json();
-    if (!d.beers || !d.history) throw new Error('Missing beers or history');
-
-    const ghSavedAt = d.savedAt ? new Date(d.savedAt) : null;
-
-    // If localStorage is NEWER than GitHub, keep localStorage and push it to
-    // GitHub to bring it back in sync — this handles the case where a save
-    // succeeded to localStorage but the GitHub push failed or hadn't completed.
-    if (localSavedAt && ghSavedAt && localSavedAt > ghSavedAt) {
-      ghLog('Startup: localStorage (' + localSavedAt.toLocaleTimeString() +
-            ') is newer than GitHub (' + ghSavedAt.toLocaleTimeString() +
-            ') — keeping local data and pushing to GitHub.');
-      loadData();  // load from localStorage
-      // Push the newer local data back to GitHub to sync it
-      pushToGitHub(false).catch(e => console.warn('Startup re-sync push failed:', e.message));
-      return;
-    }
-
-    // GitHub is newer (or timestamps unavailable) — load from GitHub
-    const savedBFCreds = { ...BF_CREDS };
-
-    // ── SELECTIVE MERGE ON STARTUP ─────────────────────────────────────────
-    // First time on this browser (no localStorage): take everything from GitHub.
-    // Returning session: only merge BF-owned data, keep local user-owned data.
-    const _startRaw = localStorage.getItem(STORAGE_KEY);
-    const _hasLocal = !!(_startRaw && JSON.parse(_startRaw || '{}').beers);
-
-    if (!_hasLocal) {
-      // First-time load — take everything from GitHub
-      BEERS = d.beers || BEERS;
-      BEERS.forEach(b => {
-        if (!b.lane) {
-          b.lane = b.type==='IPA' ? 'ipa' : b.type==='Lager' ? 'lager' : 'flex';
-        }
-      });
-      BREW_HISTORY  = d.history      || [];
-      OVERRIDES     = d.overrides    || {};
-      KEG_SETTINGS  = d.kegSettings  || { ...DEFAULT_KEG };
-      USAGE_LOG     = d.usageLog     || [];
-      PACKAGING     = d.packaging    || JSON.parse(JSON.stringify(DEFAULT_PACKAGING));
-      if (!PACKAGING.inventory)         PACKAGING.inventory = [];
-      if (!PACKAGING.ingredientAliases) PACKAGING.ingredientAliases = [];
-      KEG_OVERRIDES  = d.kegOverrides  || {};
-      BF_BATCH_CACHE = d.bfBatchCache  || {};
-      if (d.bfSyncTime) _bfSyncTime = new Date(d.bfSyncTime);
-      ghLog('Startup: first load on this browser — loaded all data from GitHub.');
-      ghLog('Tip: if Beer Catalog looks wrong, use Data → GitHub Sync → Push to GitHub to update it.');
-    } else {
-      // Returning session — merge only BF-owned fields
-      const _sHistByBatch = {};
-      BREW_HISTORY.forEach(h => { if (h.batch) _sHistByBatch[h.batch] = h; });
-      (d.history || []).forEach(gh => {
-        if (!gh.batch) return;
-        if (_sHistByBatch[gh.batch]) {
-          const ex = _sHistByBatch[gh.batch];
-          if (gh.bfStatus) ex.bfStatus = gh.bfStatus;
-          if (gh.kegDate)  ex.kegDate  = gh.kegDate;
-          if (gh.date)     ex.date      = gh.date;
-        } else {
-          BREW_HISTORY.push(gh);
-          _sHistByBatch[gh.batch] = gh;
-        }
-      });
-      BREW_HISTORY.sort((a, b) => (a.batch||0) - (b.batch||0));
-      BF_BATCH_CACHE = d.bfBatchCache || BF_BATCH_CACHE || {};
-      if (d.usageLog && d.usageLog.length > (USAGE_LOG||[]).length) USAGE_LOG = d.usageLog;
-      if (d.bfSyncTime) _bfSyncTime = new Date(d.bfSyncTime);
-      ghLog('Startup: merged history from GitHub, kept local Beer Catalog + inventory.');
-    }
-
-    BF_CREDS = savedBFCreds;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(getDataObject()));
-
-    ghLog('Startup: loaded from GitHub (' +
-          (ghSavedAt ? ghSavedAt.toLocaleString() : 'no timestamp') + ').');
-    ghStatus('✓ Loaded ' + new Date().toISOString().slice(0,16).replace('T',' '), 'var(--hops)');
-
-  } catch(e) {
-    ghLog('Startup: GitHub unavailable (' + e.message + ') — loading from localStorage.');
-    loadData();
+    remote = await ghFetchRemote();
+  } catch (e) {
+    ghLog('Sync check failed (' + e.message + ') — using browser copy.', true);
+    ghStatus('✗ Offline — using browser copy', 'var(--amber)');
+    return 'offline';
   }
+
+  if (remote.missing) {
+    ghLog('No brewery_data.json in the repo yet — pushing the browser copy.');
+    ghSetUnpushed(true);
+    await pushToGitHub(false);
+    return 'pushed';
+  }
+  const d = remote.data;
+  if (!d || !d.beers || !d.history) {
+    ghLog('✗ Remote brewery_data.json is malformed — ignoring it.', true);
+    return 'bad';
+  }
+
+  let unpushed = ghIsUnpushed();
+  const knownSha = ghGetSha();
+  if (!knownSha) {
+    // First run of this sync model on this browser — one-time fallback to timestamps
+    let hasLocal = false, localSavedAt = null;
+    try {
+      const l = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      hasLocal = !!l.beers;
+      localSavedAt = l.savedAt ? new Date(l.savedAt) : null;
+    } catch (e) {}
+    const ghSavedAt = d.savedAt ? new Date(d.savedAt) : null;
+    unpushed = hasLocal && !!(localSavedAt && (!ghSavedAt || localSavedAt > ghSavedAt));
+  }
+
+  if (knownSha && remote.sha === knownSha) {
+    if (unpushed) { ghLog('Earlier save never reached GitHub — pushing now.'); await pushToGitHub(false); return 'pushed'; }
+    ghStatus('✓ In sync', 'var(--hops)');
+    if (reason === 'startup') ghLog('Startup: browser already matches GitHub.');
+    return 'in-sync';
+  }
+
+  // GitHub has changed since we last synced (nightly BF sync, or another browser)
+  if (_dirty) {
+    ghLog('GitHub has newer data, but you have unsaved edits — Save will merge them.');
+    return 'skipped-dirty';
+  }
+  if (!unpushed) {
+    ghApplyRemoteFull(d);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(getDataObject()));
+    ghSetSha(remote.sha);
+    ghRefreshUI();
+    ghLog('Loaded the latest data from GitHub (' + (reason || 'check') + ').');
+    ghStatus('✓ Loaded ' + new Date().toISOString().slice(0, 16).replace('T', ' '), 'var(--hops)');
+    ghSetSaveStatus('Synced ' + fmtTime(new Date()) + ' · GitHub ✓');
+    return 'adopted';
+  }
+
+  ghLog('Both GitHub and this browser changed — keeping your edits, taking Brewfather data from GitHub, then pushing.');
+  ghMergeBFOwned(d);
+  await pushToGitHub(false);
+  return 'merged';
+}
+
+async function loadDataWithGitHub() {
+  // loadData() already ran at page load, so memory holds the browser copy (also the offline fallback).
+  if (!hasGHConfig()) { loadData(); return; }
+  ghLog('Startup: checking GitHub…');
+  await ghReconcile('startup');
 }
 
 // ── STARTUP: GitHub first, localStorage fallback ──────────────────────────
@@ -11290,6 +11335,15 @@ loadDataWithGitHub().then(() => {
 }).catch(e => {
   console.warn('GitHub startup load failed, using localStorage:', e.message);
   loadData(); rebuildSchedule(); renderAll();
+});
+
+// Keep a long-open tab current (e.g. after the 1am Brewfather sync) and retry failed pushes
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && hasGHConfig() && !_dirty && !_ghSyncing &&
+      Date.now() - _ghLastCheck > 60000) ghReconcile('focus').catch(() => {});
+});
+window.addEventListener('online', () => {
+  if (hasGHConfig() && ghIsUnpushed() && !_ghSyncing) pushToGitHub(false).catch(() => {});
 });
 
 window.addEventListener('beforeunload',e=>{if(_dirty){e.preventDefault();e.returnValue='Unsaved changes.';}});
