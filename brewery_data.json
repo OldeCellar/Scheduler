@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.21-20260928",
-  "savedAt": "2026-09-30T16:33:22.285Z",
+  "savedAt": "2026-09-30T16:33:52.365Z",
   "beers": [
     {
       "id": 1,
@@ -2924,7 +2924,7 @@
         "type": "Hop",
         "bf_id": "7gXPZdloYefsntVJwhu8df83iCT0QG",
         "minStock": 0,
-        "supplier": "",
+        "supplier": "IndieHops",
         "sku": "",
         "purchaseQty": 0,
         "purchaseUnit": "g",
@@ -4986,7 +4986,7 @@
             "unit": "g",
             "sku": "",
             "price": 0.032,
-            "supplier": "",
+            "supplier": "IndieHops",
             "url": "",
             "notes": "",
             "bf_id": "7gXPZdloYefsntVJwhu8df83iCT0QG"
