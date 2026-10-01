@@ -342,9 +342,7 @@ hr.divider{border:none;border-top:1px solid var(--border);margin:16px 0;}
   
   <div class="header-center">
 	<button class="btn btn-primary" onclick="saveToBrowser()" title="Saves to this browser and pushes to GitHub">Save &amp; Sync</button>
-	<button class="btn btn-secondary" onclick="saveAsNewVersion()">Save As New Version</button>
 	<button class="btn btn-secondary" onclick="discardChanges()">Discard</button>
-	<button class="btn btn-secondary" onclick="downloadHtmlFile()" title="Download this file with your Beer Catalog and Ingredient Aliases baked in as the defaults">⬇ Download HTML File</button>
   </div>
   
   <div class="header-right">
@@ -4975,7 +4973,7 @@ function calcKegDate(bfBottlingDate, brewDate, tankDays, allKegDates) {
 // ════════════════════════════════════════════════════════
 
 // set APP_VERSION and STORAGE_KEY
-let APP_VERSION = 'v33.22-20260930';
+let APP_VERSION = 'v33.23-20260930';
 const STORAGE_KEY = 'brewery_scheduler';  // fixed — version-independent
 
 document.title =
@@ -4999,14 +4997,6 @@ function updateVersionUI() {
   if (versionEl) {
     versionEl.textContent = `Fermenter & Production Planner · Version ${APP_VERSION}`;
   }
-}
-
-function askForVersion() {
-  const input = prompt('Enter version number', APP_VERSION);
-  if (input === null) return null;
-  const cleaned = input.trim();
-  if (!cleaned) return null;
-  return cleaned;
 }
 
 function getDataObject() {
@@ -5047,7 +5037,6 @@ function loadData() {
           else b.lane = 'flex';
         }
       });
-      if (d.appVersion) setAppVersion(d.appVersion);
       BREW_HISTORY   = d.history      || JSON.parse(JSON.stringify(DEFAULT_HISTORY));
       OVERRIDES     = d.overrides    || JSON.parse(JSON.stringify(DEFAULT_OVERRIDES));
       KEG_SETTINGS  = d.kegSettings  || { ...DEFAULT_KEG };
@@ -5101,55 +5090,6 @@ function syncNow() {
   if (!hasGHConfig()) alert('GitHub Sync not configured — go to Data → GitHub Sync tab. Saved to this browser only.');
   saveData();
 }
-
-function saveAsNewVersion() {
-  const newVersion = askForVersion();
-  if (newVersion === null) return;
-  if (!setAppVersion(newVersion)) return;
-  saveData();
-  alert(`Saved to browser as ${APP_VERSION}`);
-}
-
-function downloadHtmlFile() {
-  if (typeof _HTML_SOURCE_B64_ === 'undefined' || !_HTML_SOURCE_B64_) {
-    alert('Source not available. Please re-download the base file from Claude.');
-    return;
-  }
-  let source;
-  try {
-    source = decodeURIComponent(escape(atob(_HTML_SOURCE_B64_)));
-  } catch(e) {
-    alert('Failed to decode source: ' + e.message);
-    return;
-  }
-
-  const beersJson = JSON.stringify(BEERS, null, 2);
-  const newBeersBlock = '/*%%DEFAULT_BEERS_START%%*/\nconst DEFAULT_BEERS = ' + beersJson + ';\n/*%%DEFAULT_BEERS_END%%*/';
-  let s1 = source.replace(/\/\*%%DEFAULT_BEERS_START%%\*\/[\s\S]*?\/\*%%DEFAULT_BEERS_END%%\*\//, newBeersBlock);
-  if (s1 === source) { alert('Could not locate DEFAULT_BEERS markers — download aborted.'); return; }
-  source = s1;
-
-  const packagingJson = JSON.stringify(PACKAGING, null, 2);
-  const newPackagingBlock = '/*%%DEFAULT_PACKAGING_START%%*/\nconst DEFAULT_PACKAGING = ' + packagingJson + ';\n/*%%DEFAULT_PACKAGING_END%%*/';
-  let s2 = source.replace(/\/\*%%DEFAULT_PACKAGING_START%%\*\/[\s\S]*?\/\*%%DEFAULT_PACKAGING_END%%\*\//, newPackagingBlock);
-  if (s2 === source) { alert('Could not locate DEFAULT_PACKAGING markers — download aborted.'); return; }
-  source = s2;
-
-  source = source.replace(/let APP_VERSION\s*=\s*'[^']*';/, "let APP_VERSION = 'v33.22-20260930';");
-
-  source = source.replace(/\n<script id="__html_source__">var _HTML_SOURCE_B64_="[A-Za-z0-9+\/=]*";<\/script>\n/, '\n');
-
-  const blob = new Blob([source], { type: 'text/html' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  const ts = fmtISO(new Date()).replace(/-/g, '');
-  a.download = 'brewery_scheduler_' + APP_VERSION + '_' + ts + '.html';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-}
-
 
 function resetToDefaults(silent) {
   BEERS         = JSON.parse(JSON.stringify(DEFAULT_BEERS));
@@ -5207,7 +5147,6 @@ function importData(){
     if(d.packaging) PACKAGING=d.packaging;
     if(!PACKAGING.ingredientAliases) PACKAGING.ingredientAliases=[];
     if(!PACKAGING.inventory) PACKAGING.inventory=[];
-    if (d.appVersion) setAppVersion(d.appVersion);
     saveData(); alert('Restored!');
   } catch(e){alert('Invalid JSON: '+e.message);}
 }
