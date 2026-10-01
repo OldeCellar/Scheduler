@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.23-20260930",
-  "savedAt": "2026-10-01T00:57:51.339Z",
+  "savedAt": "2026-10-01T21:48:05.301Z",
   "beers": [
     {
       "id": 1,
@@ -4995,6 +4995,27 @@
         "unit": "g",
         "bf_cost": 0.033,
         "bf_lotNo": "187737"
+      },
+      {
+        "name": "Luminosa",
+        "type": "Hop",
+        "bf_id": "default-mWWYbMfM7uF9InWIxcTxrRx2TO91Nk",
+        "minStock": 0,
+        "supplier": "",
+        "sku": "",
+        "purchaseQty": 0,
+        "purchaseUnit": "g",
+        "notes": "",
+        "link": "",
+        "_fromBF": true,
+        "bf_type": "Whole",
+        "bf_use": "Boil",
+        "bf_alpha": 10.4,
+        "bf_year": "2026",
+        "onHand": 5200,
+        "unit": "g",
+        "bf_cost": null,
+        "bf_lotNo": "Luminosa hops are a testament to the innovative spirit of the craft brewing world, particularly the Indie Hops Flavor Project, which has brought this vibrant variety to the forefront with its 2022 Harvest debut. The brainchild of Shaun Townsend from Oregon State University's hop breeding program, Luminosa hops were born from open-pollinated seeds of a Sorachi Ace female in 2013. It delivers a burst of tropical and citrus notes, reminiscent of a refreshing peach-mango lemonade, enriched with layers of candied orange peel, boysenberry, papaya, and guava. Luminosa hops offer an exciting opportunity to experiment with flavor without the risk of overpowering their brew with the piney and resinous notes that can dominate the palate. This makes it an excellent choice for a wide range of beer styles, from the crispness of a Helles or Pilsner to the depth of an American Pale Ale, the haze of an IPA, or the lightness of a Blonde or Wheat Ale. Aroma: Citrus, Fruity, Guava, Mango, Orange, Papaya, Peach, Tropical"
       }
     ],
     "ingredientAliases": [],
