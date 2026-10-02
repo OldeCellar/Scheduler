@@ -4973,7 +4973,7 @@ function calcKegDate(bfBottlingDate, brewDate, tankDays, allKegDates) {
 // ════════════════════════════════════════════════════════
 
 // set APP_VERSION and STORAGE_KEY
-let APP_VERSION = 'v33.26-20261002';
+let APP_VERSION = 'v33.27-20261002';
 const STORAGE_KEY = 'brewery_scheduler';  // fixed — version-independent
 
 document.title =
@@ -6014,8 +6014,18 @@ function getDashUpcomingWeeks(){
 // For each tank: line up the batch currently in it, then upcoming brews assigned to it,
 // and measure the days it sits empty between keg-out + cleaning day and the next brew.
 const TANK_CLEAN_DAYS = 1;   // one cleaning day between kegging and the next fill
+const GAP_DETAIL_MIN  = 3;   // only explain gaps of this many idle days or more
+const TANK_LANE = { 'Tank 01':'ipa', 'Tank 02':'lager', 'Tank 03':'flex' };
 function getTankGaps(ct, upWeeks){
   const DAY = 86400000;
+  // Every upcoming brew in every tank — used to explain WHY a tank was left waiting
+  const allBrews = [];
+  upWeeks.forEach(w => (w.brews || []).forEach(b => {
+    if(!b.beer) return;
+    const bd = b.brewDate || w.sat;
+    if(bd) allBrews.push({ beer:b.beer, tank:b.tank || null, brewDate:bd, batch:b.batch });
+  }));
+  const candidates = (BEERS || []).filter(b => b.enabled !== false && b.t > 0);
   const diff = (a,b) => Math.round((b - a) / DAY);
   const wd = d => d.toLocaleDateString('en-US',{weekday:'short'});
   const tanks = [];
@@ -6043,7 +6053,26 @@ function getTankGaps(ct, upWeeks){
     upcoming.forEach(u => {
       const idle = diff(cursor, u.brewDate);
       if(idle > 0){
-        gaps.push({ from:cursor, to:u.brewDate, idle, beer:u.beer, emptyNow: emptyNow && gaps.length === 0 });
+        const gap = { from:cursor, to:u.brewDate, idle, beer:u.beer, emptyNow: emptyNow && gaps.length === 0,
+                      blockers:[], fits:[] };
+        if(idle >= GAP_DETAIL_MIN){
+          // Why: brews in OTHER tanks that landed inside this window (one-brew-per-week rule)
+          gap.blockers = allBrews
+            .filter(b => b.tank !== t.name && b.brewDate >= gap.from && b.brewDate < gap.to)
+            .sort((a,b) => a.brewDate - b.brewDate);
+          // What fits: any enabled beer (any lane) brewed on the earliest refill day whose
+          // keg date + cleaning day lands on or before the tank's next scheduled brew
+          const laneWant = TANK_LANE[t.name];
+          candidates.forEach(c => {
+            const keg = calcKegDate(null, gap.from, c.t, []);
+            if(!keg) return;
+            const free = addDays(keg, TANK_CLEAN_DAYS);
+            const slack = diff(free, gap.to);
+            if(slack >= 0) gap.fits.push({ beer:c, keg, slack, offLane: !!laneWant && !!c.lane && c.lane !== laneWant });
+          });
+          gap.fits.sort((a,b) => (a.offLane - b.offLane) || (a.slack - b.slack) || (a.beer.name.localeCompare(b.beer.name)));
+        }
+        gaps.push(gap);
       } else if(idle < 0 && !conflict){
         conflict = { beer:u.beer, brewDate:u.brewDate, overlapDays:-idle };
       }
@@ -6090,6 +6119,25 @@ function renderTankGaps(ct, upWeeks){
       rows += `<div style="margin-top:3px;">${g.emptyNow ? '<strong>Empty now</strong> · ' : ''}`
         + `${fmtW(g.from)} → ${fmtW(g.to)} · <strong style="color:var(--amber,#c07800);">${g.idle} idle day${g.idle===1?'':'s'}</strong>`
         + ` <span style="color:var(--muted);">(earliest refill ${fmtW(g.from)}, next brew: ${g.beer.name})</span></div>`;
+      if(g.idle >= GAP_DETAIL_MIN){
+        const sub = 'font-size:11px;color:var(--muted);margin:2px 0 0 12px;';
+        if(g.blockers.length){
+          rows += `<div style="${sub}"><strong>Why:</strong> ` + g.blockers.map(b =>
+            `${fmtW(b.brewDate)} brew went to ${b.tank || 'no tank'} (${b.beer.name})`).join('; ')
+            + ` — one brew per week rule.</div>`;
+        } else {
+          rows += `<div style="${sub}"><strong>Why:</strong> no brews in other tanks during this window — `
+            + `not caused by the one-brew-per-week rule; nothing was queued for this tank.</div>`;
+        }
+        if(g.fits.length){
+          const shown = g.fits.slice(0, 6);
+          rows += `<div style="${sub}"><strong>Would fit</strong> if brewed ${fmtW(g.from)}: ` + shown.map(f =>
+            `${f.beer.name} <span style="opacity:.8;">(${f.beer.t}d, keg ${fmtD(f.keg)}${f.slack ? ', ' + f.slack + 'd spare' : ', exact'}${f.offLane ? ', ' + f.beer.lane + ' lane' : ''})</span>`).join(' · ')
+            + (g.fits.length > shown.length ? ` · +${g.fits.length - shown.length} more` : '') + `</div>`;
+        } else {
+          rows += `<div style="${sub}"><strong>Would fit:</strong> no enabled beer has a short enough tank time for this window.</div>`;
+        }
+      }
     });
     if(t.conflict){
       rows += `<div style="margin-top:3px;color:var(--red2,#b03030);">⚠ ${t.conflict.beer.name} is scheduled ${fmtW(t.conflict.brewDate)} but the tank isn't clear for ${t.conflict.overlapDays} more day${t.conflict.overlapDays===1?'':'s'}.</div>`;
