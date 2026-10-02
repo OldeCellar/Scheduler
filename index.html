@@ -4973,7 +4973,7 @@ function calcKegDate(bfBottlingDate, brewDate, tankDays, allKegDates) {
 // ════════════════════════════════════════════════════════
 
 // set APP_VERSION and STORAGE_KEY
-let APP_VERSION = 'v33.23-20260930';
+let APP_VERSION = 'v33.24-20261002';
 const STORAGE_KEY = 'brewery_scheduler';  // fixed — version-independent
 
 document.title =
@@ -5988,18 +5988,45 @@ document.querySelectorAll('.modal-overlay').forEach(o=>{
 // ════════════════════════════════════════════════════════
 // DASHBOARD
 // ════════════════════════════════════════════════════════
+// Upcoming (not-yet-brewed) weeks for the dashboard. SCHEDULE only holds weeks the
+// auto-scheduler filled; any week already holding a dated BREW_HISTORY batch (e.g. a
+// Brewfather Planning batch) is deliberately left empty there. The Schedule page merges
+// both sources, so the dashboard has to as well.
+function getDashUpcomingWeeks(){
+  const histByKey = {};
+  BREW_HISTORY.forEach(h => {
+    if(!h.date) return;
+    const d = parseDate(h.date); if(!d || d < TODAY) return;   // already brewed
+    const beer = beerByName(h.name); if(!beer) return;
+    const sat = saturdayOf(d), k = wkKey(sat);
+    if(!histByKey[k]) histByKey[k] = {sat, key:k, brews:[]};
+    histByKey[k].brews.push({
+      beer, tank:h.tank, brewDate:d,
+      kegDate: h.kegDate ? parseDate(h.kegDate) : calcKegDate(null, d, beer.t, []),
+      readyDate: addDays(d, beer.total), batch:h.batch, seq:h.seq
+    });
+  });
+  const weeks = SCHEDULE.filter(w => !histByKey[w.key]).concat(Object.values(histByKey));
+  return weeks.sort((a,b) => a.sat - b.sat);
+}
+
 function renderDashboard(){
   document.getElementById('header-date').textContent = fmtFull(TODAY);
 
   const ks = KEG_SETTINGS;
-  const last = BREW_HISTORY[BREW_HISTORY.length - 1];
+  // Most recent batch actually brewed (brew date today or earlier) — not just the last array entry
+  const last = BREW_HISTORY
+    .filter(h => h.date && parseDate(h.date) && parseDate(h.date) <= TODAY)
+    .sort((a, b) => (parseDate(b.date) - parseDate(a.date)) || ((b.batch||0) - (a.batch||0)))[0] || null;
   const ct = getCurrentTanks();
+  const upWeeks = getDashUpcomingWeeks();
 
-  const nextKegTank = ct
+  const freeTank = ct.find(t => !t.beer) || null;
+  const nextKegTank = freeTank ? null : (ct
     .filter(t => t.beer && t.endDate)
-    .sort((a, b) => a.endDate - b.endDate)[0] || null;
+    .sort((a, b) => a.endDate - b.endDate)[0] || null);
 
-  const futureBrews = SCHEDULE
+  const futureBrews = upWeeks
     .flatMap(w => (w.brews || []).map(b => ({
       sat: w.sat,
       beer: b.beer,
@@ -6007,7 +6034,7 @@ function renderDashboard(){
       kegDate: b.kegDate,
       readyDate: b.readyDate
     })))
-    .filter(x => x.kegDate)
+    .filter(x => x.kegDate && x.beer)
     .sort((a, b) => a.kegDate - b.kegDate);
 
   const nextKeg = futureBrews[0] || null;
@@ -6015,7 +6042,7 @@ function renderDashboard(){
   document.getElementById('dash-metrics').innerHTML = `
     <div class="metric"><div class="metric-label">Last brewed</div><div class="metric-value">#${last ? last.batch : ''}</div><div class="metric-sub">${last ? last.name.split(' ').slice(0, 2).join(' ') : ''}</div></div>
 	<div class="metric"><div class="metric-label">Next batch</div><div class="metric-value" id="next-batch-display">#${_nextBatchId}</div><div class="metric-sub">Brewfather batch #</div></div>
-    <div class="metric"><div class="metric-label">Next tank free</div><div class="metric-value">${nextKegTank ? fmtD(nextKegTank.endDate) : '—'}</div><div class="metric-sub">${nextKegTank ? `${nextKegTank.name} · ${nextKegTank.beer ? nextKegTank.beer.name : 'Free'}` : 'No active tanks'}</div></div>
+    <div class="metric"><div class="metric-label">Next tank free</div><div class="metric-value">${freeTank ? 'Now' : (nextKegTank ? fmtD(nextKegTank.endDate) : '—')}</div><div class="metric-sub">${freeTank ? `${freeTank.name} · Free` : (nextKegTank ? `${nextKegTank.name} · ${nextKegTank.beer.name}` : 'No active tanks')}</div></div>
     <div class="metric"><div class="metric-label">Next Batch kegs</div><div class="metric-value">${nextKeg ? fmtD(nextKeg.kegDate) : '—'}</div><div class="metric-sub">${nextKeg ? `${nextKeg.beer.name} · ${nextKeg.tank}` : 'No keg date found'}</div></div>
 	<div class="metric"><div class="metric-label">Avg Kegs/batch</div><div class="metric-value">~${ks.perBatch}</div><div class="metric-sub">${Math.round(ks.perBatch * ks.volL)}L avg</div></div>
     <div class="metric"><div class="metric-label">Kegs</div><div class="metric-value">${ks.total}</div><div class="metric-sub">${ks.volL}L × ${ks.total} = ${ks.total * ks.volL}L</div></div>
@@ -6027,13 +6054,13 @@ function renderDashboard(){
     alerts.push({ t: 'info', m: 'All 3 tanks occupied — no brew possible until one clears.' });
   }
 
-  const nextBrew = SCHEDULE.find(w => w.brews && w.brews.length > 0);
+  const nextBrew = upWeeks.find(w => w.brews && w.brews.length > 0);
   if (nextBrew && nextBrew.sat <= TODAY) {
     alerts.push({ t: 'warn', m: `Brew due this Saturday (${fmtD(nextBrew.sat)}): ${nextBrew.brews.map(b => b.beer.name).join(', ')}` });
   }
 
-  SCHEDULE.slice(0, 6)
-    .flatMap(w => w.brews.filter(b => b.beer.cat === 'seasonal'))
+  upWeeks.slice(0, 6)
+    .flatMap(w => (w.brews || []).filter(b => b.beer && b.beer.cat === 'seasonal'))
     .forEach(b => alerts.push({ t: 'warn', m: `Seasonal: ${b.beer.name} — brew ${fmtD(b.brewDate)}, ready ${fmtD(b.readyDate)}` }));
 
   // BF sync staleness warning
@@ -6090,8 +6117,8 @@ function renderDashboard(){
 
   let uh = '';
   let brewCount = 0;
-  for (let wi = 0; wi < SCHEDULE.length && brewCount < 5; wi++) {
-    const w = SCHEDULE[wi];
+  for (let wi = 0; wi < upWeeks.length && brewCount < 5; wi++) {
+    const w = upWeeks[wi];
     if (w.skipped || !w.brews || !w.brews.length) continue;
     brewCount++;
     const now = w.sat <= TODAY && addDays(w.sat, 7) > TODAY;
