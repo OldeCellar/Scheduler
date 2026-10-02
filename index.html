@@ -4973,7 +4973,7 @@ function calcKegDate(bfBottlingDate, brewDate, tankDays, allKegDates) {
 // ════════════════════════════════════════════════════════
 
 // set APP_VERSION and STORAGE_KEY
-let APP_VERSION = 'v33.24-20261002';
+let APP_VERSION = 'v33.25-20261002';
 const STORAGE_KEY = 'brewery_scheduler';  // fixed — version-independent
 
 document.title =
@@ -6026,24 +6026,19 @@ function renderDashboard(){
     .filter(t => t.beer && t.endDate)
     .sort((a, b) => a.endDate - b.endDate)[0] || null);
 
-  const futureBrews = upWeeks
-    .flatMap(w => (w.brews || []).map(b => ({
-      sat: w.sat,
-      beer: b.beer,
-      tank: b.tank,
-      kegDate: b.kegDate,
-      readyDate: b.readyDate
-    })))
-    .filter(x => x.kegDate && x.beer)
-    .sort((a, b) => a.kegDate - b.kegDate);
-
-  const nextKeg = futureBrews[0] || null;
+  // Next Batch kegs: of the batches currently in a tank, the one whose keg date
+  // (BF bottling date when logged, otherwise the calculated date) is closest to today.
+  const nextKeg = ct
+    .filter(t => t.beer && t.endDate)
+    .map(t => ({ kegDate: t.endDate, beer: t.beer, tank: t.name, batch: t.batch,
+                 dist: Math.abs(t.endDate - TODAY) }))
+    .sort((a, b) => a.dist - b.dist)[0] || null;
 
   document.getElementById('dash-metrics').innerHTML = `
     <div class="metric"><div class="metric-label">Last brewed</div><div class="metric-value">#${last ? last.batch : ''}</div><div class="metric-sub">${last ? last.name.split(' ').slice(0, 2).join(' ') : ''}</div></div>
-	<div class="metric"><div class="metric-label">Next batch</div><div class="metric-value" id="next-batch-display">#${_nextBatchId}</div><div class="metric-sub">Brewfather batch #</div></div>
+	<div class="metric"><div class="metric-label">Next batch</div><div class="metric-value" id="next-batch-display">#${last ? (Number(last.batch) || 0) + 1 : _nextBatchId}</div><div class="metric-sub">Brewfather batch #</div></div>
     <div class="metric"><div class="metric-label">Next tank free</div><div class="metric-value">${freeTank ? 'Now' : (nextKegTank ? fmtD(nextKegTank.endDate) : '—')}</div><div class="metric-sub">${freeTank ? `${freeTank.name} · Free` : (nextKegTank ? `${nextKegTank.name} · ${nextKegTank.beer.name}` : 'No active tanks')}</div></div>
-    <div class="metric"><div class="metric-label">Next Batch kegs</div><div class="metric-value">${nextKeg ? fmtD(nextKeg.kegDate) : '—'}</div><div class="metric-sub">${nextKeg ? `${nextKeg.beer.name} · ${nextKeg.tank}` : 'No keg date found'}</div></div>
+    <div class="metric"><div class="metric-label">Next Batch kegs</div><div class="metric-value">${nextKeg ? fmtD(nextKeg.kegDate) : '—'}</div><div class="metric-sub">${nextKeg ? `${nextKeg.beer.name} · ${nextKeg.tank}${nextKeg.batch ? ' · #' + nextKeg.batch : ''}` : 'No keg date found'}</div></div>
 	<div class="metric"><div class="metric-label">Avg Kegs/batch</div><div class="metric-value">~${ks.perBatch}</div><div class="metric-sub">${Math.round(ks.perBatch * ks.volL)}L avg</div></div>
     <div class="metric"><div class="metric-label">Kegs</div><div class="metric-value">${ks.total}</div><div class="metric-sub">${ks.volL}L × ${ks.total} = ${ks.total * ks.volL}L</div></div>
 	<div class="metric"><div class="metric-label">Fermenters</div><div class="metric-value">3</div><div class="metric-sub">1 BBL SSBrewtech</div></div>`;
