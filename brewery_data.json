@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.27-20261002",
-  "savedAt": "2026-10-02T18:32:04.126Z",
+  "savedAt": "2026-10-02T19:17:13.204Z",
   "beers": [
     {
       "id": 1,
@@ -384,9 +384,9 @@
       "cat": "filler",
       "lane": "flex",
       "pri": 3,
-      "t": 21,
+      "t": 14,
       "m": 7,
-      "total": 28,
+      "total": 21,
       "rotationOrder": 1,
       "target": null,
       "targets": null,
