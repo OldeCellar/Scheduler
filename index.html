@@ -4973,7 +4973,7 @@ function calcKegDate(bfBottlingDate, brewDate, tankDays, allKegDates) {
 // ════════════════════════════════════════════════════════
 
 // set APP_VERSION and STORAGE_KEY
-let APP_VERSION = 'v33.25-20261002';
+let APP_VERSION = 'v33.26-20261002';
 const STORAGE_KEY = 'brewery_scheduler';  // fixed — version-independent
 
 document.title =
@@ -6010,6 +6010,110 @@ function getDashUpcomingWeeks(){
   return weeks.sort((a,b) => a.sat - b.sat);
 }
 
+// Tank idle-time analysis (read-only — does not touch the scheduler).
+// For each tank: line up the batch currently in it, then upcoming brews assigned to it,
+// and measure the days it sits empty between keg-out + cleaning day and the next brew.
+const TANK_CLEAN_DAYS = 1;   // one cleaning day between kegging and the next fill
+function getTankGaps(ct, upWeeks){
+  const DAY = 86400000;
+  const diff = (a,b) => Math.round((b - a) / DAY);
+  const wd = d => d.toLocaleDateString('en-US',{weekday:'short'});
+  const tanks = [];
+  let unassigned = 0;
+
+  ct.forEach(t => {
+    const upcoming = [];
+    upWeeks.forEach(w => (w.brews || []).forEach(b => {
+      if(!b.beer) return;
+      if(!b.tank){ if(t.name === 'Tank 01') unassigned++; return; }
+      if(b.tank !== t.name) return;
+      const bd = b.brewDate || w.sat;
+      if(!bd || !b.kegDate) return;
+      upcoming.push({ beer:b.beer, brewDate:bd, kegDate:b.kegDate, batch:b.batch });
+    }));
+    upcoming.sort((a,b) => a.brewDate - b.brewDate);
+
+    // Earliest the tank can be refilled: day after current batch kegs, or today if empty
+    let cursor = t.beer && t.endDate ? addDays(t.endDate, TANK_CLEAN_DAYS) : TODAY;
+    if(cursor < TODAY) cursor = TODAY;       // overdue batch still in tank — can't refill in the past
+    const emptyNow = !t.beer;
+    const gaps = [];
+    let conflict = null;
+
+    upcoming.forEach(u => {
+      const idle = diff(cursor, u.brewDate);
+      if(idle > 0){
+        gaps.push({ from:cursor, to:u.brewDate, idle, beer:u.beer, emptyNow: emptyNow && gaps.length === 0 });
+      } else if(idle < 0 && !conflict){
+        conflict = { beer:u.beer, brewDate:u.brewDate, overlapDays:-idle };
+      }
+      cursor = addDays(u.kegDate, TANK_CLEAN_DAYS);
+    });
+
+    tanks.push({
+      name:t.name, emptyNow, gaps, conflict,
+      totalIdle: gaps.reduce((n,g) => n + g.idle, 0),
+      openFrom: cursor,                      // free from here with nothing scheduled after
+      hasMore: upcoming.length > 0,
+      scheduledCount: upcoming.length
+    });
+  });
+  return { tanks, unassigned, wd };
+}
+
+function renderTankGaps(ct, upWeeks){
+  let host = document.getElementById('dash-gaps');
+  if(!host){
+    const anchor = document.getElementById('dash-tanks');
+    if(!anchor) return;
+    anchor.insertAdjacentHTML('afterend', '<div id="dash-gaps"></div>');
+    host = document.getElementById('dash-gaps');
+  }
+  const { tanks, unassigned, wd } = getTankGaps(ct, upWeeks);
+  const total = tanks.reduce((n,t) => n + t.totalIdle, 0);
+  const fmtW = d => `${wd(d)} ${fmtD(d)}`;
+
+  let h = `<div class="section-title" style="margin-top:18px;">Tank idle time — scheduled gaps</div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">
+      Days a tank sits empty beyond the ${TANK_CLEAN_DAYS}-day cleaning turnaround, before its next scheduled brew.</div>`;
+
+  h += `<div class="alert alert-${total ? 'warn' : 'ok'}" style="margin-bottom:8px;">
+    ${total ? `<strong>${total} idle tank-day${total===1?'':'s'}</strong> across the scheduled brews.`
+            : 'No idle gaps in the scheduled brews.'}</div>`;
+
+  tanks.forEach(t => {
+    let rows = '';
+    if(t.emptyNow && !t.gaps.length && !t.hasMore){
+      rows += `<div>Empty now — nothing scheduled.</div>`;
+    }
+    t.gaps.forEach(g => {
+      rows += `<div style="margin-top:3px;">${g.emptyNow ? '<strong>Empty now</strong> · ' : ''}`
+        + `${fmtW(g.from)} → ${fmtW(g.to)} · <strong style="color:var(--amber,#c07800);">${g.idle} idle day${g.idle===1?'':'s'}</strong>`
+        + ` <span style="color:var(--muted);">(earliest refill ${fmtW(g.from)}, next brew: ${g.beer.name})</span></div>`;
+    });
+    if(t.conflict){
+      rows += `<div style="margin-top:3px;color:var(--red2,#b03030);">⚠ ${t.conflict.beer.name} is scheduled ${fmtW(t.conflict.brewDate)} but the tank isn't clear for ${t.conflict.overlapDays} more day${t.conflict.overlapDays===1?'':'s'}.</div>`;
+    }
+    if(!rows){
+      rows = t.hasMore
+        ? `<div style="color:var(--hops);">✓ No gaps — back-to-back</div>`
+        : `<div>Nothing scheduled after the current batch — open from ${fmtW(t.openFrom)}.</div>`;
+    } else if(!t.hasMore){
+      rows += `<div style="margin-top:3px;">Nothing scheduled after — open from ${fmtW(t.openFrom)}.</div>`;
+    } else {
+      rows += `<div style="margin-top:3px;color:var(--muted);">Open again from ${fmtW(t.openFrom)} after the last scheduled batch.</div>`;
+    }
+    h += `<div class="brew-row" style="display:block;padding:8px 0;border-bottom:1px solid var(--border);">
+      <div style="font-weight:600;">${t.name}${t.totalIdle ? ` <span style="font-weight:400;color:var(--muted);">· ${t.totalIdle} idle day${t.totalIdle===1?'':'s'}</span>` : ''}</div>
+      <div style="font-size:12px;">${rows}</div></div>`;
+  });
+
+  if(unassigned){
+    h += `<div style="font-size:11px;color:var(--muted);margin-top:6px;">${unassigned} upcoming brew${unassigned===1?' has':'s have'} no tank assigned and ${unassigned===1?'is':'are'} not included above.</div>`;
+  }
+  host.innerHTML = h;
+}
+
 function renderDashboard(){
   document.getElementById('header-date').textContent = fmtFull(TODAY);
 
@@ -6109,6 +6213,7 @@ function renderDashboard(){
   });
   th += '</div>';
   document.getElementById('dash-tanks').innerHTML = th;
+  renderTankGaps(ct, upWeeks);
 
   let uh = '';
   let brewCount = 0;
