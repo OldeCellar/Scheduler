@@ -4904,6 +4904,17 @@ let BEERS = [], BREW_HISTORY = [], OVERRIDES = {}, KEG_SETTINGS = {}, USAGE_LOG 
 let PACKAGING = {};
 let KEG_OVERRIDES = {};  // batchNo → {filledKegs, filledL, manualRemL, notes}
 let SCHEDULE = [], _nextBatchId = 553, _dirty = false;
+// Extra (gap-filler) brews: suggestions the brewer has accepted or declined.
+//   dow      — default weekday for an extra brew (0=Sun … 6=Sat), Monday by default
+//   accepted — [{id, tank, date:'YYYY-MM-DD', beer}]  injected into SCHEDULE on rebuild
+//   declined — ['Tank 03|from|to'] gaps the brewer said no to
+let EXTRA_BREWS = { dow:1, accepted:[], declined:[] };
+function normExtraBrews(x){
+  x = x || {};
+  return { dow: Number.isInteger(x.dow) ? x.dow : 1,
+           accepted: Array.isArray(x.accepted) ? x.accepted : [],
+           declined: Array.isArray(x.declined) ? x.declined : [] };
+}
 let _schedSort  = {col:'date', dir:1};  // default: oldest first
 let _histSort   = {col:'batch', dir:-1}; // default: newest batch first
 let _histFilter = '';   // text search filter for history
@@ -4940,6 +4951,25 @@ function fmtTime(d){ return d.toLocaleTimeString('en-US',{hour:'numeric',minute:
 function saturdayOf(d){ if(!d) return null; const r=new Date(d); if(isNaN(r.getTime())) return null; const day=r.getDay(); r.setDate(r.getDate()+(day===6?0:6-day)); r.setHours(0,0,0,0); return r; }
 function wkKey(sat){ return sat ? fmtISO(sat) : ''; }  // sat is already a Saturday
 
+// A history (Brewfather) batch that matches an accepted extra brew by date + beer.
+// Once the extra is actually brewed and synced, it must NOT claim the week's Saturday slot.
+function isExtraHistory(h){
+  if(!h || !h.date) return false;
+  const d = parseDate(h.date); if(!d) return false;
+  const iso = fmtISO(d), nm = (h.name || '').toLowerCase();
+  return (EXTRA_BREWS.accepted || []).some(x => x.date === iso && (x.beer || '').toLowerCase() === nm);
+}
+function extraMatchesHistory(x){
+  return BREW_HISTORY.some(h => h.date && parseDate(h.date) && fmtISO(parseDate(h.date)) === x.date
+                             && (h.name || '').toLowerCase() === (x.beer || '').toLowerCase());
+}
+// Saturday-keys of weeks whose history includes an accepted extra (so that week's Saturday brew is still schedulable)
+function getExtraWeekKeys(){
+  const k = new Set();
+  BREW_HISTORY.forEach(h => { if(isExtraHistory(h)) k.add(wkKey(saturdayOf(parseDate(h.date)))); });
+  return k;
+}
+
 // ── KEG DATE CALCULATION ─────────────────────────────────────────────────────
 // Single source of truth for keg date logic:
 //   1. BF bottlingDate set → use it exactly
@@ -4973,7 +5003,7 @@ function calcKegDate(bfBottlingDate, brewDate, tankDays, allKegDates) {
 // ════════════════════════════════════════════════════════
 
 // set APP_VERSION and STORAGE_KEY
-let APP_VERSION = 'v33.27-20261002';
+let APP_VERSION = 'v33.28-20261002';
 const STORAGE_KEY = 'brewery_scheduler';  // fixed — version-independent
 
 document.title =
@@ -5011,6 +5041,7 @@ function getDataObject() {
     bfCreds: BF_CREDS,
     packaging: PACKAGING,
     kegOverrides: KEG_OVERRIDES,
+    extraBrews: EXTRA_BREWS,
     bfBatchCache: BF_BATCH_CACHE,
     bfSyncTime: (typeof _bfSyncTime !== 'undefined' && _bfSyncTime) ? _bfSyncTime.toISOString() : undefined
   };
@@ -5047,6 +5078,7 @@ function loadData() {
       if(!PACKAGING.inventory)         PACKAGING.inventory = [];
       if(!PACKAGING.ingredientAliases) PACKAGING.ingredientAliases = (d.packaging && d.packaging.ingredientAliases) || [];
       KEG_OVERRIDES = d.kegOverrides || {};
+      EXTRA_BREWS   = normExtraBrews(d.extraBrews);
       BF_BATCH_CACHE= d.bfBatchCache || {};
       if (d.bfSyncTime) _bfSyncTime = new Date(d.bfSyncTime);
     } else {
@@ -5098,6 +5130,7 @@ function resetToDefaults(silent) {
   KEG_SETTINGS  = { ...DEFAULT_KEG };
   PACKAGING     = JSON.parse(JSON.stringify(DEFAULT_PACKAGING));
   KEG_OVERRIDES = {};
+  EXTRA_BREWS   = normExtraBrews(null);
   USAGE_LOG     = [];
   BF_CREDS      = { userId: '', apiKey: '' };
   if (!silent) {
@@ -5396,7 +5429,7 @@ SCHEDULE = [];
 // causing numbers to jump ahead.)
 const historyOccupiedSaturdays = new Set(
   BREW_HISTORY
-    .filter(h => h.date)
+    .filter(h => h.date && !isExtraHistory(h))   // an accepted extra brew never claims the week's Saturday
     .map(h => parseDate(h.date))
     .filter(Boolean)
     .map(d => wkKey(saturdayOf(d)))
@@ -5776,6 +5809,31 @@ console.log('[Pass4] Empty Saturdays (first 6):',
 
 
 
+// ── Accepted extra brews (approved gap-fillers) ───────────────────────────
+// Added after the passes so they never change what the auto-scheduler picks.
+// They join their week's slot with their own (non-Saturday) brew date, and are
+// renumbered chronologically below like every other future brew.
+(EXTRA_BREWS.accepted || []).forEach(x => {
+  const d = parseDate(x.date);
+  if (!d || d < TODAY) return;                 // already past — the real batch is in history
+  if (extraMatchesHistory(x)) return;          // already logged in Brewfather
+  const beer = beerByName(x.beer);
+  if (!beer) return;
+  const slot = slotMap[wkKey(saturdayOf(d))];
+  if (!slot) return;
+  const tk = tanks.find(t => t.name === x.tank);
+  seqCounter[beer.name] = (seqCounter[beer.name] || 0) + 1;
+  slot.brews.push({
+    beer, tank: x.tank, brewDate: d,
+    kegDate: calcKegDate(null, d, beer.t, []),
+    readyDate: addDays(d, beer.total),
+    batch: 0, seq: seqCounter[beer.name],
+    notes: 'Extra brew (accepted suggestion)',
+    manual: false, extra: true, extraId: x.id,
+    lane: tk ? tk.lane : beer.lane
+  });
+});
+
 // ── Renumber batches in strict chronological order ────────────────────────
 // Passes 1-4 assign batch numbers in pass order (seasonals first), which
 // causes out-of-sequence numbers. Collect all future brews, sort by brew
@@ -6006,19 +6064,34 @@ function getDashUpcomingWeeks(){
       readyDate: addDays(d, beer.total), batch:h.batch, seq:h.seq
     });
   });
-  const weeks = SCHEDULE.filter(w => !histByKey[w.key]).concat(Object.values(histByKey));
+  // Weeks that hold a dated history batch normally show only that batch. Accepted extra
+  // brews (and the Saturday brew of a week whose history entry IS an accepted extra) still count.
+  const extraWeeks = getExtraWeekKeys();
+  const weeks = SCHEDULE.map(w => {
+    const hw = histByKey[w.key];
+    if(!hw) return w;
+    const keep = (w.brews || []).filter(b => b.extra || extraWeeks.has(w.key));
+    return Object.assign({}, hw, { brews: hw.brews.concat(keep) });
+  }).concat(Object.values(histByKey).filter(hw => !SCHEDULE.some(w => w.key === hw.key)));
+  weeks.forEach(w => { if(w.brews) w.brews = w.brews.slice().sort((a,b) => (a.brewDate||w.sat) - (b.brewDate||w.sat)); });
   return weeks.sort((a,b) => a.sat - b.sat);
 }
 
-// Tank idle-time analysis (read-only — does not touch the scheduler).
+// Tank idle-time analysis + extra-brew suggestions.
 // For each tank: line up the batch currently in it, then upcoming brews assigned to it,
 // and measure the days it sits empty between keg-out + cleaning day and the next brew.
+// Gaps of GAP_DETAIL_MIN+ days get a "why" and, if an extra brew on the extra-brew weekday
+// would fit, a flagged suggestion the brewer can accept or decline.
 const TANK_CLEAN_DAYS = 1;   // one cleaning day between kegging and the next fill
 const GAP_DETAIL_MIN  = 3;   // only explain gaps of this many idle days or more
 const TANK_LANE = { 'Tank 01':'ipa', 'Tank 02':'lager', 'Tank 03':'flex' };
+const DOW_NAMES = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
 function getTankGaps(ct, upWeeks){
   const DAY = 86400000;
-  // Every upcoming brew in every tank — used to explain WHY a tank was left waiting
+  const diff = (a,b) => Math.round((b - a) / DAY);
+  const wd = d => d.toLocaleDateString('en-US',{weekday:'short'});
+  // Every upcoming brew in every tank — explains WHY a tank waited, and blocks double-booking a day
   const allBrews = [];
   upWeeks.forEach(w => (w.brews || []).forEach(b => {
     if(!b.beer) return;
@@ -6026,8 +6099,6 @@ function getTankGaps(ct, upWeeks){
     if(bd) allBrews.push({ beer:b.beer, tank:b.tank || null, brewDate:bd, batch:b.batch });
   }));
   const candidates = (BEERS || []).filter(b => b.enabled !== false && b.t > 0);
-  const diff = (a,b) => Math.round((b - a) / DAY);
-  const wd = d => d.toLocaleDateString('en-US',{weekday:'short'});
   const tanks = [];
   let unassigned = 0;
 
@@ -6039,13 +6110,13 @@ function getTankGaps(ct, upWeeks){
       if(b.tank !== t.name) return;
       const bd = b.brewDate || w.sat;
       if(!bd || !b.kegDate) return;
-      upcoming.push({ beer:b.beer, brewDate:bd, kegDate:b.kegDate, batch:b.batch });
+      upcoming.push({ beer:b.beer, brewDate:bd, kegDate:b.kegDate, batch:b.batch, extra:!!b.extra });
     }));
     upcoming.sort((a,b) => a.brewDate - b.brewDate);
 
     // Earliest the tank can be refilled: day after current batch kegs, or today if empty
     let cursor = t.beer && t.endDate ? addDays(t.endDate, TANK_CLEAN_DAYS) : TODAY;
-    if(cursor < TODAY) cursor = TODAY;       // overdue batch still in tank — can't refill in the past
+    if(cursor < TODAY) cursor = TODAY;
     const emptyNow = !t.beer;
     const gaps = [];
     let conflict = null;
@@ -6054,23 +6125,29 @@ function getTankGaps(ct, upWeeks){
       const idle = diff(cursor, u.brewDate);
       if(idle > 0){
         const gap = { from:cursor, to:u.brewDate, idle, beer:u.beer, emptyNow: emptyNow && gaps.length === 0,
-                      blockers:[], fits:[] };
+                      blockers:[], fits:[], brewDate:null, dayTaken:false, declined:false,
+                      declineKey: `${t.name}|${fmtISO(cursor)}|${fmtISO(u.brewDate)}` };
         if(idle >= GAP_DETAIL_MIN){
           // Why: brews in OTHER tanks that landed inside this window (one-brew-per-week rule)
           gap.blockers = allBrews
             .filter(b => b.tank !== t.name && b.brewDate >= gap.from && b.brewDate < gap.to)
             .sort((a,b) => a.brewDate - b.brewDate);
-          // What fits: any enabled beer (any lane) brewed on the earliest refill day whose
-          // keg date + cleaning day lands on or before the tank's next scheduled brew
-          const laneWant = TANK_LANE[t.name];
-          candidates.forEach(c => {
-            const keg = calcKegDate(null, gap.from, c.t, []);
-            if(!keg) return;
-            const free = addDays(keg, TANK_CLEAN_DAYS);
-            const slack = diff(free, gap.to);
-            if(slack >= 0) gap.fits.push({ beer:c, keg, slack, offLane: !!laneWant && !!c.lane && c.lane !== laneWant });
-          });
-          gap.fits.sort((a,b) => (a.offLane - b.offLane) || (a.slack - b.slack) || (a.beer.name.localeCompare(b.beer.name)));
+          // Suggested extra brew day: first extra-brew weekday on/after the earliest refill, inside the gap
+          let bd = new Date(gap.from);
+          for(let i = 0; i < 7 && bd.getDay() !== EXTRA_BREWS.dow; i++) bd = addDays(bd, 1);
+          gap.brewDate = (bd.getDay() === EXTRA_BREWS.dow && bd < gap.to) ? bd : null;
+          gap.declined = (EXTRA_BREWS.declined || []).includes(gap.declineKey);
+          if(gap.brewDate) gap.dayTaken = allBrews.some(b => fmtISO(b.brewDate) === fmtISO(gap.brewDate));
+          if(gap.brewDate && !gap.dayTaken && !gap.declined){
+            const laneWant = TANK_LANE[t.name];
+            candidates.forEach(c => {
+              const keg = calcKegDate(null, gap.brewDate, c.t, []);
+              if(!keg) return;
+              const slack = diff(addDays(keg, TANK_CLEAN_DAYS), gap.to);
+              if(slack >= 0) gap.fits.push({ beer:c, keg, slack, offLane: !!laneWant && !!c.lane && c.lane !== laneWant });
+            });
+            gap.fits.sort((a,b) => (a.offLane - b.offLane) || (a.slack - b.slack) || a.beer.name.localeCompare(b.beer.name));
+          }
         }
         gaps.push(gap);
       } else if(idle < 0 && !conflict){
@@ -6082,13 +6159,41 @@ function getTankGaps(ct, upWeeks){
     tanks.push({
       name:t.name, emptyNow, gaps, conflict,
       totalIdle: gaps.reduce((n,g) => n + g.idle, 0),
-      openFrom: cursor,                      // free from here with nothing scheduled after
+      openFrom: cursor,
       hasMore: upcoming.length > 0,
       scheduledCount: upcoming.length
     });
   });
   return { tanks, unassigned, wd };
 }
+
+const _enc = v => encodeURIComponent(v);
+function afterExtraChange(){
+  markDirty();
+  rebuildSchedule();
+  renderDashboard();
+  try{ renderSchedule(); }catch(e){}
+}
+function acceptExtraBrew(tankEnc, iso, nameEnc){
+  EXTRA_BREWS.accepted.push({ id:'x' + Date.now().toString(36), tank:decodeURIComponent(tankEnc),
+                              date:iso, beer:decodeURIComponent(nameEnc) });
+  afterExtraChange();
+}
+function declineExtraGap(keyEnc){
+  const k = decodeURIComponent(keyEnc);
+  if(!EXTRA_BREWS.declined.includes(k)) EXTRA_BREWS.declined.push(k);
+  afterExtraChange();
+}
+function restoreDeclinedExtras(){ EXTRA_BREWS.declined = []; afterExtraChange(); }
+function removeExtraBrew(id){
+  EXTRA_BREWS.accepted = EXTRA_BREWS.accepted.filter(x => x.id !== id);
+  afterExtraChange();
+}
+function changeExtraDate(id, iso){
+  const x = EXTRA_BREWS.accepted.find(y => y.id === id);
+  if(x && iso){ x.date = iso; afterExtraChange(); }
+}
+function setExtraDow(v){ EXTRA_BREWS.dow = parseInt(v, 10); afterExtraChange(); }
 
 function renderTankGaps(ct, upWeeks){
   let host = document.getElementById('dash-gaps');
@@ -6101,10 +6206,18 @@ function renderTankGaps(ct, upWeeks){
   const { tanks, unassigned, wd } = getTankGaps(ct, upWeeks);
   const total = tanks.reduce((n,t) => n + t.totalIdle, 0);
   const fmtW = d => `${wd(d)} ${fmtD(d)}`;
+  const dowName = DOW_NAMES[EXTRA_BREWS.dow];
+  const nDeclined = (EXTRA_BREWS.declined || []).length;
 
   let h = `<div class="section-title" style="margin-top:18px;">Tank idle time — scheduled gaps</div>
     <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">
-      Days a tank sits empty beyond the ${TANK_CLEAN_DAYS}-day cleaning turnaround, before its next scheduled brew.</div>`;
+      Days a tank sits empty beyond the ${TANK_CLEAN_DAYS}-day cleaning turnaround, before its next scheduled brew.
+      Extra brew day:
+      <select onchange="setExtraDow(this.value)" style="font-size:11px;">
+        ${DOW_NAMES.map((n,i) => `<option value="${i}"${i === EXTRA_BREWS.dow ? ' selected' : ''}>${n}</option>`).join('')}
+      </select>
+      ${nDeclined ? ` · <a href="#" onclick="restoreDeclinedExtras();return false;">show ${nDeclined} declined suggestion${nDeclined===1?'':'s'} again</a>` : ''}
+    </div>`;
 
   h += `<div class="alert alert-${total ? 'warn' : 'ok'}" style="margin-bottom:8px;">
     ${total ? `<strong>${total} idle tank-day${total===1?'':'s'}</strong> across the scheduled brews.`
@@ -6129,13 +6242,24 @@ function renderTankGaps(ct, upWeeks){
           rows += `<div style="${sub}"><strong>Why:</strong> no brews in other tanks during this window — `
             + `not caused by the one-brew-per-week rule; nothing was queued for this tank.</div>`;
         }
-        if(g.fits.length){
+        if(g.declined){
+          rows += `<div style="${sub}">Extra-brew suggestion declined for this gap.</div>`;
+        } else if(!g.brewDate){
+          rows += `<div style="${sub}">No ${dowName} falls inside this window, so no extra brew is suggested.</div>`;
+        } else if(g.dayTaken){
+          rows += `<div style="${sub}">No suggestion: another brew is already scheduled on ${fmtW(g.brewDate)}.</div>`;
+        } else if(g.fits.length){
           const shown = g.fits.slice(0, 6);
-          rows += `<div style="${sub}"><strong>Would fit</strong> if brewed ${fmtW(g.from)}: ` + shown.map(f =>
-            `${f.beer.name} <span style="opacity:.8;">(${f.beer.t}d, keg ${fmtD(f.keg)}${f.slack ? ', ' + f.slack + 'd spare' : ', exact'}${f.offLane ? ', ' + f.beer.lane + ' lane' : ''})</span>`).join(' · ')
-            + (g.fits.length > shown.length ? ` · +${g.fits.length - shown.length} more` : '') + `</div>`;
+          rows += `<div style="margin:4px 0 2px 12px;padding:6px 8px;border-left:3px solid var(--amber,#c07800);background:rgba(192,120,0,.08);font-size:11px;">
+            <div><strong>⚑ Suggested extra brew — ${fmtW(g.brewDate)}</strong>
+              <button class="skip-btn" style="margin-left:8px;" onclick="declineExtraGap('${_enc(g.declineKey)}')">Decline this gap</button></div>`
+            + shown.map(f => `<div style="margin-top:3px;">
+              <button class="edit-cell-btn" onclick="acceptExtraBrew('${_enc(t.name)}','${fmtISO(g.brewDate)}','${_enc(f.beer.name)}')">Accept</button>
+              ${f.beer.name} <span style="color:var(--muted);">(${f.beer.t}d in tank, keg ${fmtD(f.keg)}${f.slack ? ', ' + f.slack + 'd spare' : ', exact fit'}${f.offLane ? ', ' + f.beer.lane + ' lane' : ''})</span></div>`).join('')
+            + (g.fits.length > shown.length ? `<div style="margin-top:3px;color:var(--muted);">+${g.fits.length - shown.length} more fit</div>` : '')
+            + `</div>`;
         } else {
-          rows += `<div style="${sub}"><strong>Would fit:</strong> no enabled beer has a short enough tank time for this window.</div>`;
+          rows += `<div style="${sub}">No enabled beer is short enough to fit if brewed ${fmtW(g.brewDate)}.</div>`;
         }
       }
     });
@@ -6155,6 +6279,25 @@ function renderTankGaps(ct, upWeeks){
       <div style="font-weight:600;">${t.name}${t.totalIdle ? ` <span style="font-weight:400;color:var(--muted);">· ${t.totalIdle} idle day${t.totalIdle===1?'':'s'}</span>` : ''}</div>
       <div style="font-size:12px;">${rows}</div></div>`;
   });
+
+  // Accepted extra brews (still to come) — adjustable date, removable
+  const acc = (EXTRA_BREWS.accepted || [])
+    .map(x => ({ x, d: parseDate(x.date) }))
+    .filter(o => o.d && o.d >= TODAY)
+    .sort((a,b) => a.d - b.d);
+  if(acc.length){
+    h += `<div style="margin-top:10px;font-weight:600;font-size:12px;">Accepted extra brews</div>`;
+    acc.forEach(({x, d}) => {
+      const beer = beerByName(x.beer);
+      const keg = beer ? calcKegDate(null, d, beer.t, []) : null;
+      const logged = extraMatchesHistory(x);
+      h += `<div style="font-size:11px;margin-top:4px;">
+        <span class="override-marker">EXTRA</span> ${x.beer} · ${x.tank} · ${fmtW(d)}${keg ? ` · keg ${fmtD(keg)}` : ''}
+        ${logged ? '<span style="color:var(--hops);">✓ logged in Brewfather</span>' : `
+        <input type="date" value="${x.date}" onchange="changeExtraDate('${x.id}',this.value)" style="font-size:11px;">
+        <button class="skip-btn" onclick="removeExtraBrew('${x.id}')">Remove</button>`}</div>`;
+    });
+  }
 
   if(unassigned){
     h += `<div style="font-size:11px;color:var(--muted);margin-top:6px;">${unassigned} upcoming brew${unassigned===1?' has':'s have'} no tank assigned and ${unassigned===1?'is':'are'} not included above.</div>`;
@@ -6274,7 +6417,7 @@ function renderDashboard(){
     uh += `<div class="upcoming-week">
       <div class="upcoming-date">▶ ${fmtFull(w.sat)}${now ? '<span class="today-marker">THIS WEEK</span>' : ''}${w.overridden ? '<span class="override-marker">OVERRIDE</span>' : ''}</div>
       ${w.brews.map(b => `<div class="brew-row"><span class="brew-dot" style="background:${clr(b.beer)}"></span><span class="brew-name">${b.beer.name}</span><span class="brew-tank"${b.tank?'':' style="color:var(--amber,#c07800);"'}>${b.tank||'⚠ needs tank'}</span></div>
-        <div class="brew-nums">Batch #${b.batch} · Seq #${b.seq}</div>
+        <div class="brew-nums">Batch #${b.batch} · Seq #${b.seq}${b.extra ? ' · <span class="override-marker">EXTRA ' + fmtD(b.brewDate) + '</span>' : ''}</div>
         <div class="brew-dates">Keg: ${fmtD(b.kegDate)} · Ready: ${fmtD(b.readyDate)}</div>`).join('')}
     </div>`;
   }
@@ -6333,12 +6476,22 @@ function renderSchedule(){
   });
 
   // Build flat row list — one object per brew entry
+  const extraWeeks=getExtraWeekKeys();
   const rawRows=[];
   for(let w=startIdx;w<startIdx+wks;w++){
     const sat=addDays(saturdayOf(TODAY),w*7);
     const k=wkKey(sat);
     let week;
-    if(pastByKey[k])         week=pastByKey[k];
+    if(pastByKey[k]){
+      week=pastByKey[k];
+      // A week with an accepted extra: keep that week's scheduled brews (extras, and the Saturday brew
+      // when the history entry is the extra itself) alongside the recorded history.
+      const sw=SCHEDULE.find(x=>x.key===k);
+      if(sw && sw.brews && sw.brews.length){
+        const add=sw.brews.filter(b=>b.extra||extraWeeks.has(k)).map(b=>Object.assign({},b,{_sched:true}));
+        if(add.length) week=Object.assign({},week,{brews:week.brews.concat(add)});
+      }
+    }
     else if(sat>TODAY)       week=SCHEDULE.find(x=>x.key===k)||{sat,key:k,brews:[]};
     else                     week={sat,key:k,brews:[],past:true,empty:true};
 
@@ -6352,18 +6505,19 @@ function renderSchedule(){
       rawRows.push({type:'nobrew',sat:week.sat,key:week.key,isPast,overridden:week.overridden});
       continue;
     }
-    week.brews.forEach(b=>{
+    week.brews.slice().sort((a,b)=>(a.brewDate||week.sat)-(b.brewDate||week.sat)).forEach(b=>{
+      const bPast = isPast && !b._sched;
       rawRows.push({
-        type:'brew', sat:week.sat, key:week.key, b, isPast,
+        type:'brew', sat:week.sat, key:week.key, b, isPast:bPast,
         overridden:week.overridden||false,
-        _date:  fmtISO(week.sat),
+        _date:  fmtISO(b.extra&&b.brewDate?b.brewDate:week.sat),
         _batch: b.batch||0,
         _name:  b.beer?b.beer.name:'',
         _seq:   b.seq||0,
         _style: b.beer?b.beer.style:'',
         _tank:  b.tank||'',
         _kegDate: b.kegDate?fmtISO(b.kegDate):'',
-        _status:  isPast?(getBatchStatus({batch:b.batch,name:b.beer?.name||'',date:fmtISO(week.sat),kegDate:b.kegDate?fmtISO(b.kegDate):''}).label):'Scheduled'
+        _status:  bPast?(getBatchStatus({batch:b.batch,name:b.beer?.name||'',date:fmtISO(week.sat),kegDate:b.kegDate?fmtISO(b.kegDate):''}).label):'Scheduled'
       });
     });
   }
@@ -6419,7 +6573,7 @@ function renderSchedule(){
   const th=(c,label)=>`<th style="cursor:pointer;user-select:none;" onclick="schedSort('${c}')">${label}${arrow(c)}</th>`;
 
   let html=`<thead><tr>
-    ${th('date','Saturday')}${th('tank','Tank')}${th('batch','Batch#')}${th('name','Beer')}${th('seq','Seq#')}
+    ${th('date','Brew Day')}${th('tank','Tank')}${th('batch','Batch#')}${th('name','Beer')}${th('seq','Seq#')}
     ${th('style','Style')}<th>Cat</th>${th('kegDate','Scheduled Keg Date')}<th>Serve-Ready</th>
     <th>Status</th><th>Actions</th>
   </tr></thead><tbody>`;
@@ -6449,14 +6603,16 @@ function renderSchedule(){
 
     // brew row
     const {b,isPast,overridden,key,sat}=row;
-    let statusHtml='<span style="color:var(--muted)">Scheduled</span>';
+    let statusHtml=b.extra?'<span style="color:var(--amber)">Extra (accepted)</span>':'<span style="color:var(--muted)">Scheduled</span>';
     if(isPast){
       const s=getBatchStatus({batch:b.batch,name:b.beer?.name||'',date:fmtISO(sat),kegDate:b.kegDate?fmtISO(b.kegDate):''}, sat);
       statusHtml=`<span style="color:${s.color}">${s.label}</span>`;
     } else if(overridden){
       statusHtml='<span style="color:var(--red2)">Manual</span>';
     }
-    const actions=isPast
+    const actions=b.extra
+      ?`<button class="skip-btn" onclick="removeExtraBrew('${b.extraId}')" title="Remove this extra brew">✕</button>`
+      :isPast
       ?`<button class="edit-cell-btn" onclick="openLogBrewModal('${key}','${b.batch}')">✏</button>
          <button class="skip-btn" onclick="deleteHistBatch(${b.batch})">✕</button>`
       :`<button class="edit-cell-btn" onclick="openEditWeekModal('${key}')">✏</button>
@@ -6464,10 +6620,10 @@ function renderSchedule(){
          ${overridden?`<button class="skip-btn" onclick="clearOverride('${key}')" title="Restore auto">↺</button>`:''}`;
 
     html+=`<tr class="${isPast?'history-row':''} ${overridden?'override-row':''}">
-      <td class="mono no-wrap" style="font-size:11px;">${fmtD(sat)}${nowBadge}</td>
+      <td class="mono no-wrap" style="font-size:11px;">${fmtD(b.extra&&b.brewDate?b.brewDate:sat)}${nowBadge}</td>
 	  <td class="mono" style="font-size:10px;color:var(--muted);">${b.tank}</td>
       <td class="batch-num">#${b.batch}</td>
-      <td class="text-serif" style="font-size:13px;color:var(--text);">${b.beer?b.beer.name:'?'}${b.manual?'<span class="override-marker" style="font-size:8px;margin-left:4px;">MANUAL</span>':''}</td>
+      <td class="text-serif" style="font-size:13px;color:var(--text);">${b.beer?b.beer.name:'?'}${b.manual?'<span class="override-marker" style="font-size:8px;margin-left:4px;">MANUAL</span>':''}${b.extra?'<span class="override-marker" style="font-size:8px;margin-left:4px;">EXTRA</span>':''}</td>
       <td class="seq-num">#${b.seq}</td>
       <td>${b.beer?`<span class="badge ${badgeCls(b.beer)}">${b.beer.style}</span>`:''}</td>
       <td>${b.beer?`<span class="badge ${catCls(b.beer)}">${b.beer.cat}</span>`:''}</td>
@@ -8238,7 +8394,7 @@ function saveBFCredentials(){
   // Save to localStorage immediately
   localStorage.setItem('olde_cellar_v8a', JSON.stringify({
     beers:BEERS, history:BREW_HISTORY, overrides:OVERRIDES,
-    kegSettings:KEG_SETTINGS, usageLog:USAGE_LOG, bfCreds:BF_CREDS, packaging:PACKAGING, kegOverrides:KEG_OVERRIDES
+    kegSettings:KEG_SETTINGS, usageLog:USAGE_LOG, bfCreds:BF_CREDS, packaging:PACKAGING, kegOverrides:KEG_OVERRIDES, extraBrews:EXTRA_BREWS
   }));
   const res = document.getElementById('bf-test-result');
   res.style.color = 'var(--muted)';
@@ -11163,6 +11319,7 @@ function ghApplyRemoteFull(d) {
   if (!PACKAGING.ingredientAliases) PACKAGING.ingredientAliases = [];
   if (!PACKAGING.orders)            PACKAGING.orders = [];
   KEG_OVERRIDES  = d.kegOverrides || {};
+  EXTRA_BREWS    = normExtraBrews(d.extraBrews);
   BF_BATCH_CACHE = d.bfBatchCache || {};
   if (d.bfSyncTime) {
     _bfSyncTime = new Date(d.bfSyncTime);
