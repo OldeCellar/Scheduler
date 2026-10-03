@@ -1,6 +1,6 @@
 {
-  "appVersion": "v33.27-20261002",
-  "savedAt": "2026-10-02T19:18:23.760Z",
+  "appVersion": "v33.28-20261002",
+  "savedAt": "2026-10-03T01:06:36.915Z",
   "beers": [
     {
       "id": 1,
@@ -2107,10 +2107,6 @@
     }
   ],
   "overrides": {
-    "2026-01-17": {
-      "skip": true,
-      "reason": "No brew"
-    },
     "2026-02-14": {
       "skip": true,
       "reason": "No brew"
@@ -5325,6 +5321,18 @@
     ]
   },
   "kegOverrides": {},
+  "extraBrews": {
+    "dow": 1,
+    "accepted": [
+      {
+        "id": "xmuroyngu",
+        "tank": "Tank 02",
+        "date": "2027-02-01",
+        "beer": "Vanilla Porter"
+      }
+    ],
+    "declined": []
+  },
   "bfBatchCache": {
     "1": {
       "status": "Archived",
@@ -6926,14 +6934,14 @@
       "status": "Completed",
       "kegDate": "2026-08-19",
       "bfBrewDate": "2026-07-18",
-      "keggedVol": 145,
       "abv": 5.4,
       "og": 1.05,
       "fg": 1.009,
+      "keggedVol": 145,
       "tank": "Tank 02",
       "dateTapped": "2026-09-30",
       "dateKicked": null,
-      "recipeName": "Mellow Yellow",
+      "recipeName": "Mellow Yellow 47",
       "bfId": "PKHTPgAFcqZQ1OipvN7l0gnPRORWBu"
     },
     "563": {
@@ -6968,28 +6976,28 @@
       "status": "Conditioning",
       "kegDate": "2026-08-16",
       "bfBrewDate": "2026-08-04",
-      "keggedVol": 9,
       "abv": 8.7,
       "og": 1.075,
       "fg": 1.009,
+      "keggedVol": 9,
       "tank": "Tank 00",
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Olde Cellar Reserve",
+      "recipeName": "Olde Cellar Reserve 01",
       "bfId": "g3jnr7Q8CV18NutCecrksOOxBgt2c7"
     },
     "566": {
       "status": "Conditioning",
       "kegDate": "2026-09-23",
       "bfBrewDate": "2026-08-15",
-      "keggedVol": 121,
       "abv": 5,
       "og": 1.044,
       "fg": 1.006,
+      "keggedVol": 121,
       "tank": "Tank 03",
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Golden Dragon",
+      "recipeName": "Golden Dragon 01",
       "bfId": "tYSKxfwA0CBaNONS1bAfcOaFgZ3Q0W"
     },
     "567": {
@@ -7010,142 +7018,142 @@
       "status": "Conditioning",
       "kegDate": "2026-09-15",
       "bfBrewDate": "2026-08-27",
-      "keggedVol": 132,
       "abv": 6.4,
       "og": 1.061,
       "fg": 1.012,
+      "keggedVol": 132,
       "tank": "Tank 01",
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Vanilla Porter",
+      "recipeName": "Vanilla Porter 04",
       "bfId": "hp9gqxgkCXo7JXxtqqExtElXdxKBeW"
     },
     "569": {
       "status": "Fermenting",
       "kegDate": "2026-10-07",
       "bfBrewDate": "2026-09-19",
-      "keggedVol": null,
       "abv": 5.3,
       "og": 1.05,
       "fg": null,
+      "keggedVol": null,
       "tank": "Tank 01",
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Queen Citra",
+      "recipeName": "Queen Citra 08",
       "bfId": "lz9knzqZPrSTDca0CLdrF1vW9j7NRH"
     },
     "570": {
       "status": "Fermenting",
       "kegDate": "2026-10-13",
       "bfBrewDate": "2026-09-26",
-      "keggedVol": null,
       "abv": 5.5,
       "og": 1.052,
       "fg": null,
+      "keggedVol": null,
       "tank": "Tank 03",
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Strata",
+      "recipeName": "Strata 22",
       "bfId": "gneKqrfCcT5BV9eiKxejFWjpQm1D2x"
     },
     "571": {
       "status": "Planning",
       "kegDate": "2026-10-29",
       "bfBrewDate": "2026-10-10",
-      "keggedVol": null,
       "abv": 6.2,
       "og": null,
       "fg": null,
+      "keggedVol": null,
       "tank": "Tank 02",
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Pliny the Elder",
+      "recipeName": "Pliny the Elder 65",
       "bfId": "4WzC0A1OiUvsvWtuEWsjXbshPYQhLg"
     },
     "572": {
       "status": "Planning",
       "kegDate": "2026-11-01",
       "bfBrewDate": "2026-10-17",
-      "keggedVol": null,
       "abv": 6.4,
       "og": null,
       "fg": null,
+      "keggedVol": null,
       "tank": "Tank 01",
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Rising Sun",
+      "recipeName": "Rising Sun 01",
       "bfId": "YGvKivot4RMTviVp0ERUDeZqgh7PmC"
     },
     "573": {
       "status": "Planning",
       "kegDate": "2026-11-07",
       "bfBrewDate": "2026-10-24",
-      "keggedVol": null,
       "abv": 5.5,
       "og": null,
       "fg": null,
+      "keggedVol": null,
       "tank": null,
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Dark Side of the Moon",
+      "recipeName": "Dark Side of the Moon 03",
       "bfId": "akp8x5GXMex1qQ9GI4NFmjKpI3BQaV"
     },
     "574": {
       "status": "Planning",
       "kegDate": "2026-11-08",
       "bfBrewDate": "2026-10-31",
-      "keggedVol": null,
       "abv": 6.6,
       "og": null,
       "fg": null,
+      "keggedVol": null,
       "tank": "Tank 02",
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Poor Richards Spruce Ale",
+      "recipeName": "Poor Richards Spruce Ale 16",
       "bfId": "uPbQ8V4NNcNNQQ2Gk1PMPLkYzes1yI"
     },
     "575": {
       "status": "Planning",
       "kegDate": "2026-11-21",
       "bfBrewDate": "2026-11-07",
-      "keggedVol": null,
       "abv": 5.3,
       "og": null,
       "fg": null,
+      "keggedVol": null,
       "tank": null,
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Strata",
+      "recipeName": "Strata 23",
       "bfId": "3GLPhZXrWpVMQA9c5DNTub1lnhpZII"
     },
     "576": {
       "status": "Planning",
       "kegDate": "2026-12-07",
       "bfBrewDate": "2026-11-14",
-      "keggedVol": null,
       "abv": 5,
       "og": null,
       "fg": null,
+      "keggedVol": null,
       "tank": null,
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Mellow Yellow",
+      "recipeName": "Mellow Yellow 48",
       "bfId": "FY8In2ENemH124K94QIzFap1WjSqmR"
     },
     "577": {
       "status": "Planning",
       "kegDate": "2026-12-06",
       "bfBrewDate": "2026-11-21",
-      "keggedVol": null,
       "abv": 8.3,
       "og": null,
       "fg": null,
+      "keggedVol": null,
       "tank": null,
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "White Lotus",
+      "recipeName": "White Lotus 01",
       "bfId": "b23kr9MR1CfRmxl6olD9jAcfBptgiz"
     }
   },
-  "bfSyncTime": "2026-10-02T15:30:08.036Z"
+  "bfSyncTime": "2026-10-03T00:58:54.130Z"
 }
