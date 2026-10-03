@@ -276,13 +276,15 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git pull --rebase origin "${{ github.ref_name }}"
-
           git add brewery_data.json
 
           if git diff --staged --quiet; then
             echo "No changes - skipping commit"
           else
             git commit -m "BF auto-sync $(TZ=America/New_York date '+%Y-%m-%d %H:%M %Z')"
+
+            # Commit first, THEN rebase: the sync step leaves brewery_data.json modified
+            # in the working tree, and git refuses to pull --rebase over unstaged changes.
+            git pull --rebase origin "${{ github.ref_name }}"
             git push origin "HEAD:${{ github.ref_name }}"
           fi
