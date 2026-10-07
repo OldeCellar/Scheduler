@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.28-20261002",
-  "savedAt": "2026-10-03T01:06:36.915Z",
+  "savedAt": "2026-10-07T18:52:09.918Z",
   "beers": [
     {
       "id": 1,
@@ -169,7 +169,7 @@
           1
         ]
       ],
-      "note": "Serve Jun\u2013Aug (3 brews: Jun 1, Jul 1, Aug 1)",
+      "note": "Serve Jun–Aug (3 brews: Jun 1, Jul 1, Aug 1)",
       "seqStart": 1,
       "enabled": true
     },
@@ -1983,7 +1983,7 @@
       "date": "2026-08-27",
       "kegDate": "2026-09-15",
       "tank": "Tank 01",
-      "dateTapped": "",
+      "dateTapped": "2026-10-06",
       "dateKicked": "",
       "notes": "",
       "bfStatus": "Completed"
@@ -2007,7 +2007,7 @@
       "beerId": 6,
       "seq": 22,
       "date": "2026-09-26",
-      "kegDate": "2026-10-13",
+      "kegDate": "2026-10-14",
       "tank": "Tank 03",
       "dateTapped": "",
       "dateKicked": "",
@@ -2124,6 +2124,10 @@
     "defaultKegId": ""
   },
   "usageLog": [],
+  "bfCreds": {
+    "userId": "",
+    "apiKey": ""
+  },
   "packaging": {
     "inventory": [
       {
@@ -2936,7 +2940,7 @@
         "onHand": 50,
         "unit": "g",
         "bf_cost": 0.032,
-        "bf_lotNo": "Passion fruit, Grapefruit, Strawberry, Dank. Strata, formerly known as X-331, is Indie Hop\u2019s first hop variety to be released out of the Oregon State Aroma Hop Breeding Program in Corvallis, Oregon. Born in 2009, Strata is the progeny of an open pollinated Perle located in an Oregon State experimental field at Corvallis, Oregon. From the get-go, this hop was out to impress. Between its strong disease resistance, vigorous growing habit, and complex layers of aroma, x331 rose to the top of an impressive group of competitors."
+        "bf_lotNo": "Passion fruit, Grapefruit, Strawberry, Dank. Strata, formerly known as X-331, is Indie Hop’s first hop variety to be released out of the Oregon State Aroma Hop Breeding Program in Corvallis, Oregon. Born in 2009, Strata is the progeny of an open pollinated Perle located in an Oregon State experimental field at Corvallis, Oregon. From the get-go, this hop was out to impress. Between its strong disease resistance, vigorous growing habit, and complex layers of aroma, x331 rose to the top of an impressive group of competitors."
       },
       {
         "name": "Strata - STT Quantum Series",
@@ -3016,7 +3020,7 @@
         "onHand": 280,
         "unit": "g",
         "bf_cost": 0.0275,
-        "bf_lotNo": "Passion fruit, Grapefruit, Strawberry, Dank. Strata, formerly known as X-331, is Indie Hop\u2019s first hop variety to be released out of the Oregon State Aroma Hop Breeding Program in Corvallis, Oregon. Born in 2009, Strata is the progeny of an open pollinated Perle located in an Oregon State experimental field at Corvallis, Oregon. From the get-go, this hop was out to impress. Between its strong disease resistance, vigorous growing habit, and complex layers of aroma, x331 rose to the top of an impressive group of competitors."
+        "bf_lotNo": "Passion fruit, Grapefruit, Strawberry, Dank. Strata, formerly known as X-331, is Indie Hop’s first hop variety to be released out of the Oregon State Aroma Hop Breeding Program in Corvallis, Oregon. Born in 2009, Strata is the progeny of an open pollinated Perle located in an Oregon State experimental field at Corvallis, Oregon. From the get-go, this hop was out to impress. Between its strong disease resistance, vigorous growing habit, and complex layers of aroma, x331 rose to the top of an impressive group of competitors."
       },
       {
         "name": "Columbus",
@@ -3196,7 +3200,7 @@
         "onHand": 80,
         "unit": "g",
         "bf_cost": 0.032,
-        "bf_lotNo": "Passion fruit, Grapefruit, Strawberry, Dank. Strata, formerly known as X-331, is Indie Hop\u2019s first hop variety to be released out of the Oregon State Aroma Hop Breeding Program in Corvallis, Oregon. Born in 2009, Strata is the progeny of an open pollinated Perle located in an Oregon State experimental field at Corvallis, Oregon. From the get-go, this hop was out to impress. Between its strong disease resistance, vigorous growing habit, and complex layers of aroma, x331 rose to the top of an impressive group of competitors."
+        "bf_lotNo": "Passion fruit, Grapefruit, Strawberry, Dank. Strata, formerly known as X-331, is Indie Hop’s first hop variety to be released out of the Oregon State Aroma Hop Breeding Program in Corvallis, Oregon. Born in 2009, Strata is the progeny of an open pollinated Perle located in an Oregon State experimental field at Corvallis, Oregon. From the get-go, this hop was out to impress. Between its strong disease resistance, vigorous growing habit, and complex layers of aroma, x331 rose to the top of an impressive group of competitors."
       },
       {
         "name": "Mosaic",
@@ -3320,7 +3324,7 @@
         "onHand": 126.1,
         "unit": "g",
         "bf_cost": 0.01991,
-        "bf_lotNo": "Saaz hops are the famous landrace variety from the Czechia region, but this is specifically US Saaz, grown by our friends at Virgil Gamache Farms in Toppenish, WA. US Saaz caries some of the same floral and spicy elements as Czech Saaz, but this American-grown lot presents with brighter citrus and a hint of cherry. US Saaz hops work well in classic European styles and lagers, but also fits perfectly in new twists on those styles. Aroma: Classic noble aromas. Floral, citrus, and spice. Typical Analytical Range Alpha: 3.0-5.0% Beta: 4.0-6.0% Total Oil: 0.3-1.0 ml/100g US SAAZ HOP SUBSTITUTIONS US Saaz is the obvious choice to replace the scarce Czech grown Saaz. US Saaz hops carry similar characteristics and flavor profiles as East Kent Golding, US Golding, and Hallertau Mittlefr\u00fch making these hops an excellent substitution in your next light lager."
+        "bf_lotNo": "Saaz hops are the famous landrace variety from the Czechia region, but this is specifically US Saaz, grown by our friends at Virgil Gamache Farms in Toppenish, WA. US Saaz caries some of the same floral and spicy elements as Czech Saaz, but this American-grown lot presents with brighter citrus and a hint of cherry. US Saaz hops work well in classic European styles and lagers, but also fits perfectly in new twists on those styles. Aroma: Classic noble aromas. Floral, citrus, and spice. Typical Analytical Range Alpha: 3.0-5.0% Beta: 4.0-6.0% Total Oil: 0.3-1.0 ml/100g US SAAZ HOP SUBSTITUTIONS US Saaz is the obvious choice to replace the scarce Czech grown Saaz. US Saaz hops carry similar characteristics and flavor profiles as East Kent Golding, US Golding, and Hallertau Mittlefrüh making these hops an excellent substitution in your next light lager."
       },
       {
         "name": "Mosaic",
@@ -3420,7 +3424,7 @@
         "onHand": 2746,
         "unit": "g",
         "bf_cost": 0.023,
-        "bf_lotNo": "Discovered by Virgil Gamache Farms, Amarillo\u00ae Brand VGXP01 is one of the top ten aroma varieties utilized by craft brewers. It features relatively high alpha acids along with extremely high levels of myrcene for citrus and grapefruit flavors. Aroma Profile: Citrus, Herbal, Spicy, Stone Fruit, Woody",
+        "bf_lotNo": "Discovered by Virgil Gamache Farms, Amarillo® Brand VGXP01 is one of the top ten aroma varieties utilized by craft brewers. It features relatively high alpha acids along with extremely high levels of myrcene for citrus and grapefruit flavors. Aroma Profile: Citrus, Herbal, Spicy, Stone Fruit, Woody",
         "bf_supplier": "",
         "lastBFSync": "2026-10-07T07:27:58.213193-04:00"
       },
@@ -3464,7 +3468,7 @@
         "onHand": 3260,
         "unit": "g",
         "bf_cost": 0.023,
-        "bf_lotNo": "Discovered by Virgil Gamache Farms, Amarillo\u00ae Brand VGXP01 is one of the top ten aroma varieties utilized by craft brewers. It features relatively high alpha acids along with extremely high levels of myrcene for citrus and grapefruit flavors. Aroma Profile: Citrus, Herbal, Spicy, Stone Fruit, Woody",
+        "bf_lotNo": "Discovered by Virgil Gamache Farms, Amarillo® Brand VGXP01 is one of the top ten aroma varieties utilized by craft brewers. It features relatively high alpha acids along with extremely high levels of myrcene for citrus and grapefruit flavors. Aroma Profile: Citrus, Herbal, Spicy, Stone Fruit, Woody",
         "bf_supplier": "",
         "lastBFSync": "2026-10-07T07:27:58.213193-04:00"
       },
@@ -3546,7 +3550,7 @@
         "onHand": 2450,
         "unit": "g",
         "bf_cost": 0.01409,
-        "bf_lotNo": "Passion fruit, Grapefruit, Strawberry, Dank. Strata, formerly known as X-331, is Indie Hop\u2019s first hop variety to be released out of the Oregon State Aroma Hop Breeding Program in Corvallis, Oregon. Born in 2009, Strata is the progeny of an open pollinated Perle located in an Oregon State experimental field at Corvallis, Oregon. From the get-go, this hop was out to impress. Between its strong disease resistance, vigorous growing habit, and complex layers of aroma, x331 rose to the top of an impressive group of competitors."
+        "bf_lotNo": "Passion fruit, Grapefruit, Strawberry, Dank. Strata, formerly known as X-331, is Indie Hop’s first hop variety to be released out of the Oregon State Aroma Hop Breeding Program in Corvallis, Oregon. Born in 2009, Strata is the progeny of an open pollinated Perle located in an Oregon State experimental field at Corvallis, Oregon. From the get-go, this hop was out to impress. Between its strong disease resistance, vigorous growing habit, and complex layers of aroma, x331 rose to the top of an impressive group of competitors."
       },
       {
         "name": "Talus",
@@ -3586,7 +3590,7 @@
         "onHand": 4033.6,
         "unit": "g",
         "bf_cost": 0.0209,
-        "bf_lotNo": "Saaz hops are the famous landrace variety from the Czechia region, but this is specifically US Saaz, grown by our friends at Virgil Gamache Farms in Toppenish, WA. US Saaz caries some of the same floral and spicy elements as Czech Saaz, but this American-grown lot presents with brighter citrus and a hint of cherry. US Saaz hops work well in classic European styles and lagers, but also fits perfectly in new twists on those styles. Aroma: Classic noble aromas. Floral, citrus, and spice. Typical Analytical Range Alpha: 3.0-5.0% Beta: 4.0-6.0% Total Oil: 0.3-1.0 ml/100g US SAAZ HOP SUBSTITUTIONS US Saaz is the obvious choice to replace the scarce Czech grown Saaz. US Saaz hops carry similar characteristics and flavor profiles as East Kent Golding, US Golding, and Hallertau Mittlefr\u00fch making these hops an excellent substitution in your next light lager."
+        "bf_lotNo": "Saaz hops are the famous landrace variety from the Czechia region, but this is specifically US Saaz, grown by our friends at Virgil Gamache Farms in Toppenish, WA. US Saaz caries some of the same floral and spicy elements as Czech Saaz, but this American-grown lot presents with brighter citrus and a hint of cherry. US Saaz hops work well in classic European styles and lagers, but also fits perfectly in new twists on those styles. Aroma: Classic noble aromas. Floral, citrus, and spice. Typical Analytical Range Alpha: 3.0-5.0% Beta: 4.0-6.0% Total Oil: 0.3-1.0 ml/100g US SAAZ HOP SUBSTITUTIONS US Saaz is the obvious choice to replace the scarce Czech grown Saaz. US Saaz hops carry similar characteristics and flavor profiles as East Kent Golding, US Golding, and Hallertau Mittlefrüh making these hops an excellent substitution in your next light lager."
       },
       {
         "name": "Idaho 7",
@@ -3688,7 +3692,7 @@
         "onHand": 4328.2,
         "unit": "g",
         "bf_cost": 0.022,
-        "bf_lotNo": "Saaz hops are the famous landrace variety from the Czechia region, but this is specifically US Saaz, grown by our friends at Virgil Gamache Farms in Toppenish, WA. US Saaz caries some of the same floral and spicy elements as Czech Saaz, but this American-grown lot presents with brighter citrus and a hint of cherry. US Saaz hops work well in classic European styles and lagers, but also fits perfectly in new twists on those styles. Aroma: Classic noble aromas. Floral, citrus, and spice. Typical Analytical Range Alpha: 3.0-5.0% Beta: 4.0-6.0% Total Oil: 0.3-1.0 ml/100g US SAAZ HOP SUBSTITUTIONS US Saaz is the obvious choice to replace the scarce Czech grown Saaz. US Saaz hops carry similar characteristics and flavor profiles as East Kent Golding, US Golding, and Hallertau Mittlefr\u00fch making these hops an excellent substitution in your next light lager."
+        "bf_lotNo": "Saaz hops are the famous landrace variety from the Czechia region, but this is specifically US Saaz, grown by our friends at Virgil Gamache Farms in Toppenish, WA. US Saaz caries some of the same floral and spicy elements as Czech Saaz, but this American-grown lot presents with brighter citrus and a hint of cherry. US Saaz hops work well in classic European styles and lagers, but also fits perfectly in new twists on those styles. Aroma: Classic noble aromas. Floral, citrus, and spice. Typical Analytical Range Alpha: 3.0-5.0% Beta: 4.0-6.0% Total Oil: 0.3-1.0 ml/100g US SAAZ HOP SUBSTITUTIONS US Saaz is the obvious choice to replace the scarce Czech grown Saaz. US Saaz hops carry similar characteristics and flavor profiles as East Kent Golding, US Golding, and Hallertau Mittlefrüh making these hops an excellent substitution in your next light lager."
       },
       {
         "name": "CTZ",
@@ -4199,7 +4203,7 @@
         "onHand": 113.199,
         "unit": "g",
         "bf_cost": 0.14,
-        "bf_lotNo": "1\u20133 mL per hectoliter (hL)\nWhich works out to:\n0.01\u20130.03 mL per liter = 0.01\u20130.03 g/L",
+        "bf_lotNo": "1–3 mL per hectoliter (hL)\nWhich works out to:\n0.01–0.03 mL per liter = 0.01–0.03 g/L",
         "_costLocal": true,
         "link": "https://morewinepro.com/products/foam-control-fermcap.html"
       },
@@ -4219,7 +4223,7 @@
         "onHand": 22.45,
         "unit": "g",
         "bf_cost": 0,
-        "bf_lotNo": "Servomyces stands out as the best yeast nutrient containing zinc for beer yeasts.\nWhy Servomyces?\n\nIt's a zinc-enriched inactive yeast (Lallemand product) providing bioavailable zinc (0.15-0.5 ppm target in wort) bound in yeast hulls, protecting it from wort chelation\u2014unlike plain zinc salts. This speeds fermentation, prevents stuck ferments, boosts yeast health/growth, and improves beer quality in high-gravity or stressful conditions.\nKey Benefits for Beer\n\n    Dramatically faster starts and healthier yeast metabolism vs. inorganic zinc.\n\n    Supports all beer styles, especially lagers/high-ABV/adjunct-heavy.\n\n    Adds trace minerals (magnesium too) beyond just zinc.\n\nDosage: 1g per 100L wort (10 ppm), added to boil or cold side. Pairs well with other nutrients."
+        "bf_lotNo": "Servomyces stands out as the best yeast nutrient containing zinc for beer yeasts.\nWhy Servomyces?\n\nIt's a zinc-enriched inactive yeast (Lallemand product) providing bioavailable zinc (0.15-0.5 ppm target in wort) bound in yeast hulls, protecting it from wort chelation—unlike plain zinc salts. This speeds fermentation, prevents stuck ferments, boosts yeast health/growth, and improves beer quality in high-gravity or stressful conditions.\nKey Benefits for Beer\n\n    Dramatically faster starts and healthier yeast metabolism vs. inorganic zinc.\n\n    Supports all beer styles, especially lagers/high-ABV/adjunct-heavy.\n\n    Adds trace minerals (magnesium too) beyond just zinc.\n\nDosage: 1g per 100L wort (10 ppm), added to boil or cold side. Pairs well with other nutrients."
       },
       {
         "name": "Aromazyme",
@@ -4365,7 +4369,7 @@
         "onHand": 196.545,
         "unit": "g",
         "bf_cost": 0.049,
-        "bf_lotNo": "Dose at 0.2003g/kg\nUltraflo\u00ae Max is a high-performing blend of \u03b2-glucanase and an arabinoxylanase that makes it possible to degrade both major cell wall components to ensure minimum viscosity and get the best wort separation and beer filtration. This enzyme blend will break down \u03b2-glucans and arabinoxylans into non-viscous polysaccharides and thus increasing extract run off of a more concentrated wort.\n\nhttps://biosolutions.novozymes.com/en/products/craft-brewing/ultraflo-max-faster-filtration"
+        "bf_lotNo": "Dose at 0.2003g/kg\nUltraflo® Max is a high-performing blend of β-glucanase and an arabinoxylanase that makes it possible to degrade both major cell wall components to ensure minimum viscosity and get the best wort separation and beer filtration. This enzyme blend will break down β-glucans and arabinoxylans into non-viscous polysaccharides and thus increasing extract run off of a more concentrated wort.\n\nhttps://biosolutions.novozymes.com/en/products/craft-brewing/ultraflo-max-faster-filtration"
       },
       {
         "name": "Calcium Chloride (CaCl2)",
@@ -4423,7 +4427,7 @@
         "onHand": 424,
         "unit": "g",
         "bf_cost": 0.101,
-        "bf_lotNo": "dose rate 20-40g/hL \n\nAdd Phantasm during the whirlpool at rates of 1 \u2013 2 lbs per bbl (1 \u2013 2.5 oz per 5-gallon batch) and ferment with a thiolized yeast strain. Can also use at high krausen.\n\nPhantasm will bring a touch of fermentables to your beer, around 0.3\u00b0P (1.0012 SG) alongside a slight pH drop.\n\nIngredients: Marlborough Sauvignon Blanc Grapes\nCountry of Origin: New Zealand"
+        "bf_lotNo": "dose rate 20-40g/hL \n\nAdd Phantasm during the whirlpool at rates of 1 – 2 lbs per bbl (1 – 2.5 oz per 5-gallon batch) and ferment with a thiolized yeast strain. Can also use at high krausen.\n\nPhantasm will bring a touch of fermentables to your beer, around 0.3°P (1.0012 SG) alongside a slight pH drop.\n\nIngredients: Marlborough Sauvignon Blanc Grapes\nCountry of Origin: New Zealand"
       },
       {
         "name": "Diammonium Phosphate (DAP)",
@@ -4441,7 +4445,7 @@
         "onHand": 454,
         "unit": "g",
         "bf_cost": null,
-        "bf_lotNo": "DAP is sometimes used with beer yeast but isn't typically the first choice for standard all-malt beer fermentations.\nWhen Recommended\n\nMost all-malt worts naturally provide sufficient Yeast Assimilable Nitrogen (YAN, usually >250-300 ppm), so DAP supplementation is rarely needed for healthy beer yeast strains. It's more commonly recommended for challenging beer scenarios like high-gravity worts (>8% ABV), high-adjunct/sugar washes (e.g., seltzers), or nutrient-poor extracts to prevent stuck ferments and off-flavors like H2S.\nBetter Alternatives\n\nBeer brewers often prefer complete yeast nutrients like Fermaid K/O, Wyeast Nutrient, or Servomyces over pure DAP, as these provide a broader nutrient profile (amino acids, vitamins, sterols) beyond just nitrogen. Pure DAP works as a nitrogen boost but lacks these extras, making it more wine/mead/cider-oriented.\nDosage for Beer\n\nIf using DAP, stick to \u00bd tsp (about 1.5g) per 5-gallon batch, added late in the boil\u2014equivalent to roughly 0.13-0.2 g/L. Split additions (50% early, 50% mid-ferment) for high-gravity beers to avoid excess yeast growth"
+        "bf_lotNo": "DAP is sometimes used with beer yeast but isn't typically the first choice for standard all-malt beer fermentations.\nWhen Recommended\n\nMost all-malt worts naturally provide sufficient Yeast Assimilable Nitrogen (YAN, usually >250-300 ppm), so DAP supplementation is rarely needed for healthy beer yeast strains. It's more commonly recommended for challenging beer scenarios like high-gravity worts (>8% ABV), high-adjunct/sugar washes (e.g., seltzers), or nutrient-poor extracts to prevent stuck ferments and off-flavors like H2S.\nBetter Alternatives\n\nBeer brewers often prefer complete yeast nutrients like Fermaid K/O, Wyeast Nutrient, or Servomyces over pure DAP, as these provide a broader nutrient profile (amino acids, vitamins, sterols) beyond just nitrogen. Pure DAP works as a nitrogen boost but lacks these extras, making it more wine/mead/cider-oriented.\nDosage for Beer\n\nIf using DAP, stick to ½ tsp (about 1.5g) per 5-gallon batch, added late in the boil—equivalent to roughly 0.13-0.2 g/L. Split additions (50% early, 50% mid-ferment) for high-gravity beers to avoid excess yeast growth"
       },
       {
         "name": "Supermoss HB Five Star",
@@ -5310,7 +5314,7 @@
       {
         "id": "ord-1790775097393",
         "date": "2026-09-30",
-        "status": "Ordered",
+        "status": "Received",
         "items": [
           {
             "name": "CaraRed",
@@ -7225,14 +7229,14 @@
       "status": "Completed",
       "kegDate": "2026-08-19",
       "bfBrewDate": "2026-07-18",
-      "abv": "",
+      "abv": 5.4,
       "og": 1.05,
       "fg": 1.009,
       "keggedVol": 145,
       "tank": "Tank 02",
       "dateTapped": "2026-09-30",
       "dateKicked": null,
-      "recipeName": "Mellow Yellow",
+      "recipeName": "Mellow Yellow 47",
       "bfId": "PKHTPgAFcqZQ1OipvN7l0gnPRORWBu"
     },
     "563": {
@@ -7267,28 +7271,28 @@
       "status": "Conditioning",
       "kegDate": "2026-08-16",
       "bfBrewDate": "2026-08-04",
-      "abv": "",
+      "abv": 8.7,
       "og": 1.075,
       "fg": 1.009,
       "keggedVol": 9,
       "tank": "Tank 00",
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Olde Cellar Reserve",
+      "recipeName": "Olde Cellar Reserve 01",
       "bfId": "g3jnr7Q8CV18NutCecrksOOxBgt2c7"
     },
     "566": {
       "status": "Conditioning",
       "kegDate": "2026-09-23",
       "bfBrewDate": "2026-08-15",
-      "abv": "",
+      "abv": 5,
       "og": 1.044,
       "fg": 1.006,
       "keggedVol": 121,
       "tank": "Tank 03",
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Golden Dragon",
+      "recipeName": "Golden Dragon 01",
       "bfId": "tYSKxfwA0CBaNONS1bAfcOaFgZ3Q0W"
     },
     "567": {
@@ -7309,142 +7313,142 @@
       "status": "Completed",
       "kegDate": "2026-09-15",
       "bfBrewDate": "2026-08-27",
-      "abv": "",
+      "abv": 6.4,
       "og": 1.061,
       "fg": 1.012,
       "keggedVol": 132,
       "tank": "Tank 01",
-      "dateTapped": null,
+      "dateTapped": "2026-10-06",
       "dateKicked": null,
-      "recipeName": "Vanilla Porter",
+      "recipeName": "Vanilla Porter 04",
       "bfId": "hp9gqxgkCXo7JXxtqqExtElXdxKBeW"
     },
     "569": {
       "status": "Fermenting",
       "kegDate": "2026-10-07",
       "bfBrewDate": "2026-09-19",
-      "abv": "",
+      "abv": 5.3,
       "og": 1.05,
-      "fg": "",
+      "fg": null,
       "keggedVol": null,
       "tank": "Tank 01",
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Queen Citra",
+      "recipeName": "Queen Citra 08",
       "bfId": "lz9knzqZPrSTDca0CLdrF1vW9j7NRH"
     },
     "570": {
       "status": "Fermenting",
-      "kegDate": "2026-10-13",
+      "kegDate": "2026-10-14",
       "bfBrewDate": "2026-09-26",
-      "abv": "",
+      "abv": 5.5,
       "og": 1.052,
-      "fg": "",
+      "fg": null,
       "keggedVol": null,
       "tank": "Tank 03",
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Strata",
+      "recipeName": "Strata 22",
       "bfId": "gneKqrfCcT5BV9eiKxejFWjpQm1D2x"
     },
     "571": {
       "status": "Planning",
       "kegDate": "2026-10-29",
       "bfBrewDate": "2026-10-10",
-      "abv": "",
-      "og": "",
-      "fg": "",
+      "abv": 6.2,
+      "og": null,
+      "fg": null,
       "keggedVol": null,
       "tank": "Tank 02",
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Pliny the Elder",
+      "recipeName": "Pliny the Elder 65",
       "bfId": "4WzC0A1OiUvsvWtuEWsjXbshPYQhLg"
     },
     "572": {
       "status": "Planning",
       "kegDate": "2026-11-01",
       "bfBrewDate": "2026-10-17",
-      "abv": "",
-      "og": "",
-      "fg": "",
+      "abv": 6.4,
+      "og": null,
+      "fg": null,
       "keggedVol": null,
       "tank": "Tank 01",
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Rising Sun",
+      "recipeName": "Rising Sun 01",
       "bfId": "YGvKivot4RMTviVp0ERUDeZqgh7PmC"
     },
     "573": {
       "status": "Planning",
       "kegDate": "2026-11-07",
       "bfBrewDate": "2026-10-24",
-      "abv": "",
-      "og": "",
-      "fg": "",
+      "abv": 5.5,
+      "og": null,
+      "fg": null,
       "keggedVol": null,
       "tank": null,
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Dark Side of the Moon",
+      "recipeName": "Dark Side of the Moon 03",
       "bfId": "akp8x5GXMex1qQ9GI4NFmjKpI3BQaV"
     },
     "574": {
       "status": "Planning",
       "kegDate": "2026-11-08",
       "bfBrewDate": "2026-10-31",
-      "abv": "",
-      "og": "",
-      "fg": "",
+      "abv": 6.6,
+      "og": null,
+      "fg": null,
       "keggedVol": null,
       "tank": "Tank 02",
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Poor Richards Spruce Ale",
+      "recipeName": "Poor Richards Spruce Ale 16",
       "bfId": "uPbQ8V4NNcNNQQ2Gk1PMPLkYzes1yI"
     },
     "575": {
       "status": "Planning",
       "kegDate": "2026-11-21",
       "bfBrewDate": "2026-11-07",
-      "abv": "",
-      "og": "",
-      "fg": "",
+      "abv": 5.3,
+      "og": null,
+      "fg": null,
       "keggedVol": null,
       "tank": null,
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Strata",
+      "recipeName": "Strata 23",
       "bfId": "3GLPhZXrWpVMQA9c5DNTub1lnhpZII"
     },
     "576": {
       "status": "Planning",
       "kegDate": "2026-12-07",
       "bfBrewDate": "2026-11-14",
-      "abv": "",
-      "og": "",
-      "fg": "",
+      "abv": 5,
+      "og": null,
+      "fg": null,
       "keggedVol": null,
       "tank": null,
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "Mellow Yellow",
+      "recipeName": "Mellow Yellow 48",
       "bfId": "FY8In2ENemH124K94QIzFap1WjSqmR"
     },
     "577": {
       "status": "Planning",
       "kegDate": "2026-12-06",
       "bfBrewDate": "2026-11-21",
-      "abv": "",
-      "og": "",
-      "fg": "",
+      "abv": 8.3,
+      "og": null,
+      "fg": null,
       "keggedVol": null,
       "tank": null,
       "dateTapped": null,
       "dateKicked": null,
-      "recipeName": "White Lotus",
+      "recipeName": "White Lotus 01",
       "bfId": "b23kr9MR1CfRmxl6olD9jAcfBptgiz"
     }
   },
-  "bfSyncTime": "2026-10-07T07:27:58.213193-04:00"
+  "bfSyncTime": "2026-10-07T17:39:17.369Z"
 }
