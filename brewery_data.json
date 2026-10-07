@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.28-20261002",
-  "savedAt": "2026-10-07T18:52:09.918Z",
+  "savedAt": "2026-10-07T18:52:18.974Z",
   "beers": [
     {
       "id": 1,
@@ -5543,73 +5543,6 @@
             "url": "https://morewinepro.com/products/viking-lightly-peated-malt.html",
             "notes": "order 1 9785314",
             "bf_id": null
-          }
-        ]
-      },
-      {
-        "id": "ord-1790807641505",
-        "date": "2026-09-30",
-        "status": "Draft",
-        "items": [
-          {
-            "name": "Biscuit Malt",
-            "type": "Fermentable",
-            "qty": 20.58,
-            "unit": "kg",
-            "sku": "",
-            "price": 5.29,
-            "supplier": "",
-            "url": "",
-            "notes": "",
-            "bf_id": "default-5dad7a6"
-          },
-          {
-            "name": "Maris Otter",
-            "type": "Fermentable",
-            "qty": 3.918599999999998,
-            "unit": "kg",
-            "sku": "GS352",
-            "price": 2.45,
-            "supplier": "MoreWinePro",
-            "url": "https://morewinepro.com/products/bairds-malt-maris-otter-pale-ale.html",
-            "notes": "",
-            "bf_id": "VYd9vBsqSWHxqsf1mY6L0IrIQHVC3Q"
-          },
-          {
-            "name": "Pilsner Malt",
-            "type": "Fermentable",
-            "qty": 20.2,
-            "unit": "kg",
-            "sku": "",
-            "price": 1.54,
-            "supplier": "",
-            "url": "",
-            "notes": "",
-            "bf_id": "default-vi-7f73d4"
-          },
-          {
-            "name": "Strata",
-            "type": "Hop",
-            "qty": 346,
-            "unit": "g",
-            "sku": "",
-            "price": 0.032,
-            "supplier": "IndieHops",
-            "url": "",
-            "notes": "",
-            "bf_id": "7gXPZdloYefsntVJwhu8df83iCT0QG"
-          },
-          {
-            "name": "ENGLISH",
-            "type": "Yeast",
-            "qty": 66,
-            "unit": "g",
-            "sku": "DY102",
-            "price": 0.11998,
-            "supplier": "MoreWinePro",
-            "url": "https://morewinepro.com/products/cellarscience-english-dry-yeast.html",
-            "notes": "",
-            "bf_id": "default-3JAtrIUM7wCCMCaNNtRtxjkXcBIrP6"
           }
         ]
       }
