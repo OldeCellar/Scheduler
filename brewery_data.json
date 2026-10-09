@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.28-20261002",
-  "savedAt": "2026-10-09T20:08:47.879Z",
+  "savedAt": "2026-10-09T20:08:51.923Z",
   "beers": [
     {
       "id": 1,
@@ -5043,7 +5043,7 @@
         "notes": "",
         "link": "",
         "_fromBF": true,
-        "bf_type": "Whole",
+        "bf_type": "Pellet",
         "bf_use": "Boil",
         "bf_alpha": 10.4,
         "bf_year": "2026",
@@ -5307,6 +5307,27 @@
         "purchaseUnit": "g",
         "lastBFSync": "2026-10-09T07:36:40.220908-04:00",
         "_fromBF": true
+      },
+      {
+        "name": "Coriander Seed",
+        "type": "Hop",
+        "bf_id": "dqRT5gOjxfUPC1HN46vIlqRuor8aVS",
+        "minStock": 0,
+        "supplier": "",
+        "sku": "",
+        "purchaseQty": 0,
+        "purchaseUnit": "g",
+        "notes": "",
+        "link": "",
+        "_fromBF": true,
+        "bf_type": "Whole",
+        "bf_use": "Boil",
+        "bf_alpha": 0,
+        "bf_year": "",
+        "onHand": 454,
+        "unit": "g",
+        "bf_cost": 0.018,
+        "bf_lotNo": "9782732"
       }
     ],
     "ingredientAliases": [],
