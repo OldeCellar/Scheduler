@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.28-20261002",
-  "savedAt": "2026-10-09T20:08:51.923Z",
+  "savedAt": "2026-10-09T20:08:55.667Z",
   "beers": [
     {
       "id": 1,
@@ -3909,7 +3909,7 @@
         "bf_form": "Dry",
         "bf_laboratory": "CellarScience",
         "bf_productId": "English",
-        "onHand": 156,
+        "onHand": 656,
         "unit": "g",
         "bf_cost": 0.11998,
         "bf_lotNo": "9785314",
@@ -4034,7 +4034,7 @@
         "bf_form": "Dry",
         "bf_laboratory": "CellarScience",
         "bf_productId": "DY121",
-        "onHand": 726,
+        "onHand": 740,
         "unit": "g",
         "bf_cost": 0.09998,
         "bf_lotNo": "9785314",
@@ -4821,7 +4821,7 @@
         "bf_form": "Dry",
         "bf_laboratory": "CellarScience",
         "bf_productId": "DY106",
-        "onHand": 1000,
+        "onHand": 5,
         "unit": "g",
         "bf_cost": 0.13998,
         "bf_lotNo": "9776118,9785314"
