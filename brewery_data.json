@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.28-20261002",
-  "savedAt": "2026-10-09T20:08:55.667Z",
+  "savedAt": "2026-10-09T20:09:00.132Z",
   "beers": [
     {
       "id": 1,
@@ -4915,7 +4915,7 @@
         "link": "",
         "_fromBF": true,
         "bf_type": "Other",
-        "bf_use": "Boil",
+        "bf_use": "Secondary",
         "onHand": 1000,
         "unit": "g",
         "bf_cost": 0.04,
