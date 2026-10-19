@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.28-20261002",
-  "savedAt": "2026-10-19T00:52:38.158Z",
+  "savedAt": "2026-10-19T00:56:41.132Z",
   "beers": [
     {
       "id": 1,
@@ -30,11 +30,12 @@
       "m": 7,
       "total": 28,
       "lane": "flex",
-      "rotationOrder": 1,
+      "rotationOrder": 4,
       "target": null,
       "note": "",
       "seqStart": 1,
-      "enabled": true
+      "enabled": true,
+      "targets": null
     },
     {
       "id": 3,
@@ -115,11 +116,12 @@
       "m": 7,
       "total": 28,
       "lane": "flex",
-      "rotationOrder": 3,
+      "rotationOrder": 2,
       "target": null,
       "note": "Open week filler",
       "seqStart": 1,
-      "enabled": true
+      "enabled": true,
+      "targets": null
     },
     {
       "id": 8,
@@ -132,11 +134,12 @@
       "m": 7,
       "total": 28,
       "lane": "flex",
-      "rotationOrder": 4,
+      "rotationOrder": 6,
       "target": null,
       "note": "Open week filler",
       "seqStart": 1,
-      "enabled": true
+      "enabled": true,
+      "targets": null
     },
     {
       "id": 9,
@@ -280,12 +283,13 @@
       "t": 14,
       "m": 14,
       "total": 28,
-      "rotationOrder": 2,
+      "rotationOrder": 5,
       "target": null,
       "seqStart": 1,
       "note": "",
       "enabled": true,
-      "id": 15
+      "id": 15,
+      "targets": null
     },
     {
       "name": "MaiBock",
@@ -2072,7 +2076,7 @@
       "seq": 16,
       "date": "2026-10-31",
       "kegDate": "2026-11-08",
-      "tank": "",
+      "tank": "Tank 01",
       "dateTapped": "",
       "dateKicked": "",
       "notes": "",
@@ -7107,7 +7111,7 @@
       "og": null,
       "fg": null,
       "keggedVol": null,
-      "tank": null,
+      "tank": "Tank 01",
       "dateTapped": null,
       "dateKicked": null,
       "recipeName": "Poor Richards Spruce Ale 16",
@@ -7156,5 +7160,5 @@
       "bfId": "b23kr9MR1CfRmxl6olD9jAcfBptgiz"
     }
   },
-  "bfSyncTime": "2026-10-19T00:47:53.005Z"
+  "bfSyncTime": "2026-10-19T00:54:18.876Z"
 }
