@@ -1,6 +1,6 @@
 {
   "appVersion": "v33.28-20261002",
-  "savedAt": "2026-11-20T12:51:58.743Z",
+  "savedAt": "2026-11-20T12:53:43.675Z",
   "beers": [
     {
       "id": 1,
@@ -392,17 +392,13 @@
       "bfStatus": "Archived"
     },
     {
+      "name": "",
       "batch": 2,
-      "name": "Vodka",
-      "beerId": null,
       "seq": 1,
       "date": "2026-11-10",
       "kegDate": "2026-11-28",
-      "tank": "Tank 01",
-      "dateTapped": "",
-      "dateKicked": "",
-      "notes": "",
-      "bfStatus": "Fermenting"
+      "tank": "Tank 03",
+      "notes": ""
     },
     {
       "batch": 3,
